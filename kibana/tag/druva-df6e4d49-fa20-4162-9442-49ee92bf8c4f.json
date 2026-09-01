@@ -1,0 +1,12 @@
+{
+    "attributes": {
+        "color": "#89431e",
+        "description": "",
+        "name": "Privileged Access"
+    },
+    "id": "druva-df6e4d49-fa20-4162-9442-49ee92bf8c4f",
+    "references": [],
+    "type": "tag",
+    "coreMigrationVersion": "8.8.0",
+    "typeMigrationVersion": "8.0.0"
+}

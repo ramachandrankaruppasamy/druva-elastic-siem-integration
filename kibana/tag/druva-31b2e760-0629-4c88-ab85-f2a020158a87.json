@@ -1,0 +1,12 @@
+{
+    "attributes": {
+        "color": "#91cc22",
+        "description": "",
+        "name": "Threat Detection"
+    },
+    "id": "druva-31b2e760-0629-4c88-ab85-f2a020158a87",
+    "references": [],
+    "type": "tag",
+    "coreMigrationVersion": "8.8.0",
+    "typeMigrationVersion": "8.0.0"
+}

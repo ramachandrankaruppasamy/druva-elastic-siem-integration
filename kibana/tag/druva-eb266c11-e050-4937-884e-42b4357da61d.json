@@ -1,0 +1,12 @@
+{
+    "attributes": {
+        "color": "#279b75",
+        "description": "",
+        "name": "Data Access"
+    },
+    "id": "druva-eb266c11-e050-4937-884e-42b4357da61d",
+    "references": [],
+    "type": "tag",
+    "coreMigrationVersion": "8.8.0",
+    "typeMigrationVersion": "8.0.0"
+}

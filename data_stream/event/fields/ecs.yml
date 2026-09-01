@@ -1,0 +1,61 @@
+- name: message
+  type: match_only_text
+  description: Human-readable description of the event.
+- name: event.kind
+  type: keyword
+  description: High-level kind of event.
+- name: event.category
+  type: keyword
+  description: Event category.
+- name: event.type
+  type: keyword
+  description: Event type.
+- name: event.action
+  type: keyword
+  description: Action captured by the event.
+- name: event.outcome
+  type: keyword
+  description: Outcome of the event.
+- name: event.id
+  type: keyword
+  description: Unique identifier for the Druva event.
+- name: event.severity
+  type: long
+  description: Druva event severity.
+- name: event.module
+  type: constant_keyword
+  value: druva
+- name: event.dataset
+  type: constant_keyword
+  value: druva.event
+- name: user.id
+  type: keyword
+  description: Identifier of the user or service identity performing the action.
+- name: user.name
+  type: keyword
+  description: Name of the user performing the action.
+- name: user.email
+  type: keyword
+  description: Email address of the user performing the action.
+- name: user.target.name
+  type: keyword
+  description: Name of the administrator account targeted by the action.
+- name: user.target.email
+  type: keyword
+  description: Email address of the administrator account targeted by the action.
+- name: source.ip
+  type: ip
+  description: Source IP address associated with the event.
+- name: observer.vendor
+  type: keyword
+  description: Vendor of the product producing the event.
+- name: observer.product
+  type: keyword
+  description: Product producing the event.
+- name: error.message
+  type: match_only_text
+  description: Error message generated if the ingest pipeline fails.
+- name: user.target.id
+  type: keyword
+- name: destination.ip
+  type: ip

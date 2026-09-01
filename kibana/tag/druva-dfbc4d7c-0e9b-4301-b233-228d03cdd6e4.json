@@ -1,0 +1,12 @@
+{
+    "attributes": {
+        "color": "#243c47",
+        "description": "",
+        "name": "Identity Security"
+    },
+    "id": "druva-dfbc4d7c-0e9b-4301-b233-228d03cdd6e4",
+    "references": [],
+    "type": "tag",
+    "coreMigrationVersion": "8.8.0",
+    "typeMigrationVersion": "8.0.0"
+}

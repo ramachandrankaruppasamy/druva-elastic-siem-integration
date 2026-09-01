@@ -1,0 +1,12 @@
+{
+    "attributes": {
+        "color": "#8f5ec9",
+        "description": "",
+        "name": "Investigation"
+    },
+    "id": "druva-d80c6e78-9f02-46b6-9f54-4b96fa7b7a8b",
+    "references": [],
+    "type": "tag",
+    "coreMigrationVersion": "8.8.0",
+    "typeMigrationVersion": "8.0.0"
+}

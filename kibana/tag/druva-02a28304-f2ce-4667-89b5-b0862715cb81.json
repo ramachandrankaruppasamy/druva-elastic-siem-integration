@@ -1,0 +1,12 @@
+{
+    "attributes": {
+        "color": "#66f151",
+        "description": "",
+        "name": "Security Posture"
+    },
+    "id": "druva-02a28304-f2ce-4667-89b5-b0862715cb81",
+    "references": [],
+    "type": "tag",
+    "coreMigrationVersion": "8.8.0",
+    "typeMigrationVersion": "8.0.0"
+}

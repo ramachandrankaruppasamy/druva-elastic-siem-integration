@@ -1,0 +1,12 @@
+{
+    "attributes": {
+        "color": "#106957",
+        "description": "",
+        "name": "Insider Risk"
+    },
+    "id": "druva-2b4430b9-11ee-4bf1-a370-af634d1646ae",
+    "references": [],
+    "type": "tag",
+    "coreMigrationVersion": "8.8.0",
+    "typeMigrationVersion": "8.0.0"
+}

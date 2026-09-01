@@ -1,0 +1,86 @@
+- name: '@timestamp'
+  type: date
+  description: Event timestamp.
+- name: data_stream.type
+  type: constant_keyword
+  description: Data stream type.
+  value: logs
+- name: data_stream.dataset
+  type: constant_keyword
+  description: Data stream dataset.
+  value: druva.event
+- name: data_stream.namespace
+  type: constant_keyword
+  description: Data stream namespace.
+- name: druva
+  type: group
+  fields:
+    - name: customer.id
+      type: keyword
+      description: Druva customer or MSP global identifier.
+    - name: feature
+      type: keyword
+    - name: event_type
+      type: keyword
+    - name: resource.id
+      type: keyword
+    - name: resource.name
+      type: keyword
+    - name: resource.type
+      type: keyword
+    - name: resource.parent.name
+      type: keyword
+    - name: profile.name
+      type: keyword
+    - name: alert.name
+      type: keyword
+    - name: uda.type
+      type: keyword
+    - name: file.created_count
+      type: long
+    - name: file.updated_count
+      type: long
+    - name: file.deleted_count
+      type: long
+    - name: file.encrypted_count
+      type: long
+    - name: webhook.name
+      type: keyword
+    - name: webhook.provider
+      type: keyword
+    - name: webhook.url
+      type: keyword
+    - name: webhook.auth_type
+      type: keyword
+    - name: operation.type
+      type: keyword
+    - name: operation.size_bytes
+      type: long
+    - name: operation.file_count
+      type: long
+    - name: operation.files_missed
+      type: long
+    - name: operation.bytes_transferred
+      type: long
+    - name: operation.group_id
+      type: keyword
+    - name: operation.system_app_settings
+      type: boolean
+    - name: change.fields
+      type: keyword
+    - name: change.count
+      type: long
+    - name: security.control
+      type: keyword
+    - name: security.impact
+      type: keyword
+    - name: security.previous_state
+      type: keyword
+    - name: security.current_state
+      type: keyword
+    - name: security.previous_enabled
+      type: boolean
+    - name: security.current_enabled
+      type: boolean
+    - name: backup.status
+      type: keyword

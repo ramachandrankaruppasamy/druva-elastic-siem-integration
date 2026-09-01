@@ -1,0 +1,12 @@
+{
+    "attributes": {
+        "color": "#7d968b",
+        "description": "",
+        "name": "SOC"
+    },
+    "id": "druva-7131c29e-04dc-4b98-ad84-8b570e4358fa",
+    "references": [],
+    "type": "tag",
+    "coreMigrationVersion": "8.8.0",
+    "typeMigrationVersion": "8.0.0"
+}

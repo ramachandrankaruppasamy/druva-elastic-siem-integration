@@ -1,0 +1,12 @@
+{
+    "attributes": {
+        "color": "#ddd4e7",
+        "description": "",
+        "name": "Druva Security"
+    },
+    "id": "druva-b82ccc4e-2eeb-4f6c-9e74-948a4e9e1c12",
+    "references": [],
+    "type": "tag",
+    "coreMigrationVersion": "8.8.0",
+    "typeMigrationVersion": "8.0.0"
+}

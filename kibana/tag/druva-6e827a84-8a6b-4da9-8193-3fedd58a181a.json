@@ -1,0 +1,12 @@
+{
+    "attributes": {
+        "color": "#cae8b1",
+        "description": "",
+        "name": "Compliance"
+    },
+    "id": "druva-6e827a84-8a6b-4da9-8193-3fedd58a181a",
+    "references": [],
+    "type": "tag",
+    "coreMigrationVersion": "8.8.0",
+    "typeMigrationVersion": "8.0.0"
+}
