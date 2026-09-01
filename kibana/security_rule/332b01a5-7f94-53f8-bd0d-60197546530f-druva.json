@@ -1,0 +1,50 @@
+{
+  "id": "332b01a5-7f94-53f8-bd0d-60197546530f-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "332b01a5-7f94-53f8-bd0d-60197546530f",
+    "name": "Druva - Recovery Started After Backup Protection Disabled",
+    "description": "Detects backup protection disablement followed by restore or recovery activity for the same resource within 60 minutes.",
+    "risk_score": 99,
+    "severity": "critical",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-65m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 3 – Cyber Recovery & Recovery Operations",
+      "Druva Category: Recovery",
+      "Druva Category: Backup Protection",
+      "Druva Category: Correlation",
+      "Druva Category: Impact"
+    ],
+    "version": 1,
+    "index": [
+      "logs-druva.event-*"
+    ],
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 3 – Cyber Recovery & Recovery Operations",
+      "phase": "Phase 1",
+      "primary_data_source": "logs-druva.event-*",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; Backup/Recovery",
+      "customer_usecase": "Detects backup protection disablement followed by restore or recovery activity for the same resource within 60 minutes."
+    },
+    "type": "eql",
+    "language": "eql",
+    "query": "sequence by druva.resource.name with maxspan=60m\n  [ any where druva.event_type like~ (\"*Backup*Disabled*\", \"*Backup*Paused*\", \"*Backup*Suspended*\") ]\n  [ any where druva.event_type like~ (\"*Recover*\", \"*Restore*\") ]"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "id": "41a5a163-7ad1-539e-99ad-479ad7d9379c-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "41a5a163-7ad1-539e-99ad-479ad7d9379c",
+    "name": "Druva - Backup Success Rate Drop",
+    "description": "Detects a low ratio of successful backup-related events compared with failures during the observation window.",
+    "risk_score": 47,
+    "severity": "medium",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 2 – Backup Operations",
+      "Druva Category: Backup",
+      "Druva Category: Availability",
+      "Druva Category: Success Rate",
+      "Druva Category: Operations"
+    ],
+    "version": 1,
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 2 – Backup Operations",
+      "phase": "Phase 1",
+      "primary_data_source": "Druva events in Elastic",
+      "external_dependency": "None identified in exported rule",
+      "team_to_target": "SOC; Backup/Recovery",
+      "customer_usecase": "Detects a low ratio of successful backup-related events compared with failures during the observation window."
+    },
+    "type": "esql",
+    "language": "esql",
+    "query": "FROM logs-druva.event-*\n| EVAL event_text = TO_LOWER(COALESCE(TO_STRING(message), TO_STRING(druva.event_type), \"\"))\n| EVAL state = TO_LOWER(COALESCE(TO_STRING(event.outcome), TO_STRING(event.outcome), \"\"))\n| EVAL event_time = @timestamp\n| WHERE event_text LIKE \"*backup*\"\n| EVAL is_failure = event_text LIKE \"*failed*\" OR state == \"failure\"\n| EVAL is_success = event_text LIKE \"*success*\" OR state == \"success\"\n| WHERE is_failure OR is_success\n| STATS\n    success_count = COUNT(*) WHERE is_success,\n    failure_count = COUNT(*) WHERE is_failure,\n    first_seen = MIN(event_time),\n    last_seen = MAX(event_time)\n| EVAL total_count = success_count + failure_count\n| EVAL failure_percent = ROUND(100.0 * failure_count / total_count, 1)\n| WHERE total_count >= 10 AND failure_percent >= 50"
+  }
+}

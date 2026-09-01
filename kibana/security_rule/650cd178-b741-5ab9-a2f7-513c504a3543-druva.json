@@ -1,0 +1,50 @@
+{
+  "id": "650cd178-b741-5ab9-a2f7-513c504a3543-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "650cd178-b741-5ab9-a2f7-513c504a3543",
+    "name": "Druva - Backup Retention Removed",
+    "description": "Detects removal or disabling of backup retention settings.",
+    "risk_score": 99,
+    "severity": "critical",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 2 – Backup Operations",
+      "Druva Category: Backup",
+      "Druva Category: Retention",
+      "Druva Category: Critical",
+      "Druva Category: Protection Degradation"
+    ],
+    "version": 1,
+    "index": [
+      "logs-druva.event-*"
+    ],
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 2 – Backup Operations",
+      "phase": "Phase 1",
+      "primary_data_source": "logs-druva.event-*",
+      "external_dependency": "None identified in exported rule",
+      "team_to_target": "SOC; Backup/Recovery",
+      "customer_usecase": "Detects removal or disabling of backup retention settings."
+    },
+    "type": "query",
+    "language": "kuery",
+    "query": "druva.feature:\"Admin Event\"\nand message:*retention*\nand (\n  message:*removed*\n  or message:*disabled*\n  or message:*deleted*\n)"
+  }
+}

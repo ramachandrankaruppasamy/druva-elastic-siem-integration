@@ -1,0 +1,46 @@
+{
+  "id": "a00f1690-00a8-5346-91f6-b69abe3649cd-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "a00f1690-00a8-5346-91f6-b69abe3649cd",
+    "name": "Druva - Consecutive Backup Failures",
+    "description": "Detects resources that experience repeated backup failures during the detection window.",
+    "risk_score": 73,
+    "severity": "high",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 2 – Backup Operations",
+      "Druva Category: Backup",
+      "Druva Category: Availability",
+      "Druva Category: Repeated Failure"
+    ],
+    "version": 1,
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 2 – Backup Operations",
+      "phase": "Phase 1",
+      "primary_data_source": "Druva events in Elastic",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; Backup/Recovery",
+      "customer_usecase": "Detects resources that experience repeated backup failures during the detection window."
+    },
+    "type": "esql",
+    "language": "esql",
+    "query": "FROM logs-druva.event-*\n| EVAL event_text = TO_LOWER(COALESCE(TO_STRING(message), TO_STRING(druva.event_type), \"\"))\n| EVAL resource = COALESCE(\n    TO_STRING(druva.resource.name),\n    TO_STRING(druva.resource.name),\n    TO_STRING(user.name)\n  )\n| EVAL event_time = @timestamp\n| WHERE resource IS NOT NULL AND event_text LIKE \"*backup failed*\"\n| STATS\n    failure_count = COUNT(*),\n    first_failure = MIN(event_time),\n    last_failure = MAX(event_time),\n    failure_details = VALUES(TO_STRING(message))\n  BY resource\n| WHERE failure_count >= 3"
+  }
+}

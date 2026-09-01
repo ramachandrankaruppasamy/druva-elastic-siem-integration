@@ -1,0 +1,49 @@
+{
+  "id": "46f4e6af-2e43-5393-af3c-c35741822164-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "46f4e6af-2e43-5393-af3c-c35741822164",
+    "name": "Druva - Backup Storage Target Changed",
+    "description": "Detects administrative changes to backup storage or destination settings.",
+    "risk_score": 47,
+    "severity": "medium",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 2 – Backup Operations",
+      "Druva Category: Backup",
+      "Druva Category: Storage",
+      "Druva Category: Configuration"
+    ],
+    "version": 1,
+    "index": [
+      "logs-druva.event-*"
+    ],
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 2 – Backup Operations",
+      "phase": "Phase 1",
+      "primary_data_source": "logs-druva.event-*",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; Backup/Recovery; Security Engineering/GRC",
+      "customer_usecase": "Detects administrative changes to backup storage or destination settings."
+    },
+    "type": "query",
+    "language": "kuery",
+    "query": "druva.feature:\"Admin Event\"\nand message:*backup*\nand (\n  message:*storage*\n  or message:*destination*\n  or message:*target*\n)\nand message:*changed*"
+  }
+}

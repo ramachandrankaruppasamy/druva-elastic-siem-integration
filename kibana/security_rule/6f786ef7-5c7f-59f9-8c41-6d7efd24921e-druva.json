@@ -1,0 +1,50 @@
+{
+  "id": "6f786ef7-5c7f-59f9-8c41-6d7efd24921e-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "6f786ef7-5c7f-59f9-8c41-6d7efd24921e",
+    "name": "Druva - Recovery Started Immediately After UDA Alert",
+    "description": "Detects unusual data activity followed by restore or recovery activity for the same resource within 60 minutes.",
+    "risk_score": 99,
+    "severity": "critical",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-65m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 3 – Cyber Recovery & Recovery Operations",
+      "Druva Category: Recovery",
+      "Druva Category: UDA",
+      "Druva Category: Correlation",
+      "Druva Category: Cyber Recovery"
+    ],
+    "version": 1,
+    "index": [
+      "logs-druva.event-*"
+    ],
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 3 – Cyber Recovery & Recovery Operations",
+      "phase": "Phase 1",
+      "primary_data_source": "logs-druva.event-*",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; Backup/Recovery",
+      "customer_usecase": "Detects unusual data activity followed by restore or recovery activity for the same resource within 60 minutes."
+    },
+    "type": "eql",
+    "language": "eql",
+    "query": "sequence by druva.resource.name with maxspan=60m\n  [ any where druva.uda.type != null ]\n  [ any where druva.event_type like~ (\"*Recover*\", \"*Restore*\") ]"
+  }
+}

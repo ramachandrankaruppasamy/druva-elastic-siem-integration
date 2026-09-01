@@ -1,0 +1,54 @@
+{
+  "id": "c93474cf-2df6-52fc-b509-486d661af4e0-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "c93474cf-2df6-52fc-b509-486d661af4e0",
+    "name": "Druva - Multiple Recovery Jobs Started",
+    "description": "Detects a burst of restore or recovery jobs initiated during a short detection window.",
+    "risk_score": 47,
+    "severity": "medium",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 3 – Cyber Recovery & Recovery Operations",
+      "Druva Category: Recovery",
+      "Druva Category: Threshold",
+      "Druva Category: Bulk Recovery",
+      "Druva: Review Threshold"
+    ],
+    "version": 1,
+    "index": [
+      "logs-druva.event-*"
+    ],
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 3 – Cyber Recovery & Recovery Operations",
+      "phase": "Phase 1",
+      "primary_data_source": "logs-druva.event-*",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; Backup/Recovery",
+      "customer_usecase": "Detects a burst of restore or recovery jobs initiated during a short detection window."
+    },
+    "type": "threshold",
+    "language": "kuery",
+    "query": "(\n  message:*recover*\n  or message:*restore*\n  or druva.event_type:*Recover*\n  or druva.event_type:*Restore*\n)\nand (\n  message:*started*\n  or message:*initiated*\n  or event.outcome:\"Started\"\n)",
+    "threshold": {
+      "field": [],
+      "value": 5
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "id": "9e2d76ff-2cd9-5cdf-92be-87fe70445f20-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "9e2d76ff-2cd9-5cdf-92be-87fe70445f20",
+    "name": "Druva - Backup Profile Created or Updated",
+    "description": "Detects creation or modification of backup profiles that may alter workload coverage or protection behavior.",
+    "risk_score": 21,
+    "severity": "low",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 0 – Core Cyber Resilience",
+      "Druva Category: Cyber Resilience",
+      "Druva Category: Backup",
+      "Druva Category: Insider Risk",
+      "Druva Category: Backup Policy",
+      "Druva Category: Compliance"
+    ],
+    "version": 1,
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 0 – Core Cyber Resilience",
+      "phase": "Phase 1",
+      "primary_data_source": "Druva events in Elastic",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; Backup/Recovery; Security Engineering/GRC",
+      "customer_usecase": "Detects creation or modification of backup profiles that may alter workload coverage or protection behavior."
+    },
+    "type": "esql",
+    "language": "esql",
+    "query": "FROM logs-druva.event-*\n| EVAL event_text = TO_LOWER(\n    COALESCE(\n      TO_STRING(message),\n      TO_STRING(druva.event_type),\n      \"\"\n    )\n  )\n\n| WHERE\n    event_text LIKE \"*backup profile*creat*\"\n    OR event_text LIKE \"*backup profile*updat*\"\n    OR event_text LIKE \"*new backup profile*\"\n\n| EVAL event_time =\n    @timestamp\n\n| EVAL actor = COALESCE(\n    TO_STRING(user.id),\n    TO_STRING(user.name)\n  )\n\n| EVAL profile = COALESCE(\n    TO_STRING(druva.profile.name),\n    TO_STRING(druva.resource.name)\n  )"
+  }
+}

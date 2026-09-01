@@ -1,0 +1,61 @@
+{
+  "id": "920dfb53-d4d0-55af-910b-9a46144eed17-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "920dfb53-d4d0-55af-910b-9a46144eed17",
+    "name": "Druva - Mass Recovery Across Multiple Resources",
+    "description": "Detects a single administrator initiating restore or recovery activity across at least five distinct resources during a short window.",
+    "risk_score": 73,
+    "severity": "high",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 3 – Cyber Recovery & Recovery Operations",
+      "Druva Category: Recovery",
+      "Druva Category: Mass Recovery",
+      "Druva Category: Threshold"
+    ],
+    "version": 1,
+    "index": [
+      "logs-druva.event-*"
+    ],
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 3 – Cyber Recovery & Recovery Operations",
+      "phase": "Phase 1",
+      "primary_data_source": "logs-druva.event-*",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; IAM/Identity; Backup/Recovery",
+      "customer_usecase": "Detects a single administrator initiating restore or recovery activity across at least five distinct resources during a short window."
+    },
+    "type": "threshold",
+    "language": "kuery",
+    "query": "(\n  message:*recover*\n  or message:*restore*\n  or druva.event_type:*Recover*\n  or druva.event_type:*Restore*\n)\nand user.name:*\nand druva.resource.name:*",
+    "threshold": {
+      "field": [
+        "json.details.initiator"
+      ],
+      "value": 1,
+      "cardinality": [
+        {
+          "field": "json.details.resourceName",
+          "value": 5
+        }
+      ]
+    }
+  }
+}

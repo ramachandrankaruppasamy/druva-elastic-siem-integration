@@ -1,0 +1,47 @@
+{
+  "id": "88e8c044-fcff-5c2b-8ab9-da1e1ab6a865-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "88e8c044-fcff-5c2b-8ab9-da1e1ab6a865",
+    "name": "Druva - Short-Lived Administrator Account",
+    "description": "Detects an administrator account that is created and subsequently deleted within 24 hours. Highlights potentially temporary or covert privileged access.",
+    "risk_score": 73,
+    "severity": "high",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 0 – Core Cyber Resilience",
+      "Druva Category: Identity",
+      "Druva Category: Privileged Access",
+      "Druva Category: Insider Risk",
+      "Druva Category: Correlation"
+    ],
+    "version": 1,
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 0 – Core Cyber Resilience",
+      "phase": "Phase 1",
+      "primary_data_source": "Druva events in Elastic",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; IAM/Identity",
+      "customer_usecase": "Detects an administrator account that is created and subsequently deleted within 24 hours. Highlights potentially temporary or covert privileged access."
+    },
+    "type": "esql",
+    "language": "esql",
+    "query": "FROM logs-druva.event-*\n| WHERE druva.event_type == \"Administrator Created\"\n    OR druva.event_type == \"Administrator Deleted\"\n\n| EVAL target_admin =\n    TO_STRING(user.email)\n\n| EVAL actor =\n    TO_STRING(user.id)\n\n| EVAL event_time =\n    @timestamp\n\n| EVAL action = CASE(\n    druva.event_type == \"Administrator Created\", \"created\",\n    druva.event_type == \"Administrator Deleted\", \"deleted\",\n    \"other\"\n  )\n\n| WHERE target_admin IS NOT NULL\n    AND action != \"other\"\n\n| STATS\n    created_at =\n      MIN(event_time) WHERE action == \"created\",\n\n    deleted_at =\n      MIN(event_time) WHERE action == \"deleted\",\n\n    created_by =\n      VALUES(actor) WHERE action == \"created\",\n\n    deleted_by =\n      VALUES(actor) WHERE action == \"deleted\",\n\n    creation_results =\n      VALUES(TO_STRING(event.outcome))\n        WHERE action == \"created\",\n\n    deletion_results =\n      VALUES(TO_STRING(event.outcome))\n        WHERE action == \"deleted\",\n\n    creation_event_types =\n      VALUES(druva.event_type)\n        WHERE action == \"created\",\n\n    deletion_event_types =\n      VALUES(druva.event_type)\n        WHERE action == \"deleted\",\n\n    creation_count =\n      COUNT(*) WHERE action == \"created\",\n\n    deletion_count =\n      COUNT(*) WHERE action == \"deleted\"\n\n  BY target_admin\n\n| WHERE creation_count > 0\n    AND deletion_count > 0\n    AND deleted_at >= created_at\n\n| EVAL lifetime_minutes =\n    DATE_DIFF(\n      \"minutes\",\n      created_at,\n      deleted_at\n    )\n\n| WHERE lifetime_minutes <= 1440"
+  }
+}

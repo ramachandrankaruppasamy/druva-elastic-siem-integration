@@ -1,0 +1,50 @@
+{
+  "id": "fbfe25b9-4d83-5f09-adf2-943d5bcc7e98-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "fbfe25b9-4d83-5f09-adf2-943d5bcc7e98",
+    "name": "Druva - Backup Encryption Disabled",
+    "description": "Detects administrative activity indicating backup encryption was disabled.",
+    "risk_score": 99,
+    "severity": "critical",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 2 – Backup Operations",
+      "Druva Category: Backup",
+      "Druva Category: Encryption",
+      "Druva Category: Critical",
+      "Druva Category: Configuration"
+    ],
+    "version": 1,
+    "index": [
+      "logs-druva.event-*"
+    ],
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 2 – Backup Operations",
+      "phase": "Phase 1",
+      "primary_data_source": "logs-druva.event-*",
+      "external_dependency": "None identified in exported rule",
+      "team_to_target": "SOC; Backup/Recovery; Security Engineering/GRC",
+      "customer_usecase": "Detects administrative activity indicating backup encryption was disabled."
+    },
+    "type": "query",
+    "language": "kuery",
+    "query": "druva.feature:\"Admin Event\"\nand message:*encrypt*\nand (\n  message:*disabled*\n  or message:*off*\n)"
+  }
+}

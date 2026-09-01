@@ -1,0 +1,50 @@
+{
+  "id": "99a349b4-b8e1-5f68-a060-d3f500b17d9a-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "99a349b4-b8e1-5f68-a060-d3f500b17d9a",
+    "name": "Druva - Abnormal Data Change or Deletion Spike",
+    "description": "Detects a large number of modified, deleted, or encrypted files associated with a Druva resource.",
+    "risk_score": 73,
+    "severity": "high",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 0 – Core Cyber Resilience",
+      "Druva Category: Cyber Resilience",
+      "Druva Category: SOC",
+      "Druva Category: Backup Deletion",
+      "Druva Category: Ransomware",
+      "Druva Category: Backup",
+      "Druva Category: UDA",
+      "Druva Category: Data Destruction"
+    ],
+    "version": 1,
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 0 – Core Cyber Resilience",
+      "phase": "Phase 1",
+      "primary_data_source": "Druva events in Elastic",
+      "external_dependency": "None identified in exported rule",
+      "team_to_target": "SOC; Backup/Recovery; Detection & Response",
+      "customer_usecase": "Detects a large number of modified, deleted, or encrypted files associated with a Druva resource."
+    },
+    "type": "esql",
+    "language": "esql",
+    "query": "FROM logs-druva.event-*\n| WHERE\n    druva.file.deleted_count IS NOT NULL\n    OR druva.file.updated_count IS NOT NULL\n    OR druva.file.encrypted_count IS NOT NULL\n\n| EVAL resource =\n    TO_STRING(druva.resource.name)\n\n| EVAL deleted =\n    COALESCE(\n      TO_LONG(druva.file.deleted_count),\n      TO_LONG(0)\n    )\n\n| EVAL updated =\n    COALESCE(\n      TO_LONG(druva.file.updated_count),\n      TO_LONG(0)\n    )\n\n| EVAL encrypted =\n    COALESCE(\n      TO_LONG(druva.file.encrypted_count),\n      TO_LONG(0)\n    )\n\n| EVAL new_files =\n    COALESCE(\n      TO_LONG(druva.file.created_count),\n      TO_LONG(0)\n    )\n\n| EVAL suspicious_changes =\n    deleted + updated + encrypted\n\n| EVAL event_time =\n    @timestamp\n\n| WHERE suspicious_changes >= 10000"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "id": "4f072801-79ca-585c-ad5d-a98421895860-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "4f072801-79ca-585c-ad5d-a98421895860",
+    "name": "Druva - Backup Repository Added",
+    "description": "Detects creation or addition of a new backup repository or storage target.",
+    "risk_score": 21,
+    "severity": "low",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 2 – Backup Operations",
+      "Druva Category: Backup",
+      "Druva Category: Repository",
+      "Druva Category: Configuration"
+    ],
+    "version": 1,
+    "index": [
+      "logs-druva.event-*"
+    ],
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 2 – Backup Operations",
+      "phase": "Phase 1",
+      "primary_data_source": "logs-druva.event-*",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; Backup/Recovery; Security Engineering/GRC",
+      "customer_usecase": "Detects creation or addition of a new backup repository or storage target."
+    },
+    "type": "query",
+    "language": "kuery",
+    "query": "druva.feature:\"Admin Event\"\nand (\n  message:*repository*\n  or message:*storage target*\n)\nand (\n  message:*created*\n  or message:*added*\n)"
+  }
+}

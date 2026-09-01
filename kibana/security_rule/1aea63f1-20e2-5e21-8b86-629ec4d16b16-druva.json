@@ -1,0 +1,49 @@
+{
+  "id": "1aea63f1-20e2-5e21-8b86-629ec4d16b16-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "1aea63f1-20e2-5e21-8b86-629ec4d16b16",
+    "name": "Druva - Mass Backup Failures",
+    "description": "Detects a high concentration of backup failures affecting the same resource during a short interval.",
+    "risk_score": 73,
+    "severity": "high",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 0 – Core Cyber Resilience",
+      "Druva Category: Cyber Resilience",
+      "Druva Category: Backup",
+      "Druva Category: SOC",
+      "Druva Category: Recovery",
+      "Druva Category: Backup Failure",
+      "Druva Category: Availability"
+    ],
+    "version": 1,
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 0 – Core Cyber Resilience",
+      "phase": "Phase 1",
+      "primary_data_source": "Druva events in Elastic",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; Backup/Recovery",
+      "customer_usecase": "Detects a high concentration of backup failures affecting the same resource during a short interval."
+    },
+    "type": "esql",
+    "language": "esql",
+    "query": "FROM logs-druva.event-*\n| EVAL resource = COALESCE(\n    TO_STRING(druva.resource.name),\n    TO_STRING(druva.resource.name),\n    TO_STRING(user.name)\n  )\n\n| EVAL event_text = TO_LOWER(\n    COALESCE(\n      TO_STRING(message),\n      TO_STRING(druva.event_type),\n      \"\"\n    )\n  )\n\n| EVAL status = TO_LOWER(\n    COALESCE(\n      TO_STRING(event.outcome),\n      TO_STRING(event.outcome),\n      \"\"\n    )\n  )\n\n| EVAL event_time =\n    @timestamp\n\n| WHERE\n    event_text LIKE \"*backup failed*\"\n    OR (\n      event_text LIKE \"*backup*\"\n      AND (\n        status LIKE \"*fail*\"\n        OR status LIKE \"*error*\"\n      )\n    )\n\n| STATS\n    failure_count =\n      COUNT(*),\n\n    event_types =\n      VALUES(druva.event_type),\n\n    failure_states =\n      VALUES(status),\n\n    first_failure =\n      MIN(event_time),\n\n    last_failure =\n      MAX(event_time),\n\n    first_failure_type =\n      FIRST(druva.event_type, event_time),\n\n    latest_failure_type =\n      LAST(druva.event_type, event_time),\n\n    first_failure_details =\n      FIRST(\n        TO_STRING(message),\n        event_time\n      ),\n\n    latest_failure_details =\n      LAST(\n        TO_STRING(message),\n        event_time\n      )\n\n  BY resource\n\n| WHERE failure_count >= 20"
+  }
+}

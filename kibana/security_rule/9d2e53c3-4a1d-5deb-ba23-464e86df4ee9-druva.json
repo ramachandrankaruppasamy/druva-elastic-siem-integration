@@ -1,0 +1,55 @@
+{
+  "id": "9d2e53c3-4a1d-5deb-ba23-464e86df4ee9-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "9d2e53c3-4a1d-5deb-ba23-464e86df4ee9",
+    "name": "Druva - Administrator Login From VPN or TOR",
+    "description": "Detect successful administrator logins from VPN or TOR IPs using threat intelligence enrichment.",
+    "risk_score": 73,
+    "severity": "high",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 1 – Administrator & Identity",
+      "Druva Category: Identity",
+      "Druva Category: VPN",
+      "Druva Category: TOR",
+      "Druva Category: Initial Access",
+      "Druva: Review Semantics"
+    ],
+    "version": 1,
+    "index": [
+      "logs-druva.event-*"
+    ],
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 1 – Administrator & Identity",
+      "phase": "Phase 1",
+      "primary_data_source": "logs-druva.event-*",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; IAM/Identity; Detection & Response",
+      "customer_usecase": "Detect successful administrator logins from VPN or TOR IPs using threat intelligence enrichment."
+    },
+    "type": "new_terms",
+    "language": "kuery",
+    "query": "druva.feature:\"Admin Event\" and druva.event_type:\"Admin Login\" and (event.outcome:\"success\" or event.outcome:\"success\")",
+    "new_terms_fields": [
+      "source.ip"
+    ],
+    "history_window_start": "now-30d"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "id": "21aeb666-faa9-5543-b013-c6acdda06dcc-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "21aeb666-faa9-5543-b013-c6acdda06dcc",
+    "name": "Druva - Backup Policy Modified by Rare Actor",
+    "description": "Detects backup-policy modifications from administrators rarely observed making such changes.",
+    "risk_score": 47,
+    "severity": "medium",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 0 – Core Cyber Resilience",
+      "Druva Category: Cyber Resilience",
+      "Druva Category: Backup",
+      "Druva Category: Insider Risk",
+      "Druva Category: Backup Policy",
+      "Druva Category: Behavioral Analytics"
+    ],
+    "version": 1,
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 0 – Core Cyber Resilience",
+      "phase": "Phase 1",
+      "primary_data_source": "Druva events in Elastic",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; IAM/Identity; Backup/Recovery; Security Engineering/GRC",
+      "customer_usecase": "Detects backup-policy modifications from administrators rarely observed making such changes."
+    },
+    "type": "esql",
+    "language": "esql",
+    "query": "FROM logs-druva.event-*\n| EVAL actor = COALESCE(\n    TO_STRING(user.name),\n    TO_STRING(user.id),\n    TO_STRING(user.email)\n  )\n\n| EVAL policy = COALESCE(\n    TO_STRING(druva.profile.name),\n    TO_STRING(druva.resource.name)\n  )\n\n| EVAL event_text = TO_LOWER(\n    COALESCE(\n      TO_STRING(message),\n      TO_STRING(message),\n      TO_STRING(druva.event_type),\n      \"\"\n    )\n  )\n\n| EVAL event_time =\n    @timestamp\n\n| WHERE actor IS NOT NULL\n    AND (\n      event_text LIKE \"*backup*policy*modif*\"\n      OR event_text LIKE \"*backup*policy*updat*\"\n      OR event_text LIKE \"*retention*policy*\"\n      OR event_text LIKE \"*backup profile*updat*\"\n    )\n\n| STATS\n    modification_count =\n      COUNT(*),\n\n    policies =\n      VALUES(policy),\n\n    event_types =\n      VALUES(druva.event_type),\n\n    first_seen =\n      MIN(event_time),\n\n    last_seen =\n      MAX(event_time),\n\n    latest_policy =\n      LAST(policy, event_time),\n\n    latest_action =\n      LAST(druva.event_type, event_time),\n\n    latest_details =\n      LAST(\n        TO_STRING(message),\n        event_time\n      )\n\n  BY actor\n\n| WHERE modification_count <= 2"
+  }
+}

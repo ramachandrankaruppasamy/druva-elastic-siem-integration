@@ -1,0 +1,51 @@
+{
+  "id": "7aaa615a-ea45-5f91-8895-bcd6685ea854-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "7aaa615a-ea45-5f91-8895-bcd6685ea854",
+    "name": "Druva - Webhook Configuration Created",
+    "description": "Detects creation of a new Druva webhook configuration. New outbound integrations can change where Druva security telemetry is delivered and should be reviewed.",
+    "risk_score": 73,
+    "severity": "high",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 1 – Administrator & Identity",
+      "Druva Category: Administrator",
+      "Druva Category: Integration",
+      "Druva Category: Webhook",
+      "Druva Category: Security Monitoring",
+      "Druva Category: Configuration"
+    ],
+    "version": 1,
+    "index": [
+      "logs-druva.event-*"
+    ],
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 1 – Administrator & Identity",
+      "phase": "Phase 1",
+      "primary_data_source": "logs-druva.event-*",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; IAM/Identity; Security Engineering/GRC",
+      "customer_usecase": "Detects creation of a new Druva webhook configuration. New outbound integrations can change where Druva security telemetry is delivered and should be reviewed."
+    },
+    "type": "query",
+    "language": "kuery",
+    "query": "druva.feature:\"Admin Event\"\nand druva.event_type:\"Webhook Configuration Created\""
+  }
+}

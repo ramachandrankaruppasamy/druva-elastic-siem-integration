@@ -1,0 +1,50 @@
+{
+  "id": "a5d891e6-7411-5e9b-a5b9-1d0831358c60-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "a5d891e6-7411-5e9b-a5b9-1d0831358c60",
+    "name": "Druva - Backup Repository Permissions Changed",
+    "description": "Detects permission or access-control changes affecting backup storage or repositories.",
+    "risk_score": 73,
+    "severity": "high",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 2 – Backup Operations",
+      "Druva Category: Backup",
+      "Druva Category: Repository",
+      "Druva Category: Permissions",
+      "Druva Category: Access Control"
+    ],
+    "version": 1,
+    "index": [
+      "logs-druva.event-*"
+    ],
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 2 – Backup Operations",
+      "phase": "Phase 1",
+      "primary_data_source": "logs-druva.event-*",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; Backup/Recovery",
+      "customer_usecase": "Detects permission or access-control changes affecting backup storage or repositories."
+    },
+    "type": "query",
+    "language": "kuery",
+    "query": "druva.feature:\"Admin Event\"\nand (\n  message:*repository*\n  or message:*storage*\n)\nand (\n  message:*permission*\n  or message:*access*\n  or message:*role*\n)\nand message:*changed*"
+  }
+}

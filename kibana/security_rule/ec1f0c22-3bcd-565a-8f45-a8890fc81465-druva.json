@@ -1,0 +1,50 @@
+{
+  "id": "ec1f0c22-3bcd-565a-8f45-a8890fc81465-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "ec1f0c22-3bcd-565a-8f45-a8890fc81465",
+    "name": "Druva - UDA Correlated With Backup Failure",
+    "description": "Detects resources experiencing unusual data activity and backup failures within the same observation window, potentially indicating an attack affecting recoverability.",
+    "risk_score": 99,
+    "severity": "critical",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 0 – Core Cyber Resilience",
+      "Druva Category: Cyber Resilience",
+      "Druva Category: SOC",
+      "Druva Category: Ransomware",
+      "Druva Category: Backup",
+      "Druva Category: UDA",
+      "Druva Category: Correlation",
+      "Druva Category: Backup Failure"
+    ],
+    "version": 1,
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 0 – Core Cyber Resilience",
+      "phase": "Phase 1",
+      "primary_data_source": "Druva events in Elastic",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; Backup/Recovery; Detection & Response",
+      "customer_usecase": "Detects resources experiencing unusual data activity and backup failures within the same observation window, potentially indicating an attack affecting recoverability."
+    },
+    "type": "esql",
+    "language": "esql",
+    "query": "FROM logs-druva.event-*\n| EVAL resource = COALESCE(\n    TO_STRING(druva.resource.name),\n    TO_STRING(druva.resource.name),\n    TO_STRING(user.name)\n  )\n\n| EVAL status_text = TO_LOWER(\n    COALESCE(\n      TO_STRING(event.outcome),\n      TO_STRING(event.outcome),\n      \"\"\n    )\n  )\n\n| EVAL event_text = TO_LOWER(\n    COALESCE(\n      TO_STRING(message),\n      TO_STRING(druva.alert.name),\n      TO_STRING(druva.event_type),\n      \"\"\n    )\n  )\n\n| EVAL feature_text =\n    TO_LOWER(\n      COALESCE(\n        TO_STRING(druva.feature),\n        \"\"\n      )\n    )\n\n| EVAL event_time =\n    @timestamp\n\n| EVAL is_uda =\n    druva.uda.type IS NOT NULL\n    OR event_text LIKE \"*unusual data activity*\"\n\n| EVAL is_backup_failure =\n    (\n      event_text LIKE \"*backup*\"\n      OR feature_text LIKE \"*backup*\"\n    )\n    AND (\n      status_text LIKE \"*fail*\"\n      OR status_text LIKE \"*error*\"\n      OR event_text LIKE \"*failed*\"\n    )\n\n| WHERE resource IS NOT NULL\n    AND (\n      is_uda\n      OR is_backup_failure\n    )\n\n| STATS\n    uda_count =\n      COUNT(*) WHERE is_uda,\n\n    backup_failure_count =\n      COUNT(*) WHERE is_backup_failure,\n\n    first_uda =\n      MIN(event_time) WHERE is_uda,\n\n    first_backup_failure =\n      MIN(event_time)\n        WHERE is_backup_failure,\n\n    uda_types =\n      VALUES(\n        TO_STRING(druva.uda.type)\n      ) WHERE is_uda,\n\n    uda_alert_names =\n      VALUES(\n        TO_STRING(druva.alert.name)\n      ) WHERE is_uda,\n\n    backup_failure_types =\n      VALUES(druva.event_type)\n        WHERE is_backup_failure,\n\n    first_uda_details =\n      FIRST(\n        TO_STRING(message),\n        event_time\n      ) WHERE is_uda,\n\n    first_failure_details =\n      FIRST(\n        TO_STRING(message),\n        event_time\n      ) WHERE is_backup_failure\n\n  BY resource\n\n| WHERE uda_count > 0\n    AND backup_failure_count > 0\n\n| EVAL minutes_between =\n    DATE_DIFF(\n      \"minutes\",\n      first_uda,\n      first_backup_failure\n    )"
+  }
+}

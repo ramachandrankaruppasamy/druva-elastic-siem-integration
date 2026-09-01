@@ -1,0 +1,44 @@
+{
+  "id": "0c60e8f9-182b-5e73-b75f-0c2f8b6ff990-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "0c60e8f9-182b-5e73-b75f-0c2f8b6ff990",
+    "name": "Druva - Missing Outcome on Backup Event",
+    "description": "Detects missing outcome on backup event in Druva Data Security Cloud events.",
+    "risk_score": 47,
+    "severity": "medium",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 9 – Connector, Parser & Data Quality",
+      "Druva Category: Security Monitoring"
+    ],
+    "version": 1,
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 9 – Connector, Parser & Data Quality",
+      "phase": "Phase 1",
+      "primary_data_source": "Druva events in Elastic",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; Backup/Recovery",
+      "customer_usecase": "Detects missing outcome on backup event in Druva Data Security Cloud events."
+    },
+    "type": "esql",
+    "language": "esql",
+    "query": "FROM logs-druva.event-*\n| WHERE druva.event_type == \"Backup\" AND event.outcome IS NULL\n| KEEP @timestamp, event.id, event.action, event.outcome, event.severity, druva.feature, druva.event_type, user.name, user.email, source.ip, druva.resource.name, message\n| SORT @timestamp DESC\n| LIMIT 100"
+  }
+}

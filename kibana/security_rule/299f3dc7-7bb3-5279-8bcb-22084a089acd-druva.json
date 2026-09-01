@@ -1,0 +1,50 @@
+{
+  "id": "299f3dc7-7bb3-5279-8bcb-22084a089acd-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "299f3dc7-7bb3-5279-8bcb-22084a089acd",
+    "name": "Druva - Backup Security Posture Degradation",
+    "description": "Detects administrative actions that weaken critical backup/recovery controls such as backup enablement, retention, SafeMode, immutability, or Data Lock.",
+    "risk_score": 73,
+    "severity": "high",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 0 – Core Cyber Resilience",
+      "Druva Category: Cyber Resilience",
+      "Druva Category: Backup",
+      "Druva Category: Backup Policy",
+      "Druva Category: Configuration Change",
+      "Druva Category: SOC",
+      "Druva Category: Security Posture",
+      "Druva Category: Recovery"
+    ],
+    "version": 1,
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 0 – Core Cyber Resilience",
+      "phase": "Phase 1",
+      "primary_data_source": "Druva events in Elastic",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; Backup/Recovery; Security Engineering/GRC",
+      "customer_usecase": "Detects administrative actions that weaken critical backup/recovery controls such as backup enablement, retention, SafeMode, immutability, or Data Lock."
+    },
+    "type": "esql",
+    "language": "esql",
+    "query": "FROM logs-druva.event-*\n| EVAL event_text = TO_LOWER(\n    COALESCE(\n      TO_STRING(message),\n      TO_STRING(message),\n      TO_STRING(druva.event_type),\n      \"\"\n    )\n  )\n\n| EVAL degradation = CASE(\n    event_text LIKE \"*backup*disabled*\",\n      \"Backup disabled\",\n\n    event_text LIKE \"*backup*paused*\",\n      \"Backup paused\",\n\n    event_text LIKE \"*retention*reduced*\",\n      \"Retention reduced\",\n\n    event_text LIKE \"*safemode*disabled*\",\n      \"SafeMode disabled\",\n\n    event_text LIKE \"*safe mode*disabled*\",\n      \"SafeMode disabled\",\n\n    event_text LIKE \"*immutability*disabled*\",\n      \"Immutability disabled\",\n\n    event_text LIKE \"*data lock*disabled*\",\n      \"Data Lock disabled\",\n\n    event_text LIKE \"*backup*deleted*\",\n      \"Backup deleted\",\n\n    \"none\"\n  )\n\n| WHERE degradation != \"none\"\n\n| EVAL event_time =\n    @timestamp\n\n| EVAL actor = COALESCE(\n    TO_STRING(user.id),\n    TO_STRING(user.name)\n  )\n\n| EVAL resource = COALESCE(\n    TO_STRING(druva.resource.name),\n    TO_STRING(druva.profile.name),\n    TO_STRING(druva.resource.name)\n  )"
+  }
+}

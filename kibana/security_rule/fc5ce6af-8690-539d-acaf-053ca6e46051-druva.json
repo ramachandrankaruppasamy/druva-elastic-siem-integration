@@ -1,0 +1,44 @@
+{
+  "id": "fc5ce6af-8690-539d-acaf-053ca6e46051-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "fc5ce6af-8690-539d-acaf-053ca6e46051",
+    "name": "Druva - Backup Failure and Recovery Activity",
+    "description": "Detects backup failure and recovery activity in Druva Data Security Cloud events.",
+    "risk_score": 73,
+    "severity": "high",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 8 – Behavioral Correlation & Threat Hunting",
+      "Druva Category: Security Monitoring"
+    ],
+    "version": 1,
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 8 – Behavioral Correlation & Threat Hunting",
+      "phase": "Phase 1",
+      "primary_data_source": "Druva events in Elastic",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; Backup/Recovery; Detection & Response",
+      "customer_usecase": "Detects backup failure and recovery activity in Druva Data Security Cloud events."
+    },
+    "type": "esql",
+    "language": "esql",
+    "query": "FROM logs-druva.event-*\n| WHERE event.outcome == \"failure\" OR druva.event_type LIKE \"*Recovery*\"\n| KEEP @timestamp, event.id, event.action, event.outcome, event.severity, druva.feature, druva.event_type, user.name, user.email, source.ip, druva.resource.name, message\n| SORT @timestamp DESC\n| LIMIT 100"
+  }
+}

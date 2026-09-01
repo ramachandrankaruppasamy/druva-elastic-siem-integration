@@ -1,7 +1,7 @@
 format_version: 3.6.6
 name: druva
 title: "Druva"
-version: 0.0.1
+version: 0.0.2
 source:
   license: "Elastic-2.0"
 description: "Ingest and analyze Druva Data Security Cloud security, administrative, backup, recovery, data-access, unusual-data-activity, and cyber-resilience events in Elastic."
@@ -13,6 +13,8 @@ conditions:
     version: "^9.4.4"
   elastic:
     subscription: "basic"
+    capabilities:
+      - security
 icons:
   - src: /img/logo.svg
     title: Druva

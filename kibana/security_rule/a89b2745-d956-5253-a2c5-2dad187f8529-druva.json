@@ -1,0 +1,54 @@
+{
+  "id": "a89b2745-d956-5253-a2c5-2dad187f8529-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "a89b2745-d956-5253-a2c5-2dad187f8529",
+    "name": "Druva - Administrator Login From Newly Observed IP",
+    "description": "Detects successful administrator logins from a source IP not previously observed for that administrator during the history window.",
+    "risk_score": 47,
+    "severity": "medium",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 1 – Administrator & Identity",
+      "Druva Category: Identity",
+      "Druva Category: Administrator",
+      "Druva Category: New Terms"
+    ],
+    "version": 1,
+    "index": [
+      "logs-druva.event-*"
+    ],
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 1 – Administrator & Identity",
+      "phase": "Phase 1",
+      "primary_data_source": "logs-druva.event-*",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; IAM/Identity",
+      "customer_usecase": "Detects successful administrator logins from a source IP not previously observed for that administrator during the history window."
+    },
+    "type": "new_terms",
+    "language": "kuery",
+    "query": "druva.feature:\"Admin Event\" and druva.event_type:\"Admin Login\" and (event.outcome:\"success\" or event.outcome:\"success\")",
+    "new_terms_fields": [
+      "user.email",
+      "source.ip"
+    ],
+    "history_window_start": "now-30d"
+  }
+}

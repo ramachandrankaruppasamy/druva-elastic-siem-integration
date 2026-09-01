@@ -1,0 +1,47 @@
+{
+  "id": "5c07caea-5d4e-59b2-b31a-716bb83a6f2f-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "5c07caea-5d4e-59b2-b31a-716bb83a6f2f",
+    "name": "Druva - Administrator Login From Multiple Locations",
+    "description": "Detects an administrator authenticating from multiple geographic locations within a short time period.",
+    "risk_score": 47,
+    "severity": "medium",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 0 – Core Cyber Resilience",
+      "Druva Category: Authentication",
+      "Druva Category: SOC",
+      "Druva Category: Identity",
+      "Druva Category: Geo Anomaly"
+    ],
+    "version": 1,
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 0 – Core Cyber Resilience",
+      "phase": "Phase 1",
+      "primary_data_source": "Druva events in Elastic",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment; GeoIP/location enrichment",
+      "team_to_target": "SOC; IAM/Identity",
+      "customer_usecase": "Detects an administrator authenticating from multiple geographic locations within a short time period."
+    },
+    "type": "esql",
+    "language": "esql",
+    "query": "FROM logs-druva.event-*\n| WHERE druva.feature == \"Admin Event\"\n    AND druva.event_type == \"Admin Login\"\n\n| EVAL admin = COALESCE(\n    TO_STRING(user.name),\n    TO_STRING(user.email)\n  )\n\n| EVAL login_ip = COALESCE(\n    TO_STRING(source.ip),\n    TO_STRING(source.ip),\n    TO_STRING(source.ip)\n  )\n\n| EVAL location =\n    TO_STRING(source.ip)\n\n| EVAL event_time =\n    @timestamp\n\n| WHERE admin IS NOT NULL\n    AND location IS NOT NULL\n\n| STATS\n    login_count = COUNT(*),\n    location_count =\n      COUNT_DISTINCT(location),\n\n    locations =\n      VALUES(location),\n\n    ip_addresses =\n      VALUES(login_ip),\n\n    first_login =\n      MIN(event_time),\n\n    last_login =\n      MAX(event_time),\n\n    first_location =\n      FIRST(location, event_time),\n\n    last_location =\n      LAST(location, event_time),\n\n    first_ip =\n      FIRST(login_ip, event_time),\n\n    last_ip =\n      LAST(login_ip, event_time)\n\n  BY admin\n\n| WHERE location_count >= 2"
+  }
+}

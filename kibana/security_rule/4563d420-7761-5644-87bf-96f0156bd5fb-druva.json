@@ -1,0 +1,49 @@
+{
+  "id": "4563d420-7761-5644-87bf-96f0156bd5fb-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "4563d420-7761-5644-87bf-96f0156bd5fb",
+    "name": "Druva - Backup Frequency Reduced",
+    "description": "Detects administrative changes indicating a reduction in backup frequency.",
+    "risk_score": 73,
+    "severity": "high",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 2 – Backup Operations",
+      "Druva Category: Backup",
+      "Druva Category: Configuration",
+      "Druva Category: Protection Degradation"
+    ],
+    "version": 1,
+    "index": [
+      "logs-druva.event-*"
+    ],
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 2 – Backup Operations",
+      "phase": "Phase 1",
+      "primary_data_source": "logs-druva.event-*",
+      "external_dependency": "None identified in exported rule",
+      "team_to_target": "SOC; Backup/Recovery; Security Engineering/GRC",
+      "customer_usecase": "Detects administrative changes indicating a reduction in backup frequency."
+    },
+    "type": "query",
+    "language": "kuery",
+    "query": "druva.feature:\"Admin Event\"\nand message:*backup*\nand (\n  message:*frequency*\n  or message:*interval*\n)\nand (\n  message:*reduced*\n  or message:*decreased*\n  or message:*changed*\n)"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "id": "471ab0fd-8b4b-53eb-9e0a-39a39a834325-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "471ab0fd-8b4b-53eb-9e0a-39a39a834325",
+    "name": "Druva - Recovery Started Immediately After Administrator Login",
+    "description": "Detects a Druva administrator login followed by restore or recovery activity by the same administrator within five minutes.",
+    "risk_score": 73,
+    "severity": "high",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-10m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 3 – Cyber Recovery & Recovery Operations",
+      "Druva Category: Recovery",
+      "Druva Category: Authentication",
+      "Druva Category: Sequence",
+      "Druva Category: Valid Accounts"
+    ],
+    "version": 1,
+    "index": [
+      "logs-druva.event-*"
+    ],
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 3 – Cyber Recovery & Recovery Operations",
+      "phase": "Phase 1",
+      "primary_data_source": "logs-druva.event-*",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; IAM/Identity; Backup/Recovery",
+      "customer_usecase": "Detects a Druva administrator login followed by restore or recovery activity by the same administrator within five minutes."
+    },
+    "type": "eql",
+    "language": "eql",
+    "query": "sequence by user.name with maxspan=5m\n  [ any where druva.feature == \"Admin Event\"\n      and druva.event_type == \"Admin Login\"\n      and event.outcome == \"success\" ]\n  [ any where druva.event_type like~ (\"*Recover*\", \"*Restore*\") ]"
+  }
+}

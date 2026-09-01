@@ -1,0 +1,46 @@
+{
+  "id": "ab659bd9-e595-525b-a10d-b59a4a2f6327-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "ab659bd9-e595-525b-a10d-b59a4a2f6327",
+    "name": "Druva - Recovery Outside Business Hours",
+    "description": "Detects recovery or restore activity occurring outside the configured 07:00–19:00 UTC review window.",
+    "risk_score": 47,
+    "severity": "medium",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 3 – Cyber Recovery & Recovery Operations",
+      "Druva Category: Recovery",
+      "Druva Category: After Hours",
+      "Druva Category: Behavioral Analytics"
+    ],
+    "version": 1,
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 3 – Cyber Recovery & Recovery Operations",
+      "phase": "Phase 1",
+      "primary_data_source": "Druva events in Elastic",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; Backup/Recovery",
+      "customer_usecase": "Detects recovery or restore activity occurring outside the configured 07:00–19:00 UTC review window."
+    },
+    "type": "esql",
+    "language": "esql",
+    "query": "FROM logs-druva.event-*\n| EVAL event_text = TO_LOWER(COALESCE(TO_STRING(message), TO_STRING(druva.event_type), \"\"))\n| EVAL event_time = @timestamp\n| EVAL event_hour = DATE_EXTRACT(\"hour_of_day\", event_time)\n| WHERE event_text LIKE \"*recover*\" OR event_text LIKE \"*restore*\"\n| WHERE event_hour < 7 OR event_hour >= 19"
+  }
+}

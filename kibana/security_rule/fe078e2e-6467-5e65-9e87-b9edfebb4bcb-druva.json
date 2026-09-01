@@ -1,0 +1,63 @@
+{
+  "id": "fe078e2e-6467-5e65-9e87-b9edfebb4bcb-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "fe078e2e-6467-5e65-9e87-b9edfebb4bcb",
+    "name": "Druva - Multiple Administrators Modify Same Resource",
+    "description": "Detects multiple administrators modifying the same Druva protected resource within a short period. This can indicate conflicting changes, shared operational response, or coordinated unauthorized activity.",
+    "risk_score": 47,
+    "severity": "medium",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 1 – Administrator & Identity",
+      "Druva Category: Identity",
+      "Druva Category: Administrator",
+      "Druva Category: Behavioral Analytics",
+      "Druva Category: Protected Resources",
+      "Druva: Review Threshold"
+    ],
+    "version": 1,
+    "index": [
+      "logs-druva.event-*"
+    ],
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 1 – Administrator & Identity",
+      "phase": "Phase 1",
+      "primary_data_source": "logs-druva.event-*",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; IAM/Identity",
+      "customer_usecase": "Detects multiple administrators modifying the same Druva protected resource within a short period. This can indicate conflicting changes, shared operational response, or coordinated unauthorized activity."
+    },
+    "type": "threshold",
+    "language": "kuery",
+    "query": "druva.feature:\"Admin Event\"\nand druva.resource.name:*",
+    "threshold": {
+      "field": [
+        "json.details.resourceName"
+      ],
+      "value": 2,
+      "cardinality": [
+        {
+          "field": "json.details.initiator",
+          "value": 2
+        }
+      ]
+    }
+  }
+}

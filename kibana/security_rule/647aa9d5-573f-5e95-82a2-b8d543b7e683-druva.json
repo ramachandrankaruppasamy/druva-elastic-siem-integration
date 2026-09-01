@@ -1,0 +1,49 @@
+{
+  "id": "647aa9d5-573f-5e95-82a2-b8d543b7e683-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "647aa9d5-573f-5e95-82a2-b8d543b7e683",
+    "name": "Druva - Recovery Paused or Suspended",
+    "description": "Detects a Druva restore or recovery operation that is paused or suspended.",
+    "risk_score": 47,
+    "severity": "medium",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 3 – Cyber Recovery & Recovery Operations",
+      "Druva Category: Recovery",
+      "Druva Category: Paused",
+      "Druva Category: Impact"
+    ],
+    "version": 1,
+    "index": [
+      "logs-druva.event-*"
+    ],
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 3 – Cyber Recovery & Recovery Operations",
+      "phase": "Phase 1",
+      "primary_data_source": "logs-druva.event-*",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; Backup/Recovery",
+      "customer_usecase": "Detects a Druva restore or recovery operation that is paused or suspended."
+    },
+    "type": "query",
+    "language": "kuery",
+    "query": "(\n  message:*recover*\n  or message:*restore*\n  or druva.event_type:*Recover*\n  or druva.event_type:*Restore*\n)\nand (\n  message:*paused*\n  or message:*suspended*\n  or event.outcome:(\"Paused\" or \"Suspended\")\n  or event.outcome:(\"Paused\" or \"Suspended\")\n)"
+  }
+}

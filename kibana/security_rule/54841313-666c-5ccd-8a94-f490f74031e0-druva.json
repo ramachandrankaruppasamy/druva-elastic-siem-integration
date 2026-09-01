@@ -1,0 +1,61 @@
+{
+  "id": "54841313-666c-5ccd-8a94-f490f74031e0-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "54841313-666c-5ccd-8a94-f490f74031e0",
+    "name": "Druva - Repeated Failed Administrator Logins",
+    "description": "Detects repeated failed Druva administrator login attempts originating from the same source IP address. Multiple authentication failures within a short period may indicate brute-force attacks, password spraying, credential stuffing, or an attempt to compromise an administrator account.",
+    "risk_score": 47,
+    "severity": "medium",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 1 – Administrator & Identity",
+      "Druva Category: Identity",
+      "Druva Category: Authentication",
+      "Druva Category: Administrator",
+      "Druva Category: Brute Force",
+      "Druva Category: Credential Access",
+      "Druva Category: Password Spraying",
+      "Druva Category: SOC",
+      "Druva Category: Security Monitoring",
+      "Druva: Review Threshold"
+    ],
+    "version": 1,
+    "index": [
+      "logs-druva.event-*"
+    ],
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 1 – Administrator & Identity",
+      "phase": "Phase 1",
+      "primary_data_source": "logs-druva.event-*",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; IAM/Identity",
+      "customer_usecase": "Detects repeated failed Druva administrator login attempts originating from the same source IP address. Multiple authentication failures within a short period may indicate brute-force attacks, password spraying, credential stuffing, or an attempt to compromise an administrator account."
+    },
+    "type": "threshold",
+    "language": "kuery",
+    "query": "druva.feature:\"Admin Event\"\nand druva.event_type:\"Admin Login\"\nand (\n    event.outcome:\"failure\"\n    or event.outcome:\"failure\"\n)",
+    "threshold": {
+      "field": [
+        "source.ip"
+      ],
+      "value": 5
+    }
+  }
+}

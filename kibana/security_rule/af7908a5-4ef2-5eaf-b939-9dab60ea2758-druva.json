@@ -1,0 +1,44 @@
+{
+  "id": "af7908a5-4ef2-5eaf-b939-9dab60ea2758-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "af7908a5-4ef2-5eaf-b939-9dab60ea2758",
+    "name": "Druva - Rare High Severity Event Type",
+    "description": "Detects rare high severity event type in Druva Data Security Cloud events.",
+    "risk_score": 73,
+    "severity": "high",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 8 – Behavioral Correlation & Threat Hunting",
+      "Druva Category: Security Monitoring"
+    ],
+    "version": 1,
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 8 – Behavioral Correlation & Threat Hunting",
+      "phase": "Phase 1",
+      "primary_data_source": "Druva events in Elastic",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; Detection & Response",
+      "customer_usecase": "Detects rare high severity event type in Druva Data Security Cloud events."
+    },
+    "type": "esql",
+    "language": "esql",
+    "query": "FROM logs-druva.event-*\n| WHERE event.severity >= 7 AND druva.event_type IS NOT NULL\n| KEEP @timestamp, event.id, event.action, event.outcome, event.severity, druva.feature, druva.event_type, user.name, user.email, source.ip, druva.resource.name, message\n| SORT @timestamp DESC\n| LIMIT 100"
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "id": "85d0af65-fb39-5036-a1db-c39071bd9b85-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "85d0af65-fb39-5036-a1db-c39071bd9b85",
+    "name": "Druva - Recovery Performed By Rare Administrator",
+    "description": "Detects restore or recovery activity from an administrator not observed performing recovery actions during the historical look-back window.",
+    "risk_score": 47,
+    "severity": "medium",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 3 – Cyber Recovery & Recovery Operations",
+      "Druva Category: Recovery",
+      "Druva Category: Administrator",
+      "Druva Category: New Terms",
+      "Druva Category: Valid Accounts"
+    ],
+    "version": 1,
+    "index": [
+      "logs-druva.event-*"
+    ],
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 3 – Cyber Recovery & Recovery Operations",
+      "phase": "Phase 1",
+      "primary_data_source": "logs-druva.event-*",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; IAM/Identity; Backup/Recovery",
+      "customer_usecase": "Detects restore or recovery activity from an administrator not observed performing recovery actions during the historical look-back window."
+    },
+    "type": "new_terms",
+    "language": "kuery",
+    "query": "(\n  message:*recover*\n  or message:*restore*\n  or druva.event_type:*Recover*\n  or druva.event_type:*Restore*\n)\nand user.name:*",
+    "new_terms_fields": [
+      "json.details.initiator"
+    ],
+    "history_window_start": "now-30d"
+  }
+}

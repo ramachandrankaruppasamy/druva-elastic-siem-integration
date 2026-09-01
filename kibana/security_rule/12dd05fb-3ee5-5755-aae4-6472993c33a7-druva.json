@@ -1,0 +1,44 @@
+{
+  "id": "12dd05fb-3ee5-5755-aae4-6472993c33a7-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "12dd05fb-3ee5-5755-aae4-6472993c33a7",
+    "name": "Druva - Activity From Unattributed Source",
+    "description": "Detects activity from unattributed source in Druva Data Security Cloud events.",
+    "risk_score": 47,
+    "severity": "medium",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 8 – Behavioral Correlation & Threat Hunting",
+      "Druva Category: Security Monitoring"
+    ],
+    "version": 1,
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 8 – Behavioral Correlation & Threat Hunting",
+      "phase": "Phase 1",
+      "primary_data_source": "Druva events in Elastic",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; Detection & Response",
+      "customer_usecase": "Detects activity from unattributed source in Druva Data Security Cloud events."
+    },
+    "type": "esql",
+    "language": "esql",
+    "query": "FROM logs-druva.event-*\n| WHERE source.ip IS NOT NULL AND user.name IS NULL AND user.email IS NULL\n| KEEP @timestamp, event.id, event.action, event.outcome, event.severity, druva.feature, druva.event_type, user.name, user.email, source.ip, druva.resource.name, message\n| SORT @timestamp DESC\n| LIMIT 100"
+  }
+}

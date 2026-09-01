@@ -1,0 +1,49 @@
+{
+  "id": "ef16408c-bf64-5282-bffb-bd7337eb885e-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "ef16408c-bf64-5282-bffb-bd7337eb885e",
+    "name": "Druva - Recovery Cancelled",
+    "description": "Detects cancellation of a Druva restore or recovery operation. Unexpected cancellation during incident response can inhibit recovery.",
+    "risk_score": 73,
+    "severity": "high",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 3 – Cyber Recovery & Recovery Operations",
+      "Druva Category: Recovery",
+      "Druva Category: Cancellation",
+      "Druva Category: Impact"
+    ],
+    "version": 1,
+    "index": [
+      "logs-druva.event-*"
+    ],
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 3 – Cyber Recovery & Recovery Operations",
+      "phase": "Phase 1",
+      "primary_data_source": "logs-druva.event-*",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; Backup/Recovery",
+      "customer_usecase": "Detects cancellation of a Druva restore or recovery operation. Unexpected cancellation during incident response can inhibit recovery."
+    },
+    "type": "query",
+    "language": "kuery",
+    "query": "(\n  message:*recover*\n  or message:*restore*\n  or druva.event_type:*Recover*\n  or druva.event_type:*Restore*\n)\nand (\n  message:*cancel*\n  or event.outcome:\"Cancelled\"\n  or event.outcome:\"Cancelled\"\n)"
+  }
+}

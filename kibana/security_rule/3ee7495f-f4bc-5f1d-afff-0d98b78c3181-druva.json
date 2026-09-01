@@ -1,0 +1,50 @@
+{
+  "id": "3ee7495f-f4bc-5f1d-afff-0d98b78c3181-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "3ee7495f-f4bc-5f1d-afff-0d98b78c3181",
+    "name": "Druva - Backup Data Deletion Attempt",
+    "description": "Detects attempts to delete protected backup data, snapshots, restore points, or other recovery assets.",
+    "risk_score": 99,
+    "severity": "critical",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 0 – Core Cyber Resilience",
+      "Druva Category: Cyber Resilience",
+      "Druva Category: SOC",
+      "Druva Category: Recovery",
+      "Druva Category: Backup Deletion",
+      "Druva Category: Ransomware",
+      "Druva Category: Impact",
+      "Druva Category: Backup"
+    ],
+    "version": 1,
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 0 – Core Cyber Resilience",
+      "phase": "Phase 1",
+      "primary_data_source": "Druva events in Elastic",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; Backup/Recovery; Detection & Response",
+      "customer_usecase": "Detects attempts to delete protected backup data, snapshots, restore points, or other recovery assets."
+    },
+    "type": "esql",
+    "language": "esql",
+    "query": "FROM logs-druva.event-*\n| EVAL event_text = TO_LOWER(\n    COALESCE(\n      TO_STRING(message),\n      TO_STRING(message),\n      TO_STRING(druva.event_type),\n      \"\"\n    )\n  )\n\n| WHERE\n    event_text LIKE \"*delete*backup*\"\n    OR event_text LIKE \"*backup*delete*\"\n    OR event_text LIKE \"*delete*snapshot*\"\n    OR event_text LIKE \"*snapshot*deleted*\"\n    OR event_text LIKE \"*purge*backup*\"\n    OR event_text LIKE \"*delete*restore point*\"\n\n| EVAL event_time =\n    @timestamp\n\n| EVAL actor = COALESCE(\n    TO_STRING(user.id),\n    TO_STRING(user.name)\n  )\n\n| EVAL resource = COALESCE(\n    TO_STRING(druva.resource.name),\n    TO_STRING(druva.resource.name),\n    TO_STRING(druva.profile.name)\n  )"
+  }
+}

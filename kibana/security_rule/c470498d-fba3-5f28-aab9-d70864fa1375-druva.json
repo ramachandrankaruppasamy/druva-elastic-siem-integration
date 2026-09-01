@@ -1,0 +1,49 @@
+{
+  "id": "c470498d-fba3-5f28-aab9-d70864fa1375-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "c470498d-fba3-5f28-aab9-d70864fa1375",
+    "name": "Druva - Sandbox Recovery Failed",
+    "description": "Detects failed restore or recovery activity involving a sandbox or isolated recovery environment.",
+    "risk_score": 47,
+    "severity": "medium",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 3 – Cyber Recovery & Recovery Operations",
+      "Druva Category: Recovery",
+      "Druva Category: Sandbox",
+      "Druva Category: Failure"
+    ],
+    "version": 1,
+    "index": [
+      "logs-druva.event-*"
+    ],
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 3 – Cyber Recovery & Recovery Operations",
+      "phase": "Phase 1",
+      "primary_data_source": "logs-druva.event-*",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; Backup/Recovery",
+      "customer_usecase": "Detects failed restore or recovery activity involving a sandbox or isolated recovery environment."
+    },
+    "type": "query",
+    "language": "kuery",
+    "query": "(\n  message:*sandbox*\n  or druva.resource.type:*sandbox*\n)\nand (\n  message:*recover*\n  or message:*restore*\n)\nand (\n  event.outcome:\"failure\"\n  or event.outcome:\"failure\"\n  or message:*failed*\n)"
+  }
+}

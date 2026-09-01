@@ -1,0 +1,49 @@
+{
+  "id": "cd9fc1c6-2ca0-5f9a-95b4-aabb8544f87a-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "cd9fc1c6-2ca0-5f9a-95b4-aabb8544f87a",
+    "name": "Druva - Recovery Initiated for Critical Workload",
+    "description": "Detects restore or recovery activity for a workload explicitly identified as critical in Druva recovery event details or resource metadata.",
+    "risk_score": 47,
+    "severity": "medium",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 3 – Cyber Recovery & Recovery Operations",
+      "Druva Category: Recovery",
+      "Druva Category: Critical Workload",
+      "Druva Category: Cyber Recovery"
+    ],
+    "version": 1,
+    "index": [
+      "logs-druva.event-*"
+    ],
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 3 – Cyber Recovery & Recovery Operations",
+      "phase": "Phase 1",
+      "primary_data_source": "logs-druva.event-*",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; Backup/Recovery",
+      "customer_usecase": "Detects restore or recovery activity for a workload explicitly identified as critical in Druva recovery event details or resource metadata."
+    },
+    "type": "query",
+    "language": "kuery",
+    "query": "(\n  message:*recover*\n  or message:*restore*\n  or druva.event_type:*Recover*\n  or druva.event_type:*Restore*\n)\nand (\n  druva.resource.type:*critical*\n  or message:*critical*\n)"
+  }
+}

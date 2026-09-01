@@ -1,0 +1,44 @@
+{
+  "id": "942fca64-21b8-50c2-abff-51c669ae886f-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "942fca64-21b8-50c2-abff-51c669ae886f",
+    "name": "Druva - Integration Configuration Changed Outside Hours",
+    "description": "Detects integration configuration changed outside hours in Druva Data Security Cloud events.",
+    "risk_score": 73,
+    "severity": "high",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 6 – Security Configuration & Integrations",
+      "Druva Category: Security Monitoring"
+    ],
+    "version": 1,
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 6 – Security Configuration & Integrations",
+      "phase": "Phase 1",
+      "primary_data_source": "Druva events in Elastic",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; Security Engineering/GRC",
+      "customer_usecase": "Detects integration configuration changed outside hours in Druva Data Security Cloud events."
+    },
+    "type": "esql",
+    "language": "esql",
+    "query": "FROM logs-druva.event-*\n| WHERE (druva.event_type LIKE \"Webhook Configuration*\" OR TO_LOWER(COALESCE(message, \"\")) LIKE \"*integration*\") AND (DATE_EXTRACT(\"hour_of_day\", @timestamp) < 7 OR DATE_EXTRACT(\"hour_of_day\", @timestamp) >= 19)\n| KEEP @timestamp, event.id, event.action, event.outcome, event.severity, druva.feature, druva.event_type, user.name, user.email, source.ip, druva.resource.name, message\n| SORT @timestamp DESC\n| LIMIT 100"
+  }
+}

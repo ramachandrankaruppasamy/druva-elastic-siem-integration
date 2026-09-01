@@ -1,0 +1,50 @@
+{
+  "id": "be7a61d3-4e09-599e-9990-f931ddeb613a-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "be7a61d3-4e09-599e-9990-f931ddeb613a",
+    "name": "Druva - Backup Retention Reduced",
+    "description": "Detects changes that reduce backup retention, potentially limiting historical recovery options.",
+    "risk_score": 73,
+    "severity": "high",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 2 – Backup Operations",
+      "Druva Category: Backup",
+      "Druva Category: Retention",
+      "Druva Category: Protection Degradation",
+      "Druva Category: Configuration"
+    ],
+    "version": 1,
+    "index": [
+      "logs-druva.event-*"
+    ],
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 2 – Backup Operations",
+      "phase": "Phase 1",
+      "primary_data_source": "logs-druva.event-*",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; Backup/Recovery; Security Engineering/GRC",
+      "customer_usecase": "Detects changes that reduce backup retention, potentially limiting historical recovery options."
+    },
+    "type": "query",
+    "language": "kuery",
+    "query": "druva.feature:\"Admin Event\"\nand message:*retention*\nand (\n  message:*reduced*\n  or message:*decreased*\n  or message:*shortened*\n  or message:*changed*\n)"
+  }
+}

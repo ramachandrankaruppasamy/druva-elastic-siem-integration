@@ -1,0 +1,47 @@
+{
+  "id": "4f2b85ac-7887-5085-8cb9-e8e974f6601f-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "4f2b85ac-7887-5085-8cb9-e8e974f6601f",
+    "name": "Druva - Administrator Created",
+    "description": "Detects creation of a new privileged administrator in Druva and identifies the account that was created, the creator, and the result.",
+    "risk_score": 47,
+    "severity": "medium",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 0 – Core Cyber Resilience",
+      "Druva Category: Identity",
+      "Druva Category: Privileged Access",
+      "Druva Category: Insider Risk",
+      "Druva Category: Compliance"
+    ],
+    "version": 1,
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 0 – Core Cyber Resilience",
+      "phase": "Phase 1",
+      "primary_data_source": "Druva events in Elastic",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; IAM/Identity; Security Engineering/GRC",
+      "customer_usecase": "Detects creation of a new privileged administrator in Druva and identifies the account that was created, the creator, and the result."
+    },
+    "type": "esql",
+    "language": "esql",
+    "query": "FROM logs-druva.event-*\n| WHERE druva.event_type == \"Administrator Created\"\n| EVAL event_time =\n    @timestamp\n| EVAL new_admin =\n    TO_STRING(user.email)\n| EVAL created_by =\n    TO_STRING(user.id)\n| EVAL result =\n    TO_STRING(event.outcome)\n| WHERE new_admin IS NOT NULL"
+  }
+}

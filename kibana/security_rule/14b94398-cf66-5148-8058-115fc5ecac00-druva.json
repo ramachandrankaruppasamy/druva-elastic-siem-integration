@@ -1,0 +1,44 @@
+{
+  "id": "14b94398-cf66-5148-8058-115fc5ecac00-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "14b94398-cf66-5148-8058-115fc5ecac00",
+    "name": "Druva - Security Setting Disabled",
+    "description": "Detects security setting disabled in Druva Data Security Cloud events.",
+    "risk_score": 99,
+    "severity": "critical",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 6 – Security Configuration & Integrations",
+      "Druva Category: Security Monitoring"
+    ],
+    "version": 1,
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 6 – Security Configuration & Integrations",
+      "phase": "Phase 1",
+      "primary_data_source": "Druva events in Elastic",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; Security Engineering/GRC",
+      "customer_usecase": "Detects security setting disabled in Druva Data Security Cloud events."
+    },
+    "type": "esql",
+    "language": "esql",
+    "query": "FROM logs-druva.event-*\n| WHERE TO_LOWER(COALESCE(message, \"\")) LIKE \"*security*disabled*\"\n| KEEP @timestamp, event.id, event.action, event.outcome, event.severity, druva.feature, druva.event_type, user.name, user.email, source.ip, druva.resource.name, message\n| SORT @timestamp DESC\n| LIMIT 100"
+  }
+}

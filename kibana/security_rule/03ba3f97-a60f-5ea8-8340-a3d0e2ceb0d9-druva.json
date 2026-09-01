@@ -1,0 +1,50 @@
+{
+  "id": "03ba3f97-a60f-5ea8-8340-a3d0e2ceb0d9-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "03ba3f97-a60f-5ea8-8340-a3d0e2ceb0d9",
+    "name": "Druva - Recovery Verification Failed",
+    "description": "Detects a failed recovery verification, validation, or recovery-test event.",
+    "risk_score": 73,
+    "severity": "high",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 3 – Cyber Recovery & Recovery Operations",
+      "Druva Category: Recovery",
+      "Druva Category: Verification",
+      "Druva Category: Failure",
+      "Druva Category: Cyber Recovery"
+    ],
+    "version": 1,
+    "index": [
+      "logs-druva.event-*"
+    ],
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 3 – Cyber Recovery & Recovery Operations",
+      "phase": "Phase 1",
+      "primary_data_source": "logs-druva.event-*",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; Backup/Recovery",
+      "customer_usecase": "Detects a failed recovery verification, validation, or recovery-test event."
+    },
+    "type": "query",
+    "language": "kuery",
+    "query": "(\n  message:*recover*\n  or message:*restore*\n)\nand (\n  message:*verif*\n  or message:*validat*\n  or message:*test*\n)\nand (\n  event.outcome:\"failure\"\n  or event.outcome:\"failure\"\n  or message:*failed*\n)"
+  }
+}

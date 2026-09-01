@@ -1,0 +1,44 @@
+{
+  "id": "57b71b15-9f96-56de-a0d0-18f43f76f971-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "57b71b15-9f96-56de-a0d0-18f43f76f971",
+    "name": "Druva - Webhook Destination Changed",
+    "description": "Detects webhook destination changed in Druva Data Security Cloud events.",
+    "risk_score": 73,
+    "severity": "high",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 6 – Security Configuration & Integrations",
+      "Druva Category: Security Monitoring"
+    ],
+    "version": 1,
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 6 – Security Configuration & Integrations",
+      "phase": "Phase 1",
+      "primary_data_source": "Druva events in Elastic",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; Security Engineering/GRC",
+      "customer_usecase": "Detects webhook destination changed in Druva Data Security Cloud events."
+    },
+    "type": "esql",
+    "language": "esql",
+    "query": "FROM logs-druva.event-*\n| WHERE druva.event_type LIKE \"Webhook Configuration*\" AND druva.webhook.url IS NOT NULL\n| KEEP @timestamp, event.id, event.action, event.outcome, event.severity, druva.feature, druva.event_type, user.name, user.email, source.ip, druva.resource.name, message\n| SORT @timestamp DESC\n| LIMIT 100"
+  }
+}

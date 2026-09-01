@@ -1,0 +1,50 @@
+{
+  "id": "053b140a-7b13-52ae-ba24-50e23a09d3bf-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "053b140a-7b13-52ae-ba24-50e23a09d3bf",
+    "name": "Druva - Unusual Data Activity Followed by Quarantine",
+    "description": "Correlates unusual data activity with subsequent quarantine of the same protected resource.",
+    "risk_score": 73,
+    "severity": "high",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 0 – Core Cyber Resilience",
+      "Druva Category: Cyber Resilience",
+      "Druva Category: SOC",
+      "Druva Category: Backup Deletion",
+      "Druva Category: Ransomware",
+      "Druva Category: Backup",
+      "Druva Category: UDA",
+      "Druva Category: Quarantine"
+    ],
+    "version": 1,
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 0 – Core Cyber Resilience",
+      "phase": "Phase 1",
+      "primary_data_source": "Druva events in Elastic",
+      "external_dependency": "None identified in exported rule",
+      "team_to_target": "SOC; Backup/Recovery; Detection & Response",
+      "customer_usecase": "Correlates unusual data activity with subsequent quarantine of the same protected resource."
+    },
+    "type": "esql",
+    "language": "esql",
+    "query": "FROM logs-druva.event-*\n| EVAL resource = COALESCE(\n    TO_STRING(druva.resource.name),\n    TO_STRING(druva.resource.name)\n  )\n\n| EVAL event_text = TO_LOWER(\n    COALESCE(\n      TO_STRING(message),\n      TO_STRING(druva.alert.name),\n      TO_STRING(druva.event_type),\n      \"\"\n    )\n  )\n\n| EVAL is_uda =\n    druva.uda.type IS NOT NULL\n    OR event_text LIKE \"*unusual data activity*\"\n    OR event_text LIKE \"*data anomaly*\"\n\n| EVAL is_quarantine =\n    event_text LIKE \"*quarantine*\"\n    OR druva.event_type == \"Added To Quarantine Bay\"\n\n| EVAL event_time =\n    @timestamp\n\n| WHERE resource IS NOT NULL\n    AND (is_uda OR is_quarantine)\n\n| STATS\n    uda_count =\n      COUNT(*) WHERE is_uda,\n\n    quarantine_count =\n      COUNT(*) WHERE is_quarantine,\n\n    first_uda =\n      MIN(event_time) WHERE is_uda,\n\n    first_quarantine =\n      MIN(event_time) WHERE is_quarantine,\n\n    uda_types =\n      VALUES(\n        TO_STRING(druva.uda.type)\n      ) WHERE is_uda,\n\n    alert_names =\n      VALUES(\n        TO_STRING(druva.alert.name)\n      ) WHERE is_uda,\n\n    quarantine_actions =\n      VALUES(druva.event_type)\n        WHERE is_quarantine,\n\n    uda_details =\n      FIRST(\n        TO_STRING(message),\n        event_time\n      ) WHERE is_uda,\n\n    quarantine_details =\n      FIRST(\n        TO_STRING(message),\n        event_time\n      ) WHERE is_quarantine\n\n  BY resource\n\n| WHERE uda_count > 0\n    AND quarantine_count > 0\n    AND first_quarantine >= first_uda\n\n| EVAL minutes_to_quarantine =\n    DATE_DIFF(\n      \"minutes\",\n      first_uda,\n      first_quarantine\n    )"
+  }
+}

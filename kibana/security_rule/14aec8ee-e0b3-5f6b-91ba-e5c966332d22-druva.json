@@ -1,0 +1,48 @@
+{
+  "id": "14aec8ee-e0b3-5f6b-91ba-e5c966332d22-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "14aec8ee-e0b3-5f6b-91ba-e5c966332d22",
+    "name": "Druva - Privileged Action Immediately After Login",
+    "description": "Detects an administrator login followed closely by privileged Druva administrative activity from the same administrator. This sequence can indicate rapid post-authentication abuse of a compromised account.",
+    "risk_score": 73,
+    "severity": "high",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 1 – Administrator & Identity",
+      "Druva Category: Identity",
+      "Druva Category: Administrator",
+      "Druva Category: Authentication",
+      "Druva Category: Privileged Activity",
+      "Druva Category: Valid Accounts"
+    ],
+    "version": 1,
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 1 – Administrator & Identity",
+      "phase": "Phase 1",
+      "primary_data_source": "Druva events in Elastic",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; IAM/Identity",
+      "customer_usecase": "Detects an administrator login followed closely by privileged Druva administrative activity from the same administrator. This sequence can indicate rapid post-authentication abuse of a compromised account."
+    },
+    "type": "esql",
+    "language": "esql",
+    "query": "FROM logs-druva.event-*\n| WHERE druva.feature == \"Admin Event\"\n| EVAL event_time = @timestamp\n| EVAL actor = COALESCE(\n    TO_STRING(user.id),\n    TO_STRING(user.name),\n    TO_STRING(user.email)\n  )\n| EVAL is_login = druva.event_type == \"Admin Login\"\n| EVAL is_privileged_action = druva.event_type != \"Admin Login\"\n| WHERE actor IS NOT NULL AND (is_login OR is_privileged_action)\n| STATS\n    login_count = COUNT(*) WHERE is_login,\n    privileged_action_count = COUNT(*) WHERE is_privileged_action,\n    login_time = MAX(event_time) WHERE is_login,\n    first_privileged_action = MIN(event_time) WHERE is_privileged_action,\n    actions = VALUES(druva.event_type) WHERE is_privileged_action,\n    login_ips = VALUES(TO_STRING(source.ip)) WHERE is_login\n  BY actor\n| WHERE login_count > 0\n    AND privileged_action_count > 0\n    AND first_privileged_action >= login_time\n| EVAL minutes_to_action = DATE_DIFF(\"minutes\", login_time, first_privileged_action)\n| WHERE minutes_to_action <= 5"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "id": "171a6381-b684-50f9-9fce-aae841b28a56-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "171a6381-b684-50f9-9fce-aae841b28a56",
+    "name": "Druva - Recovery Target Changed",
+    "description": "Detects changes to a recovery or restore target that may alter where protected data is recovered.",
+    "risk_score": 73,
+    "severity": "high",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 3 – Cyber Recovery & Recovery Operations",
+      "Druva Category: Recovery",
+      "Druva Category: Destination Change",
+      "Druva Category: Cyber Recovery"
+    ],
+    "version": 1,
+    "index": [
+      "logs-druva.event-*"
+    ],
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 3 – Cyber Recovery & Recovery Operations",
+      "phase": "Phase 1",
+      "primary_data_source": "logs-druva.event-*",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; Backup/Recovery",
+      "customer_usecase": "Detects changes to a recovery or restore target that may alter where protected data is recovered."
+    },
+    "type": "query",
+    "language": "kuery",
+    "query": "(\n  message:*recover*\n  or message:*restore*\n)\nand (\n  message:*target*\n  or message:*destination*\n)\nand (\n  message:*changed*\n  or message:*updated*\n  or message:*modified*\n)"
+  }
+}

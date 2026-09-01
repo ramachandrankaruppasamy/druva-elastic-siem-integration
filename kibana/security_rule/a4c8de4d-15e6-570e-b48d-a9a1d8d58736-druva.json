@@ -1,0 +1,49 @@
+{
+  "id": "a4c8de4d-15e6-570e-b48d-a9a1d8d58736-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "a4c8de4d-15e6-570e-b48d-a9a1d8d58736",
+    "name": "Druva - Backup Schedule Changed",
+    "description": "Detects Druva administrative events that indicate a backup schedule was changed.",
+    "risk_score": 47,
+    "severity": "medium",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 2 – Backup Operations",
+      "Druva Category: Backup",
+      "Druva Category: Configuration",
+      "Druva Category: Schedule Change"
+    ],
+    "version": 1,
+    "index": [
+      "logs-druva.event-*"
+    ],
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 2 – Backup Operations",
+      "phase": "Phase 1",
+      "primary_data_source": "logs-druva.event-*",
+      "external_dependency": "None identified in exported rule",
+      "team_to_target": "SOC; Backup/Recovery; Security Engineering/GRC",
+      "customer_usecase": "Detects Druva administrative events that indicate a backup schedule was changed."
+    },
+    "type": "query",
+    "language": "kuery",
+    "query": "druva.feature:\"Admin Event\"\nand (\n  druva.event_type:*Schedule*\n  or message:*schedule*\n)\nand (message:*backup* or druva.event_type:*Backup*)"
+  }
+}

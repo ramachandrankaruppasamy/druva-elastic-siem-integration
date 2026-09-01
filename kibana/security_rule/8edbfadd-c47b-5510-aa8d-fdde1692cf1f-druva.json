@@ -1,0 +1,46 @@
+{
+  "id": "8edbfadd-c47b-5510-aa8d-fdde1692cf1f-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "8edbfadd-c47b-5510-aa8d-fdde1692cf1f",
+    "name": "Druva - Consecutive Recovery Failures",
+    "description": "Detects a resource experiencing three or more restore or recovery failures during the rule look-back window.",
+    "risk_score": 73,
+    "severity": "high",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 3 – Cyber Recovery & Recovery Operations",
+      "Druva Category: Recovery",
+      "Druva Category: Repeated Failure",
+      "Druva Category: Cyber Recovery"
+    ],
+    "version": 1,
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 3 – Cyber Recovery & Recovery Operations",
+      "phase": "Phase 1",
+      "primary_data_source": "Druva events in Elastic",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; Backup/Recovery",
+      "customer_usecase": "Detects a resource experiencing three or more restore or recovery failures during the rule look-back window."
+    },
+    "type": "esql",
+    "language": "esql",
+    "query": "FROM logs-druva.event-*\n| EVAL event_text = TO_LOWER(COALESCE(TO_STRING(message), TO_STRING(druva.event_type), \"\"))\n| EVAL state = TO_LOWER(COALESCE(TO_STRING(event.outcome), TO_STRING(event.outcome), \"\"))\n| EVAL resource = COALESCE(TO_STRING(druva.resource.name), TO_STRING(druva.resource.name), TO_STRING(druva.profile.name))\n| EVAL event_time = @timestamp\n| WHERE resource IS NOT NULL\n    AND (event_text LIKE \"*recover*\" OR event_text LIKE \"*restore*\")\n    AND (event_text LIKE \"*fail*\" OR state == \"failure\")\n| STATS failure_count = COUNT(*), first_failure = MIN(event_time), last_failure = MAX(event_time),\n        failure_reasons = VALUES(TO_STRING(message))\n  BY resource\n| WHERE failure_count >= 3"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "id": "05279f4c-aee0-556c-b4b5-b163a65ab2aa-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "05279f4c-aee0-556c-b4b5-b163a65ab2aa",
+    "name": "Druva - Protected Workload Removed",
+    "description": "Detects administrative activity indicating that a protected workload or resource was removed from Druva protection.",
+    "risk_score": 73,
+    "severity": "high",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 2 – Backup Operations",
+      "Druva Category: Backup",
+      "Druva Category: Protected Workload",
+      "Druva Category: Removal",
+      "Druva Category: Impact"
+    ],
+    "version": 1,
+    "index": [
+      "logs-druva.event-*"
+    ],
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 2 – Backup Operations",
+      "phase": "Phase 1",
+      "primary_data_source": "logs-druva.event-*",
+      "external_dependency": "None identified in exported rule",
+      "team_to_target": "SOC; Backup/Recovery",
+      "customer_usecase": "Detects administrative activity indicating that a protected workload or resource was removed from Druva protection."
+    },
+    "type": "query",
+    "language": "kuery",
+    "query": "druva.feature:\"Admin Event\"\nand (\n  message:*workload*\n  or message:*resource*\n  or druva.resource.name:*\n)\nand (\n  message:*removed*\n  or message:*unprotected*\n  or message:*deleted from*\n)"
+  }
+}

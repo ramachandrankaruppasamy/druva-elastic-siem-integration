@@ -1,0 +1,51 @@
+{
+  "id": "7d75caea-3aef-52fb-b761-9771bab72680-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "7d75caea-3aef-52fb-b761-9771bab72680",
+    "name": "Druva - Webhook Configuration Modified",
+    "description": "Detects updates to an existing Druva webhook configuration, including changes to its destination, authentication, provider, or name.",
+    "risk_score": 73,
+    "severity": "high",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 1 – Administrator & Identity",
+      "Druva Category: Administrator",
+      "Druva Category: Integration",
+      "Druva Category: Webhook",
+      "Druva Category: Security Monitoring",
+      "Druva Category: Configuration"
+    ],
+    "version": 1,
+    "index": [
+      "logs-druva.event-*"
+    ],
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 1 – Administrator & Identity",
+      "phase": "Phase 1",
+      "primary_data_source": "logs-druva.event-*",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; IAM/Identity; Security Engineering/GRC",
+      "customer_usecase": "Detects updates to an existing Druva webhook configuration, including changes to its destination, authentication, provider, or name."
+    },
+    "type": "query",
+    "language": "kuery",
+    "query": "druva.feature:\"Admin Event\"\nand druva.event_type:\"Webhook Configuration Updated\""
+  }
+}

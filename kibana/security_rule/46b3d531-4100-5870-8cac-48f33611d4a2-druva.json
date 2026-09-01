@@ -1,0 +1,44 @@
+{
+  "id": "46b3d531-4100-5870-8cac-48f33611d4a2-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "46b3d531-4100-5870-8cac-48f33611d4a2",
+    "name": "Druva - Audit Event With Missing Source IP",
+    "description": "Detects audit event with missing source ip in Druva Data Security Cloud events.",
+    "risk_score": 21,
+    "severity": "low",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 7 – Compliance & Audit",
+      "Druva Category: Security Monitoring"
+    ],
+    "version": 1,
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 7 – Compliance & Audit",
+      "phase": "Phase 1",
+      "primary_data_source": "Druva events in Elastic",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment",
+      "team_to_target": "SOC; Security Engineering/GRC",
+      "customer_usecase": "Detects audit event with missing source ip in Druva Data Security Cloud events."
+    },
+    "type": "esql",
+    "language": "esql",
+    "query": "FROM logs-druva.event-*\n| WHERE druva.event_type == \"Admin Audit Trail\" AND source.ip IS NULL\n| KEEP @timestamp, event.id, event.action, event.outcome, event.severity, druva.feature, druva.event_type, user.name, user.email, source.ip, druva.resource.name, message\n| SORT @timestamp DESC\n| LIMIT 100"
+  }
+}

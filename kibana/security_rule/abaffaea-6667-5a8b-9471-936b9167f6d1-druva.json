@@ -1,0 +1,55 @@
+{
+  "id": "abaffaea-6667-5a8b-9471-936b9167f6d1-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "abaffaea-6667-5a8b-9471-936b9167f6d1",
+    "name": "Druva - Backup Job Failure Spike",
+    "description": "Detects a high volume of backup failures in a short period, which may indicate widespread service disruption, ransomware impact, API throttling, or infrastructure failure.",
+    "risk_score": 47,
+    "severity": "medium",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 2 – Backup Operations",
+      "Druva Category: Backup",
+      "Druva Category: Availability",
+      "Druva Category: Failure Spike",
+      "Druva Category: Operations",
+      "Druva: Review Threshold"
+    ],
+    "version": 1,
+    "index": [
+      "logs-druva.event-*"
+    ],
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 2 – Backup Operations",
+      "phase": "Phase 1",
+      "primary_data_source": "logs-druva.event-*",
+      "external_dependency": "None identified in exported rule",
+      "team_to_target": "SOC; Backup/Recovery; Detection & Response",
+      "customer_usecase": "Detects a high volume of backup failures in a short period, which may indicate widespread service disruption, ransomware impact, API throttling, or infrastructure failure."
+    },
+    "type": "threshold",
+    "language": "kuery",
+    "query": "(druva.feature:\"Alerts And Notifications\" or druva.feature:\"Admin Event\")\nand (\n  event.outcome:\"failure\"\n  or druva.backup.status:\"failure\"\n)",
+    "threshold": {
+      "field": [],
+      "value": 10
+    }
+  }
+}

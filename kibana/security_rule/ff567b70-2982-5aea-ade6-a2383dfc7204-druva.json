@@ -1,0 +1,47 @@
+{
+  "id": "ff567b70-2982-5aea-ade6-a2383dfc7204-druva",
+  "type": "security-rule",
+  "attributes": {
+    "rule_id": "ff567b70-2982-5aea-ade6-a2383dfc7204",
+    "name": "Druva - Rare Administrator Login",
+    "description": "Detects administrator/IP/location combinations observed no more than twice within the baseline window and explains why the login is considered rare.",
+    "risk_score": 47,
+    "severity": "medium",
+    "enabled": false,
+    "interval": "5m",
+    "from": "now-6m",
+    "to": "now",
+    "author": [
+      "Druva"
+    ],
+    "license": "Elastic License v2",
+    "references": [],
+    "false_positives": [],
+    "threat": [],
+    "exceptions_list": [],
+    "actions": [],
+    "tags": [
+      "Druva",
+      "Druva Security",
+      "Druva Phase 1",
+      "Druva Detection Pack 0 – Core Cyber Resilience",
+      "Druva Category: Authentication",
+      "Druva Category: SOC",
+      "Druva Category: Identity",
+      "Druva Category: Behavioral Analytics"
+    ],
+    "version": 1,
+    "meta": {
+      "from": "Druva Detection Policies Phase 1",
+      "pack": "Druva Detection Pack 0 – Core Cyber Resilience",
+      "phase": "Phase 1",
+      "primary_data_source": "Druva events in Elastic",
+      "external_dependency": "Threat intelligence / VPN-TOR enrichment; GeoIP/location enrichment",
+      "team_to_target": "SOC; IAM/Identity",
+      "customer_usecase": "Detects administrator/IP/location combinations observed no more than twice within the baseline window and explains why the login is considered rare."
+    },
+    "type": "esql",
+    "language": "esql",
+    "query": "FROM logs-druva.event-*\n| WHERE druva.feature == \"Admin Event\"\n    AND druva.event_type == \"Admin Login\"\n\n| EVAL admin = COALESCE(\n    TO_STRING(user.name),\n    TO_STRING(user.email)\n  )\n\n| EVAL login_ip = COALESCE(\n    TO_STRING(source.ip),\n    TO_STRING(source.ip),\n    TO_STRING(source.ip)\n  )\n\n| EVAL location =\n    COALESCE(\n      TO_STRING(source.ip),\n      \"Unknown\"\n    )\n\n| EVAL event_time =\n    @timestamp\n\n| EVAL login_hour =\n    DATE_EXTRACT(\n      \"hour_of_day\",\n      event_time\n    )\n\n| EVAL outside_hours =\n    login_hour < 7\n    OR login_hour >= 19\n\n| WHERE admin IS NOT NULL\n    AND login_ip IS NOT NULL\n\n| STATS\n    occurrence_count = COUNT(*),\n\n    first_seen =\n      MIN(event_time),\n\n    last_seen =\n      MAX(event_time),\n\n    login_hours =\n      VALUES(login_hour),\n\n    outside_hours_count =\n      COUNT(*) WHERE outside_hours,\n\n    representative_event_type =\n      FIRST(druva.event_type, event_time),\n\n    representative_event_details =\n      FIRST(\n        TO_STRING(message),\n        event_time\n      )\n\n  BY admin, login_ip, location\n\n| WHERE occurrence_count <= 2\n\n| EVAL rarity_reason = CASE(\n    occurrence_count == 1\n      AND outside_hours_count > 0,\n      \"First observed IP/location + outside normal hours\",\n\n    occurrence_count == 1,\n      \"First observed IP/location\",\n\n    occurrence_count == 2\n      AND outside_hours_count > 0,\n      \"Rare IP/location + outside normal hours\",\n\n    \"Rare IP/location combination\"\n  )"
+  }
+}
