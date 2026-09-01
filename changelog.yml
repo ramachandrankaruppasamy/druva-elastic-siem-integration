@@ -1,4 +1,5 @@
 - version: "0.0.1"
   changes:
-    - description: Initial Druva integration package.
+    - description: Initial Druva integration package for Elastic Security.
       type: enhancement
+      link: https://github.com/ramachandrankaruppasamy/druva-elastic-siem-integration/issues/1
