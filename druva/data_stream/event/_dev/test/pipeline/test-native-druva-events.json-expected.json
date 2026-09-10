@@ -1,0 +1,1213 @@
+{
+    "expected": [
+        {
+            "@timestamp": "2026-08-25T21:00:39.000Z",
+            "druva": {
+                "customer": {
+                    "id": "adb02a82-c484-4bba-9e29-b2f4d1a4dba5-7915"
+                },
+                "event_type": "Admin Login",
+                "feature": "Admin Event",
+                "operation": {},
+                "resource": {}
+            },
+            "event": {
+                "action": "Admin Login",
+                "category": [
+                    "authentication"
+                ],
+                "dataset": "druva.event",
+                "id": "5631203742",
+                "kind": "event",
+                "module": "druva",
+                "outcome": "success",
+                "severity": 6,
+                "type": [
+                    "start"
+                ]
+            },
+            "message": "https://cloud.druva.com/admin/:Success",
+            "observer": {
+                "product": "Druva Data Security Cloud",
+                "vendor": "Druva"
+            },
+            "source": {
+                "ip": "192.0.2.10"
+            },
+            "user": {
+                "email": "sourabh.bhat+dcp@druva.com",
+                "name": "sourabh.bhat+dcp@druva.com"
+            }
+        },
+        {
+            "@timestamp": "2026-08-25T08:31:58.000Z",
+            "druva": {
+                "customer": {
+                    "id": "e0663cd2-1ff2-46dc-86fe-80de3bccfe74-10608"
+                },
+                "event_type": "Admin Login",
+                "feature": "Admin Event",
+                "resource": {}
+            },
+            "event": {
+                "action": "Admin Login",
+                "category": [
+                    "authentication"
+                ],
+                "dataset": "druva.event",
+                "kind": "event",
+                "module": "druva",
+                "outcome": "failure",
+                "severity": 3,
+                "type": [
+                    "start"
+                ]
+            },
+            "observer": {
+                "product": "Druva Data Security Cloud",
+                "vendor": "Druva"
+            },
+            "source": {
+                "ip": "192.0.2.20"
+            },
+            "user": {
+                "email": "suryakanth.yalgar+CU185@druva.com",
+                "name": "suryakanth.yalgar+CU185@druva.com"
+            }
+        },
+        {
+            "@timestamp": "2026-08-25T21:45:01.000Z",
+            "druva": {
+                "backup": {
+                    "status": "Failed"
+                },
+                "customer": {
+                    "id": "e0663cd2-1ff2-46dc-86fe-80de3bccfe74-10608"
+                },
+                "event_type": "Backup",
+                "feature": "Backup And Restore",
+                "operation": {
+                    "bytes_transferred": 0,
+                    "file_count": 0,
+                    "files_missed": 0,
+                    "group_id": "4981136532",
+                    "size_bytes": 0,
+                    "system_app_settings": true,
+                    "type": "backup"
+                },
+                "profile": {
+                    "name": "vani_prof"
+                },
+                "resource": {
+                    "id": "25862632",
+                    "name": "DESKTOP-1R8HOSD"
+                }
+            },
+            "event": {
+                "action": "Backup",
+                "dataset": "druva.event",
+                "id": "5631430744",
+                "kind": "event",
+                "module": "druva",
+                "outcome": "failure",
+                "severity": 3
+            },
+            "message": "Total Backup Size:0, Files Backed up:0, Files Missed:0, System and App Settings:Yes, Error Details:Failed., Total Bytes Transferred:0, eventsGroupId:4981136532",
+            "observer": {
+                "product": "Druva Data Security Cloud",
+                "vendor": "Druva"
+            },
+            "source": {
+                "ip": "192.0.2.20"
+            },
+            "user": {
+                "target": {
+                    "email": "vani_pps@druva.org",
+                    "id": "18843501",
+                    "name": "vani_pps"
+                }
+            }
+        },
+        {
+            "@timestamp": "2026-08-24T01:58:44.000Z",
+            "druva": {
+                "customer": {
+                    "id": "e0663cd2-1ff2-46dc-86fe-80de3bccfe74-10608"
+                },
+                "event_type": "Restore",
+                "feature": "Backup And Restore",
+                "operation": {
+                    "bytes_transferred": 3812058900,
+                    "file_count": 32,
+                    "files_missed": 0,
+                    "group_id": "33969681",
+                    "size_bytes": 4073152474,
+                    "system_app_settings": false,
+                    "type": "restore"
+                },
+                "profile": {
+                    "name": "vani_prof"
+                },
+                "resource": {
+                    "id": "25862632",
+                    "name": "DESKTOP-1R8HOSD"
+                }
+            },
+            "event": {
+                "action": "Restore",
+                "dataset": "druva.event",
+                "id": "5620296580",
+                "kind": "event",
+                "module": "druva",
+                "outcome": "success",
+                "severity": 6
+            },
+            "message": "Total Restore Size:4073152474, Files Restored:32, Files Missed:0, System and App Settings:No, Total Bytes Transferred:3812058900, eventsGroupId:33969681",
+            "observer": {
+                "product": "Druva Data Security Cloud",
+                "vendor": "Druva"
+            },
+            "source": {
+                "ip": "192.0.2.30"
+            },
+            "user": {
+                "target": {
+                    "email": "vani_pps@druva.org",
+                    "id": "18843501",
+                    "name": "vani_pps"
+                }
+            }
+        },
+        {
+            "@timestamp": "2026-08-25T12:57:39.000Z",
+            "druva": {
+                "customer": {
+                    "id": "adb02a82-c484-4bba-9e29-b2f4d1a4dba5-7915"
+                },
+                "event_type": "Download",
+                "feature": "Backup And Restore",
+                "operation": {
+                    "bytes_transferred": 4896,
+                    "file_count": 1,
+                    "files_missed": 0,
+                    "group_id": "7615419544",
+                    "size_bytes": 4896,
+                    "system_app_settings": true,
+                    "type": "download"
+                },
+                "profile": {
+                    "name": "Google Workspace"
+                },
+                "resource": {
+                    "id": "4243344",
+                    "name": "Gmail"
+                }
+            },
+            "event": {
+                "action": "Download",
+                "dataset": "druva.event",
+                "id": "5628781446",
+                "kind": "event",
+                "module": "druva",
+                "outcome": "success",
+                "severity": 6
+            },
+            "message": "Total Downloaded Size:4896, Files Downloaded:1, Files Missed:0, System and App Settings:Yes, Total Bytes Transferred:4896, eventsGroupId:7615419544",
+            "observer": {
+                "product": "Druva Data Security Cloud",
+                "vendor": "Druva"
+            },
+            "user": {
+                "target": {
+                    "email": "carmen.krueger@druvasedemo-gs.co.in",
+                    "id": "3209908",
+                    "name": "Carmen Krueger"
+                }
+            }
+        },
+        {
+            "@timestamp": "2026-08-25T07:49:23.000Z",
+            "druva": {
+                "customer": {
+                    "id": "128a5df5-e891-48b1-8e8c-68e95b9081a2-4273"
+                },
+                "event_type": "Alert",
+                "feature": "Alerts And Notifications",
+                "operation": {
+                    "group_id": "42235829"
+                },
+                "resource": {}
+            },
+            "event": {
+                "action": "Alert",
+                "dataset": "druva.event",
+                "id": "5627586894",
+                "kind": "event",
+                "module": "druva",
+                "severity": 4
+            },
+            "message": "Alert:Teams Backup Failed, Alert Description:Your Team Data was not backed up, see below for details., Source:omkarMay12, Details:[Team Metadata]: Backup time: Aug 25 2026 07:49, Reason: Unable to read file. Permission Denied Response Code: 404 Text:{\"error\":{\"code\":\"UnknownError\",\"message\":\"404 FILE NOT FOUND\",\"innerError\":{\"date\":\"2026-08-25T07:49:21\",\"request-id\":\"9c1b4b9b-9bf0-4a8c-a931-b106c2f9b665\",\"client-request-id\":\"02f60c78-9dc0-48fb-bfc4-0648f138f09e\"}}}., Alert Time: 1787644163, eventsGroupId:42235829",
+            "observer": {
+                "product": "Druva Data Security Cloud",
+                "vendor": "Druva"
+            },
+            "user": {
+                "name": "omkarMay12"
+            }
+        },
+        {
+            "@timestamp": "2026-08-25T20:57:57.000Z",
+            "druva": {
+                "customer": {
+                    "id": "128a5df5-e891-48b1-8e8c-68e95b9081a2-4273"
+                },
+                "event_type": "Alert Resolution",
+                "feature": "Alerts And Notifications",
+                "operation": {
+                    "group_id": "42235828"
+                },
+                "resource": {}
+            },
+            "event": {
+                "action": "Alert Resolution",
+                "dataset": "druva.event",
+                "id": "5631189492",
+                "kind": "event",
+                "module": "druva",
+                "severity": 4
+            },
+            "message": "Alert:Teams Backup Failed, Alert Description:Your Team Data was not backed up, see below for details., Source:omkar bulk incremental, Details:[Team Metadata]: Backup time: Aug 25 2026 20:57, Reason: Unable to read file. Permission Denied Response Code: 404 Text:{\"error\":{\"code\":\"UnknownError\",\"message\":\"404 FILE NOT FOUND\",\"innerError\":{\"date\":\"2026-08-25T20:57:47\",\"request-id\":\"356223df-6f11-4992-a1b5-fa5a307ede38\",\"client-request-id\":\"fa3994a0-c9fc-4625-9015-b8964a1b6605\"}}}., Alert Time: 1787691477.26, eventsGroupId:42235828",
+            "observer": {
+                "product": "Druva Data Security Cloud",
+                "vendor": "Druva"
+            },
+            "user": {
+                "name": "omkar bulk incremental"
+            }
+        },
+        {
+            "@timestamp": "2026-08-25T07:42:10.000Z",
+            "druva": {
+                "customer": {
+                    "id": "e0663cd2-1ff2-46dc-86fe-80de3bccfe74-10608"
+                },
+                "event_type": "Administrator Created",
+                "feature": "Admin Event",
+                "resource": {}
+            },
+            "event": {
+                "action": "Administrator Created",
+                "category": [
+                    "iam"
+                ],
+                "dataset": "druva.event",
+                "kind": "event",
+                "module": "druva",
+                "outcome": "success",
+                "severity": 2,
+                "type": [
+                    "user",
+                    "creation"
+                ]
+            },
+            "observer": {
+                "product": "Druva Data Security Cloud",
+                "vendor": "Druva"
+            },
+            "source": {
+                "ip": "192.0.2.20"
+            },
+            "user": {
+                "email": "sandeep.gaikwad+62@druva.com",
+                "id": "sandeep.gaikwad+62@druva.com",
+                "name": "Admin",
+                "target": {
+                    "email": "ganesh.shinde1+62@druva.com",
+                    "name": "GS View only admin"
+                }
+            }
+        },
+        {
+            "@timestamp": "2026-08-24T15:36:22.000Z",
+            "druva": {
+                "customer": {
+                    "id": "adb02a82-c484-4bba-9e29-b2f4d1a4dba5-7915"
+                },
+                "event_type": "Administrator Deleted",
+                "feature": "Admin Event",
+                "resource": {}
+            },
+            "event": {
+                "action": "Administrator Deleted",
+                "category": [
+                    "iam"
+                ],
+                "dataset": "druva.event",
+                "kind": "event",
+                "module": "druva",
+                "outcome": "success",
+                "severity": 2,
+                "type": [
+                    "user",
+                    "deletion"
+                ]
+            },
+            "observer": {
+                "product": "Druva Data Security Cloud",
+                "vendor": "Druva"
+            },
+            "source": {
+                "ip": "198.51.100.10"
+            },
+            "user": {
+                "email": "richard.storry+pristine@druva.com",
+                "id": "richard.storry+pristine@druva.com",
+                "name": "Admin",
+                "target": {
+                    "email": "flora.hopkins+dcp3@druva.com",
+                    "name": "Flora Hopkins"
+                }
+            }
+        },
+        {
+            "@timestamp": "2026-08-24T07:48:06.000Z",
+            "druva": {
+                "customer": {
+                    "id": "bed8d931-b764-487c-b0d8-3ae9ea3df094"
+                },
+                "event_type": "Administrator Disabled",
+                "feature": "Admin Event",
+                "resource": {}
+            },
+            "event": {
+                "action": "Administrator Disabled",
+                "category": [
+                    "iam"
+                ],
+                "dataset": "druva.event",
+                "kind": "event",
+                "module": "druva",
+                "outcome": "success",
+                "severity": 2,
+                "type": [
+                    "user",
+                    "change"
+                ]
+            },
+            "observer": {
+                "product": "Druva Data Security Cloud",
+                "vendor": "Druva"
+            },
+            "source": {
+                "ip": "198.51.100.20"
+            },
+            "user": {
+                "id": "JobExecutor",
+                "name": "System",
+                "target": {
+                    "email": "safe2@d.in",
+                    "name": "safe2"
+                }
+            }
+        },
+        {
+            "@timestamp": "2026-08-24T18:08:45.000Z",
+            "druva": {
+                "customer": {
+                    "id": "adb02a82-c484-4bba-9e29-b2f4d1a4dba5-7915"
+                },
+                "event_type": "Administrator Activated",
+                "feature": "Admin Event",
+                "resource": {}
+            },
+            "event": {
+                "action": "Administrator Activated",
+                "category": [
+                    "iam"
+                ],
+                "dataset": "druva.event",
+                "kind": "event",
+                "module": "druva",
+                "outcome": "success",
+                "severity": 2,
+                "type": [
+                    "user",
+                    "change"
+                ]
+            },
+            "observer": {
+                "product": "Druva Data Security Cloud",
+                "vendor": "Druva"
+            },
+            "source": {
+                "ip": "198.51.100.30"
+            },
+            "user": {
+                "email": "william.urban+dcp@druva.com",
+                "id": "william.urban+dcp@druva.com",
+                "name": "Admin",
+                "target": {
+                    "email": "ranga.rajagopalan@druva.com",
+                    "name": "Ranga Rajagopalan"
+                }
+            }
+        },
+        {
+            "@timestamp": "2026-08-20T22:29:04.000Z",
+            "druva": {
+                "change": {
+                    "count": 1,
+                    "fields": [
+                        "timezone"
+                    ]
+                },
+                "customer": {
+                    "id": "128a5df5-e891-48b1-8e8c-68e95b9081a2-4273"
+                },
+                "event_type": "Administrator Updated",
+                "feature": "Admin Event",
+                "resource": {}
+            },
+            "event": {
+                "action": "Administrator Updated",
+                "category": [
+                    "iam"
+                ],
+                "dataset": "druva.event",
+                "kind": "event",
+                "module": "druva",
+                "outcome": "success",
+                "severity": 5,
+                "type": [
+                    "user",
+                    "change"
+                ]
+            },
+            "observer": {
+                "product": "Druva Data Security Cloud",
+                "vendor": "Druva"
+            },
+            "source": {
+                "ip": "192.0.2.20"
+            },
+            "user": {
+                "email": "nilesh.patil@druva.com",
+                "id": "nilesh.patil@druva.com",
+                "name": "Admin",
+                "target": {
+                    "email": "nilesh.patil+isttz@druva.com",
+                    "name": "Nilesh"
+                }
+            }
+        },
+        {
+            "@timestamp": "2026-08-24T08:14:30.000Z",
+            "druva": {
+                "customer": {
+                    "id": "bed8d931-b764-487c-b0d8-3ae9ea3df094"
+                },
+                "event_type": "API Credentials Created",
+                "feature": "API",
+                "resource": {
+                    "name": "bdyw",
+                    "type": "api_credential"
+                },
+                "security": {
+                    "control": "api_credentials"
+                }
+            },
+            "event": {
+                "action": "API Credentials Created",
+                "category": [
+                    "configuration"
+                ],
+                "dataset": "druva.event",
+                "kind": "event",
+                "module": "druva",
+                "outcome": "success",
+                "severity": 5,
+                "type": [
+                    "creation"
+                ]
+            },
+            "observer": {
+                "product": "Druva Data Security Cloud",
+                "vendor": "Druva"
+            },
+            "source": {
+                "ip": "203.0.113.10"
+            },
+            "user": {
+                "email": "test_all_prod_dep0@d.in",
+                "id": "test_all_prod_dep0@d.in"
+            }
+        },
+        {
+            "@timestamp": "2026-08-25T04:39:54.000Z",
+            "druva": {
+                "change": {
+                    "count": 1,
+                    "fields": [
+                        "role"
+                    ]
+                },
+                "customer": {
+                    "id": "128a5df5-e891-48b1-8e8c-68e95b9081a2-4273"
+                },
+                "event_type": "API Credentials Updated",
+                "feature": "API",
+                "resource": {
+                    "name": "mericson-test",
+                    "type": "api_credential"
+                },
+                "security": {
+                    "control": "api_credentials",
+                    "current_state": "role=Product",
+                    "previous_state": "role=Druva Cloud"
+                }
+            },
+            "event": {
+                "action": "API Credentials Updated",
+                "category": [
+                    "configuration"
+                ],
+                "dataset": "druva.event",
+                "kind": "event",
+                "module": "druva",
+                "outcome": "success",
+                "severity": 5,
+                "type": [
+                    "change"
+                ]
+            },
+            "observer": {
+                "product": "Druva Data Security Cloud",
+                "vendor": "Druva"
+            },
+            "source": {
+                "ip": "192.0.2.30"
+            },
+            "user": {
+                "email": "amit.deshpande@druva.com",
+                "id": "amit.deshpande@druva.com"
+            }
+        },
+        {
+            "@timestamp": "2026-08-24T08:14:45.000Z",
+            "druva": {
+                "customer": {
+                    "id": "bed8d931-b764-487c-b0d8-3ae9ea3df094"
+                },
+                "event_type": "API Credentials Deleted",
+                "feature": "API",
+                "resource": {
+                    "name": "bdyw",
+                    "type": "api_credential"
+                },
+                "security": {
+                    "control": "api_credentials"
+                }
+            },
+            "event": {
+                "action": "API Credentials Deleted",
+                "category": [
+                    "configuration"
+                ],
+                "dataset": "druva.event",
+                "kind": "event",
+                "module": "druva",
+                "outcome": "success",
+                "severity": 5,
+                "type": [
+                    "deletion"
+                ]
+            },
+            "observer": {
+                "product": "Druva Data Security Cloud",
+                "vendor": "Druva"
+            },
+            "source": {
+                "ip": "203.0.113.10"
+            },
+            "user": {
+                "email": "test_all_prod_dep0@d.in",
+                "id": "test_all_prod_dep0@d.in"
+            }
+        },
+        {
+            "@timestamp": "2026-08-25T00:54:13.000Z",
+            "druva": {
+                "customer": {
+                    "id": "e0663cd2-1ff2-46dc-86fe-80de3bccfe74-10608"
+                },
+                "event_type": "Added To Quarantine Bay",
+                "feature": "Ransomware Recovery",
+                "resource": {
+                    "id": "0"
+                }
+            },
+            "event": {
+                "action": "Added To Quarantine Bay",
+                "dataset": "druva.event",
+                "kind": "event",
+                "module": "druva",
+                "outcome": "failure",
+                "severity": 0
+            },
+            "observer": {
+                "product": "Druva Data Security Cloud",
+                "vendor": "Druva"
+            },
+            "source": {
+                "ip": "192.0.2.30"
+            },
+            "user": {
+                "email": "vaishnavi.pande+62@druva.com",
+                "id": "vaishnavi.pande+62@druva.com"
+            }
+        },
+        {
+            "@timestamp": "2026-08-25T00:58:06.000Z",
+            "druva": {
+                "customer": {
+                    "id": "e0663cd2-1ff2-46dc-86fe-80de3bccfe74-10608"
+                },
+                "event_type": "Removed From Quarantine Bay",
+                "feature": "Ransomware Recovery",
+                "resource": {
+                    "id": "25862632",
+                    "name": "DESKTOP-1R8HOSD",
+                    "parent": {
+                        "name": "vani_pps"
+                    },
+                    "type": "Endpoint"
+                }
+            },
+            "event": {
+                "action": "Removed From Quarantine Bay",
+                "dataset": "druva.event",
+                "kind": "event",
+                "module": "druva",
+                "outcome": "success",
+                "severity": 0
+            },
+            "observer": {
+                "product": "Druva Data Security Cloud",
+                "vendor": "Druva"
+            },
+            "source": {
+                "ip": "192.0.2.30"
+            },
+            "user": {
+                "id": "prod_creds"
+            }
+        },
+        {
+            "@timestamp": "2026-08-23T02:32:07.000Z",
+            "druva": {
+                "customer": {
+                    "id": "adb02a82-c484-4bba-9e29-b2f4d1a4dba5-7915"
+                },
+                "event_type": "System Event",
+                "feature": "Unusual Data Activity",
+                "resource": {
+                    "id": "235706",
+                    "name": "PRI-VM-UDA",
+                    "parent": {
+                        "name": "pri-vcsa-01.acme.org"
+                    },
+                    "type": "VMware"
+                }
+            },
+            "event": {
+                "action": "System Event",
+                "dataset": "druva.event",
+                "kind": "event",
+                "module": "druva",
+                "severity": 4
+            },
+            "observer": {
+                "product": "Druva Data Security Cloud",
+                "vendor": "Druva"
+            }
+        },
+        {
+            "@timestamp": "2026-08-25T17:33:33.000Z",
+            "druva": {
+                "customer": {
+                    "id": "adb02a82-c484-4bba-9e29-b2f4d1a4dba5-7915"
+                },
+                "event_type": "Admin Audit Trail",
+                "feature": "Unusual Data Activity",
+                "file": {
+                    "created_count": 33166,
+                    "deleted_count": 33151,
+                    "encrypted_count": 0,
+                    "updated_count": 2201
+                },
+                "resource": {
+                    "id": "58370",
+                    "name": "LinFileServ01",
+                    "parent": {
+                        "name": "Druva SE DEV"
+                    },
+                    "type": "EC2"
+                },
+                "uda": {
+                    "type": [
+                        "Creation",
+                        "Deletion"
+                    ]
+                }
+            },
+            "event": {
+                "action": "Admin Audit Trail",
+                "category": [
+                    "file"
+                ],
+                "dataset": "druva.event",
+                "kind": "event",
+                "module": "druva",
+                "severity": 6,
+                "type": [
+                    "info"
+                ]
+            },
+            "observer": {
+                "product": "Druva Data Security Cloud",
+                "vendor": "Druva"
+            },
+            "user": {
+                "name": "Matt Rubin"
+            }
+        },
+        {
+            "@timestamp": "2026-08-20T07:30:29.000Z",
+            "druva": {
+                "customer": {
+                    "id": "128a5df5-e891-48b1-8e8c-68e95b9081a2-4273"
+                },
+                "event_type": "Webhook Configuration Created",
+                "feature": "Admin Event",
+                "resource": {},
+                "security": {
+                    "control": "webhook"
+                },
+                "webhook": {
+                    "auth_type": "APIKey",
+                    "name": "Dolphins_PPS",
+                    "provider": "CrowdStrike",
+                    "url": "https://d9ca77c3ea5b447b9666129454ad29df.ingest.us-2.crowdstrike.com/services/collector/raw"
+                }
+            },
+            "event": {
+                "action": "Webhook Configuration Created",
+                "category": [
+                    "configuration"
+                ],
+                "dataset": "druva.event",
+                "kind": "event",
+                "module": "druva",
+                "severity": 5,
+                "type": [
+                    "creation"
+                ]
+            },
+            "observer": {
+                "product": "Druva Data Security Cloud",
+                "vendor": "Druva"
+            },
+            "user": {
+                "email": "ashish.ravande+prod@druva.com",
+                "name": "ashish.ravande+prod@druva.com"
+            }
+        },
+        {
+            "@timestamp": "2026-08-25T07:53:25.000Z",
+            "druva": {
+                "change": {},
+                "customer": {
+                    "id": "61fb3522-a4c6-41f3-95c5-de964dd74a84"
+                },
+                "event_type": "Webhook Configuration Updated",
+                "feature": "Admin Event",
+                "resource": {},
+                "security": {
+                    "control": "webhook"
+                },
+                "webhook": {
+                    "auth_type": "APIKey",
+                    "current_auth_type": "APIKey",
+                    "name": "test 201",
+                    "previous_auth_type": "APIKey",
+                    "provider": "CrowdStrike",
+                    "url": "https://b8107722a54d4c4984ba8e245a16d271.ingest.us-2.crowdstrike.com/services/collector/raw"
+                }
+            },
+            "event": {
+                "action": "Webhook Configuration Updated",
+                "category": [
+                    "configuration"
+                ],
+                "dataset": "druva.event",
+                "kind": "event",
+                "module": "druva",
+                "severity": 5,
+                "type": [
+                    "change"
+                ]
+            },
+            "observer": {
+                "product": "Druva Data Security Cloud",
+                "vendor": "Druva"
+            },
+            "user": {
+                "email": "ajay_fips_realize@druva.org",
+                "name": "ajay_fips_realize@druva.org"
+            }
+        },
+        {
+            "@timestamp": "2026-08-20T07:30:42.000Z",
+            "druva": {
+                "customer": {
+                    "id": "128a5df5-e891-48b1-8e8c-68e95b9081a2-4273"
+                },
+                "event_type": "Webhook Configuration Deleted",
+                "feature": "Admin Event",
+                "resource": {},
+                "security": {
+                    "control": "webhook"
+                },
+                "webhook": {
+                    "auth_type": "APIKey",
+                    "name": "Dolphins_PPS",
+                    "provider": "CrowdStrike",
+                    "url": "https://d9ca77c3ea5b447b9666129454ad29df.ingest.us-2.crowdstrike.com/services/collector/raw"
+                }
+            },
+            "event": {
+                "action": "Webhook Configuration Deleted",
+                "category": [
+                    "configuration"
+                ],
+                "dataset": "druva.event",
+                "kind": "event",
+                "module": "druva",
+                "severity": 5,
+                "type": [
+                    "deletion"
+                ]
+            },
+            "observer": {
+                "product": "Druva Data Security Cloud",
+                "vendor": "Druva"
+            },
+            "user": {
+                "email": "ashish.ravande+prod@druva.com",
+                "name": "ashish.ravande+prod@druva.com"
+            }
+        },
+        {
+            "@timestamp": "2026-08-25T02:31:28.000Z",
+            "destination": {
+                "ip": "192.0.2.30"
+            },
+            "druva": {
+                "customer": {
+                    "id": "e0663cd2-1ff2-46dc-86fe-80de3bccfe74-10608"
+                },
+                "event_type": "Admin Restore",
+                "feature": "Data Access",
+                "operation": {
+                    "file_count": 32,
+                    "size_bytes": 3724585864,
+                    "type": "restore"
+                },
+                "resource": {
+                    "id": "25862632",
+                    "name": "DESKTOP-1R8HOSD"
+                }
+            },
+            "event": {
+                "action": "Admin Restore",
+                "category": [
+                    "file"
+                ],
+                "dataset": "druva.event",
+                "kind": "event",
+                "module": "druva",
+                "outcome": "success",
+                "severity": 4,
+                "type": [
+                    "access"
+                ]
+            },
+            "observer": {
+                "product": "Druva Data Security Cloud",
+                "vendor": "Druva"
+            },
+            "user": {
+                "name": "Vaishnavi EP"
+            }
+        },
+        {
+            "@timestamp": "2026-08-20T02:12:23.000Z",
+            "destination": {
+                "ip": "192.0.2.20"
+            },
+            "druva": {
+                "customer": {
+                    "id": "e0663cd2-1ff2-46dc-86fe-80de3bccfe74-10608"
+                },
+                "event_type": "Admin Download",
+                "feature": "Data Access",
+                "operation": {
+                    "size_bytes": 0,
+                    "type": "download"
+                },
+                "resource": {
+                    "id": "327756",
+                    "name": "Sid_backup"
+                }
+            },
+            "event": {
+                "action": "Admin Download",
+                "category": [
+                    "file"
+                ],
+                "dataset": "druva.event",
+                "kind": "event",
+                "module": "druva",
+                "outcome": "success",
+                "severity": 4,
+                "type": [
+                    "access"
+                ]
+            },
+            "observer": {
+                "product": "Druva Data Security Cloud",
+                "vendor": "Druva"
+            },
+            "user": {
+                "name": "Sandeep Gaikwad"
+            }
+        },
+        {
+            "@timestamp": "2026-08-25T08:31:58.000Z",
+            "druva": {
+                "customer": {
+                    "id": "e0663cd2-1ff2-46dc-86fe-80de3bccfe74-10608"
+                },
+                "event_type": "Password Verified",
+                "feature": "Admin Event",
+                "resource": {}
+            },
+            "event": {
+                "action": "Password Verified",
+                "category": [
+                    "authentication"
+                ],
+                "dataset": "druva.event",
+                "kind": "event",
+                "module": "druva",
+                "outcome": "failure",
+                "severity": 3,
+                "type": [
+                    "info"
+                ]
+            },
+            "observer": {
+                "product": "Druva Data Security Cloud",
+                "vendor": "Druva"
+            },
+            "source": {
+                "ip": "192.0.2.20"
+            },
+            "user": {
+                "email": "suryakanth.yalgar+CU185@druva.com"
+            }
+        },
+        {
+            "@timestamp": "2026-08-24T08:15:53.000Z",
+            "druva": {
+                "customer": {
+                    "id": "bed8d931-b764-487c-b0d8-3ae9ea3df094"
+                },
+                "event_type": "Failsafe Setting Updated",
+                "feature": "Admin Event",
+                "resource": {},
+                "security": {
+                    "control": "failsafe_for_administrators",
+                    "current_enabled": true,
+                    "current_state": "enabled"
+                }
+            },
+            "event": {
+                "action": "Failsafe Setting Updated",
+                "category": [
+                    "configuration"
+                ],
+                "dataset": "druva.event",
+                "kind": "event",
+                "module": "druva",
+                "outcome": "success",
+                "severity": 5,
+                "type": [
+                    "change"
+                ]
+            },
+            "observer": {
+                "product": "Druva Data Security Cloud",
+                "vendor": "Druva"
+            },
+            "source": {
+                "ip": "172.16.89.6"
+            },
+            "user": {
+                "email": "test_all_prod_dep0@d.in",
+                "id": "test_all_prod_dep0@d.in"
+            }
+        },
+        {
+            "@timestamp": "2026-08-24T01:51:03.000Z",
+            "druva": {
+                "customer": {
+                    "id": "e0663cd2-1ff2-46dc-86fe-80de3bccfe74-10608"
+                },
+                "event_type": "Scan Settings Updated",
+                "feature": "Admin Event",
+                "resource": {},
+                "security": {
+                    "control": "malware_scan",
+                    "current_enabled": true,
+                    "current_state": "av_scan=enabled, file_hash_scan=enabled, curated_iocs=disabled, light_scan=enabled, admin_skip_endpoints=enabled, admin_skip_servers=enabled, user_skip_endpoints=enabled, skip_device_replace=disabled"
+                }
+            },
+            "event": {
+                "action": "Scan Settings Updated",
+                "category": [
+                    "configuration"
+                ],
+                "dataset": "druva.event",
+                "kind": "event",
+                "module": "druva",
+                "outcome": "success",
+                "severity": 6,
+                "type": [
+                    "change"
+                ]
+            },
+            "observer": {
+                "product": "Druva Data Security Cloud",
+                "vendor": "Druva"
+            }
+        },
+        {
+            "@timestamp": "2026-09-09T00:00:00.000Z",
+            "druva": {
+                "change": {
+                    "count": 1,
+                    "fields": [
+                        "adminRole"
+                    ]
+                },
+                "customer": {
+                    "id": "fixture-admin-role-transition"
+                },
+                "event_type": "Administrator Updated",
+                "feature": "Admin Event",
+                "resource": {},
+                "security": {
+                    "control": "administrator_role",
+                    "current_state": "role=Druva Cloud",
+                    "previous_state": "role=Product"
+                }
+            },
+            "event": {
+                "action": "Administrator Updated",
+                "category": [
+                    "iam"
+                ],
+                "dataset": "druva.event",
+                "kind": "event",
+                "module": "druva",
+                "outcome": "success",
+                "severity": 5,
+                "type": [
+                    "user",
+                    "change"
+                ]
+            },
+            "observer": {
+                "product": "Druva Data Security Cloud",
+                "vendor": "Druva"
+            },
+            "source": {
+                "ip": "192.0.2.31"
+            },
+            "user": {
+                "email": "security.admin@example.com",
+                "id": "security.admin@example.com",
+                "name": "security.admin@example.com",
+                "target": {
+                    "email": "security.test.admin@example.com",
+                    "name": "Security Test Admin"
+                }
+            }
+        },
+        {
+            "@timestamp": "2026-09-09T00:01:00.000Z",
+            "druva": {
+                "change": {
+                    "count": 1,
+                    "fields": [
+                        "authType"
+                    ]
+                },
+                "customer": {
+                    "id": "fixture-webhook-auth-transition"
+                },
+                "event_type": "Webhook Configuration Updated",
+                "feature": "Admin Event",
+                "resource": {},
+                "security": {
+                    "control": "webhook",
+                    "current_state": "auth_type=APIKey",
+                    "previous_state": "auth_type=OAuth2"
+                },
+                "webhook": {
+                    "auth_type": "APIKey",
+                    "current_auth_type": "APIKey",
+                    "name": "Security SIEM",
+                    "previous_auth_type": "OAuth2",
+                    "provider": "Generic",
+                    "url": "https://example.invalid/events"
+                }
+            },
+            "event": {
+                "action": "Webhook Configuration Updated",
+                "category": [
+                    "configuration"
+                ],
+                "dataset": "druva.event",
+                "kind": "event",
+                "module": "druva",
+                "severity": 5,
+                "type": [
+                    "change"
+                ]
+            },
+            "observer": {
+                "product": "Druva Data Security Cloud",
+                "vendor": "Druva"
+            },
+            "source": {
+                "ip": "192.0.2.32"
+            },
+            "user": {
+                "email": "security.admin@example.com",
+                "name": "security.admin@example.com"
+            }
+        }
+    ]
+}

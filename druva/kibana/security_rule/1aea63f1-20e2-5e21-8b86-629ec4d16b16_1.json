@@ -1,0 +1,92 @@
+{
+    "attributes": {
+        "rule_id": "1aea63f1-20e2-5e21-8b86-629ec4d16b16",
+        "name": "Druva - Mass Backup Failures",
+        "description": "Detects a high concentration of backup failures affecting the same resource during a short interval.",
+        "risk_score": 73,
+        "severity": "high",
+        "interval": "5m",
+        "from": "now-16m",
+        "to": "now",
+        "author": [
+            "Druva"
+        ],
+        "license": "Elastic License v2",
+        "references": [],
+        "false_positives": [],
+        "threat": [],
+        "tags": [
+            "Druva",
+            "Data Source: Druva",
+            "Druva Security",
+            "Druva Detection Pack 0 \u2013 Core Cyber Resilience",
+            "Druva Phase 1",
+            "Druva Category: Cyber Resilience",
+            "Druva Category: Backup",
+            "Druva Category: SOC",
+            "Druva Category: Recovery",
+            "Druva Category: Backup Failure",
+            "Druva Category: Availability"
+        ],
+        "version": 1,
+        "type": "esql",
+        "language": "esql",
+        "query": "FROM logs-druva.event-*\n| WHERE druva.feature == \"Backup And Restore\"\n    AND druva.event_type == \"Backup\"\n    AND event.outcome == \"failure\"\n    AND event.id IS NOT NULL\n    AND druva.resource.name IS NOT NULL\n\n| STATS\n    failure_count = COUNT_DISTINCT(event.id),\n    affected_resources = COUNT_DISTINCT(druva.resource.name),\n    resources = VALUES(druva.resource.name),\n    first_failure = MIN(@timestamp),\n    last_failure = MAX(@timestamp)\n\n| WHERE failure_count >= 20\n    AND affected_resources >= 5",
+        "filters": [],
+        "risk_score_mapping": [],
+        "severity_mapping": [],
+        "setup": "",
+        "note": "",
+        "max_signals": 100,
+        "related_integrations": [
+            {
+                "package": "druva",
+                "version": "^0.3.0"
+            }
+        ],
+        "required_fields": [
+            {
+                "ecs": true,
+                "name": "@timestamp",
+                "type": "date"
+            },
+            {
+                "ecs": false,
+                "name": "druva.event_type",
+                "type": "keyword"
+            },
+            {
+                "ecs": false,
+                "name": "druva.resource.name",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "event.outcome",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "message",
+                "type": "match_only_text"
+            },
+            {
+                "ecs": true,
+                "name": "user.name",
+                "type": "keyword"
+            }
+        ],
+        "investigation_fields": {
+            "field_names": [
+                "@timestamp",
+                "event.outcome",
+                "druva.event_type",
+                "user.name",
+                "druva.resource.name",
+                "message"
+            ]
+        }
+    },
+    "id": "1aea63f1-20e2-5e21-8b86-629ec4d16b16_1",
+    "type": "security-rule"
+}

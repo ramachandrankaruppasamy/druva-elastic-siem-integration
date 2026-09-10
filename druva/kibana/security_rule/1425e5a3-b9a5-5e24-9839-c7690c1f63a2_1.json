@@ -1,0 +1,75 @@
+{
+    "attributes": {
+        "rule_id": "1425e5a3-b9a5-5e24-9839-c7690c1f63a2",
+        "name": "Druva - Backup Repository Deleted",
+        "description": "Detects deletion or removal of a backup repository or storage target.",
+        "risk_score": 73,
+        "severity": "high",
+        "interval": "5m",
+        "from": "now-6m",
+        "to": "now",
+        "author": [
+            "Druva"
+        ],
+        "license": "Elastic License v2",
+        "references": [],
+        "false_positives": [],
+        "threat": [],
+        "tags": [
+            "Druva",
+            "Data Source: Druva",
+            "Druva Security",
+            "Druva Detection Pack 2 \u2013 Backup Operations",
+            "Druva Phase 1",
+            "Druva Category: Backup",
+            "Druva Category: Repository",
+            "Druva Category: Deletion",
+            "Druva Category: Impact"
+        ],
+        "version": 1,
+        "index": [
+            "logs-druva.event-*"
+        ],
+        "type": "query",
+        "language": "kuery",
+        "query": "druva.feature:\"Admin Event\"\nand druva.event_type:\"Backup Repository Deleted\"",
+        "filters": [],
+        "risk_score_mapping": [],
+        "severity_mapping": [],
+        "setup": "",
+        "note": "",
+        "max_signals": 100,
+        "related_integrations": [
+            {
+                "package": "druva",
+                "version": "^0.3.0"
+            }
+        ],
+        "required_fields": [
+            {
+                "ecs": true,
+                "name": "@timestamp",
+                "type": "date"
+            },
+            {
+                "ecs": false,
+                "name": "druva.feature",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "message",
+                "type": "match_only_text"
+            }
+        ],
+        "investigation_fields": {
+            "field_names": [
+                "@timestamp",
+                "druva.feature",
+                "message"
+            ]
+        }
+    },
+    "id": "1425e5a3-b9a5-5e24-9839-c7690c1f63a2_1",
+    "type": "security-rule"
+}

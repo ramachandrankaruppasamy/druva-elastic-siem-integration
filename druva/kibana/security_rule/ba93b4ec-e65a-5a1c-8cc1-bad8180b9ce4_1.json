@@ -1,0 +1,114 @@
+{
+    "attributes": {
+        "rule_id": "ba93b4ec-e65a-5a1c-8cc1-bad8180b9ce4",
+        "name": "Druva - UDA Correlated With Backup Disablement",
+        "description": "Detects unusual data activity combined with backup disablement or pause for the same resource, indicating a potentially serious attempt to compromise data and recovery simultaneously.",
+        "risk_score": 99,
+        "severity": "critical",
+        "interval": "5m",
+        "from": "now-65m",
+        "to": "now",
+        "author": [
+            "Druva"
+        ],
+        "license": "Elastic License v2",
+        "references": [],
+        "false_positives": [],
+        "threat": [],
+        "tags": [
+            "Druva",
+            "Data Source: Druva",
+            "Druva Security",
+            "Druva Detection Pack 0 \u2013 Core Cyber Resilience",
+            "Druva Phase 1",
+            "Druva Category: Cyber Resilience",
+            "Druva Category: SOC",
+            "Druva Category: Ransomware",
+            "Druva Category: Backup",
+            "Druva Category: UDA",
+            "Druva Category: Correlation",
+            "Druva Category: Backup Disabled"
+        ],
+        "version": 1,
+        "type": "eql",
+        "language": "eql",
+        "query": "sequence by druva.resource.name with maxspan=60m\n  [ any where druva.uda.type != null ]\n  [ any where\n      druva.event_type in (\n        \"Backup Protection Disabled\",\n        \"Backup Protection Paused\",\n        \"Backup Protection Suspended\"\n      )\n  ]",
+        "filters": [],
+        "risk_score_mapping": [],
+        "severity_mapping": [],
+        "setup": "",
+        "note": "",
+        "max_signals": 100,
+        "related_integrations": [
+            {
+                "package": "druva",
+                "version": "^0.3.0"
+            }
+        ],
+        "required_fields": [
+            {
+                "ecs": true,
+                "name": "@timestamp",
+                "type": "date"
+            },
+            {
+                "ecs": false,
+                "name": "druva.alert.name",
+                "type": "keyword"
+            },
+            {
+                "ecs": false,
+                "name": "druva.event_type",
+                "type": "keyword"
+            },
+            {
+                "ecs": false,
+                "name": "druva.profile.name",
+                "type": "keyword"
+            },
+            {
+                "ecs": false,
+                "name": "druva.resource.name",
+                "type": "keyword"
+            },
+            {
+                "ecs": false,
+                "name": "druva.uda.type",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "message",
+                "type": "match_only_text"
+            },
+            {
+                "ecs": true,
+                "name": "user.id",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "user.name",
+                "type": "keyword"
+            }
+        ],
+        "investigation_fields": {
+            "field_names": [
+                "@timestamp",
+                "druva.event_type",
+                "user.name",
+                "druva.resource.name",
+                "druva.alert.name",
+                "druva.uda.type",
+                "druva.profile.name",
+                "message",
+                "user.id"
+            ]
+        },
+        "index": [
+            "logs-druva.event-*"
+        ]
+    },
+    "id": "ba93b4ec-e65a-5a1c-8cc1-bad8180b9ce4_1",
+    "type": "security-rule"
+}

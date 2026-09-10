@@ -1,0 +1,102 @@
+{
+    "attributes": {
+        "rule_id": "3ee7495f-f4bc-5f1d-afff-0d98b78c3181",
+        "name": "Druva - Backup Data Deletion Attempt",
+        "description": "Detects attempts to delete protected backup data, snapshots, restore points, or other recovery assets.",
+        "risk_score": 99,
+        "severity": "critical",
+        "interval": "5m",
+        "from": "now-6m",
+        "to": "now",
+        "author": [
+            "Druva"
+        ],
+        "license": "Elastic License v2",
+        "references": [],
+        "false_positives": [],
+        "threat": [],
+        "tags": [
+            "Druva",
+            "Data Source: Druva",
+            "Druva Security",
+            "Druva Detection Pack 0 \u2013 Core Cyber Resilience",
+            "Druva Phase 1",
+            "Druva Category: Cyber Resilience",
+            "Druva Category: SOC",
+            "Druva Category: Recovery",
+            "Druva Category: Backup Deletion",
+            "Druva Category: Ransomware",
+            "Druva Category: Impact",
+            "Druva Category: Backup"
+        ],
+        "version": 1,
+        "type": "query",
+        "language": "kuery",
+        "query": "druva.feature:\"Admin Event\"\nand druva.event_type:\"Backup Data Deletion Attempt\"",
+        "filters": [],
+        "risk_score_mapping": [],
+        "severity_mapping": [],
+        "setup": "",
+        "note": "",
+        "max_signals": 100,
+        "related_integrations": [
+            {
+                "package": "druva",
+                "version": "^0.3.0"
+            }
+        ],
+        "required_fields": [
+            {
+                "ecs": true,
+                "name": "@timestamp",
+                "type": "date"
+            },
+            {
+                "ecs": false,
+                "name": "druva.event_type",
+                "type": "keyword"
+            },
+            {
+                "ecs": false,
+                "name": "druva.profile.name",
+                "type": "keyword"
+            },
+            {
+                "ecs": false,
+                "name": "druva.resource.name",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "message",
+                "type": "match_only_text"
+            },
+            {
+                "ecs": true,
+                "name": "user.id",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "user.name",
+                "type": "keyword"
+            }
+        ],
+        "investigation_fields": {
+            "field_names": [
+                "@timestamp",
+                "druva.event_type",
+                "user.name",
+                "druva.resource.name",
+                "druva.profile.name",
+                "message",
+                "user.id"
+            ]
+        },
+        "index": [
+            "logs-druva.event-*"
+        ]
+    },
+    "id": "3ee7495f-f4bc-5f1d-afff-0d98b78c3181_1",
+    "type": "security-rule"
+}

@@ -1,0 +1,81 @@
+{
+    "attributes": {
+        "rule_id": "6f786ef7-5c7f-59f9-8c41-6d7efd24921e",
+        "name": "Druva - Recovery Started Immediately After UDA Alert",
+        "description": "Detects unusual data activity followed by restore or recovery activity for the same resource within 60 minutes.",
+        "risk_score": 99,
+        "severity": "critical",
+        "interval": "5m",
+        "from": "now-65m",
+        "to": "now",
+        "author": [
+            "Druva"
+        ],
+        "license": "Elastic License v2",
+        "references": [],
+        "false_positives": [],
+        "threat": [],
+        "tags": [
+            "Druva",
+            "Data Source: Druva",
+            "Druva Security",
+            "Druva Detection Pack 3 \u2013 Cyber Recovery & Recovery Operations",
+            "Druva Phase 1",
+            "Druva Category: Recovery",
+            "Druva Category: UDA",
+            "Druva Category: Correlation",
+            "Druva Category: Cyber Recovery"
+        ],
+        "version": 1,
+        "index": [
+            "logs-druva.event-*"
+        ],
+        "type": "eql",
+        "language": "eql",
+        "query": "sequence by druva.resource.name with maxspan=60m\n  [ any where druva.uda.type != null ]\n  [ any where druva.operation.type in (\"restore\", \"rollback\") ]",
+        "filters": [],
+        "risk_score_mapping": [],
+        "severity_mapping": [],
+        "setup": "",
+        "note": "",
+        "max_signals": 100,
+        "related_integrations": [
+            {
+                "package": "druva",
+                "version": "^0.3.0"
+            }
+        ],
+        "required_fields": [
+            {
+                "ecs": true,
+                "name": "@timestamp",
+                "type": "date"
+            },
+            {
+                "ecs": false,
+                "name": "druva.event_type",
+                "type": "keyword"
+            },
+            {
+                "ecs": false,
+                "name": "druva.resource.name",
+                "type": "keyword"
+            },
+            {
+                "ecs": false,
+                "name": "druva.uda.type",
+                "type": "keyword"
+            }
+        ],
+        "investigation_fields": {
+            "field_names": [
+                "@timestamp",
+                "druva.event_type",
+                "druva.resource.name",
+                "druva.uda.type"
+            ]
+        }
+    },
+    "id": "6f786ef7-5c7f-59f9-8c41-6d7efd24921e_1",
+    "type": "security-rule"
+}

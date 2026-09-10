@@ -1,0 +1,123 @@
+{
+    "attributes": {
+        "rule_id": "14b94398-cf66-5148-8058-115fc5ecac00",
+        "name": "Druva - Security Setting Disabled",
+        "description": "Detects security setting disabled in Druva Data Security Cloud events.",
+        "risk_score": 99,
+        "severity": "critical",
+        "interval": "5m",
+        "from": "now-6m",
+        "to": "now",
+        "author": [
+            "Druva"
+        ],
+        "license": "Elastic License v2",
+        "references": [],
+        "false_positives": [],
+        "threat": [],
+        "tags": [
+            "Druva",
+            "Data Source: Druva",
+            "Druva Security",
+            "Druva Detection Pack 6 \u2013 Security Configuration & Integrations",
+            "Druva Phase 1",
+            "Druva Category: Security Monitoring"
+        ],
+        "version": 1,
+        "type": "esql",
+        "language": "esql",
+        "query": "FROM logs-druva.event-*\n| WHERE druva.security.impact == \"reduced\"\n    AND (\n      druva.security.control == \"mfa\"\n      OR druva.security.control == \"geofencing\"\n      OR druva.security.control == \"failsafe_for_administrators\"\n    )",
+        "filters": [],
+        "risk_score_mapping": [],
+        "severity_mapping": [],
+        "setup": "",
+        "note": "",
+        "max_signals": 100,
+        "related_integrations": [
+            {
+                "package": "druva",
+                "version": "^0.3.0"
+            }
+        ],
+        "required_fields": [
+            {
+                "ecs": true,
+                "name": "@timestamp",
+                "type": "date"
+            },
+            {
+                "ecs": false,
+                "name": "druva.event_type",
+                "type": "keyword"
+            },
+            {
+                "ecs": false,
+                "name": "druva.feature",
+                "type": "keyword"
+            },
+            {
+                "ecs": false,
+                "name": "druva.resource.name",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "event.action",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "event.id",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "event.outcome",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "event.severity",
+                "type": "long"
+            },
+            {
+                "ecs": true,
+                "name": "message",
+                "type": "match_only_text"
+            },
+            {
+                "ecs": true,
+                "name": "source.ip",
+                "type": "ip"
+            },
+            {
+                "ecs": true,
+                "name": "user.email",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "user.name",
+                "type": "keyword"
+            }
+        ],
+        "investigation_fields": {
+            "field_names": [
+                "@timestamp",
+                "event.id",
+                "event.action",
+                "event.outcome",
+                "event.severity",
+                "druva.feature",
+                "druva.event_type",
+                "user.name",
+                "user.email",
+                "source.ip",
+                "druva.resource.name",
+                "message"
+            ]
+        }
+    },
+    "id": "14b94398-cf66-5148-8058-115fc5ecac00_1",
+    "type": "security-rule"
+}

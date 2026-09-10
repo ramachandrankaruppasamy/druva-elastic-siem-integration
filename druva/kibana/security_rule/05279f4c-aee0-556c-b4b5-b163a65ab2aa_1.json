@@ -1,0 +1,81 @@
+{
+    "attributes": {
+        "rule_id": "05279f4c-aee0-556c-b4b5-b163a65ab2aa",
+        "name": "Druva - Protected Workload Removed",
+        "description": "Detects administrative activity indicating that a protected workload or resource was removed from Druva protection.",
+        "risk_score": 73,
+        "severity": "high",
+        "interval": "5m",
+        "from": "now-6m",
+        "to": "now",
+        "author": [
+            "Druva"
+        ],
+        "license": "Elastic License v2",
+        "references": [],
+        "false_positives": [],
+        "threat": [],
+        "tags": [
+            "Druva",
+            "Data Source: Druva",
+            "Druva Security",
+            "Druva Detection Pack 2 \u2013 Backup Operations",
+            "Druva Phase 1",
+            "Druva Category: Backup",
+            "Druva Category: Protected Workload",
+            "Druva Category: Removal",
+            "Druva Category: Impact"
+        ],
+        "version": 1,
+        "index": [
+            "logs-druva.event-*"
+        ],
+        "type": "query",
+        "language": "kuery",
+        "query": "druva.feature:\"Admin Event\"\nand (\n  druva.event_type:\"Protected Workload Removed\"\n  or druva.event_type:\"Workload Removed\"\n)",
+        "filters": [],
+        "risk_score_mapping": [],
+        "severity_mapping": [],
+        "setup": "",
+        "note": "",
+        "max_signals": 100,
+        "related_integrations": [
+            {
+                "package": "druva",
+                "version": "^0.3.0"
+            }
+        ],
+        "required_fields": [
+            {
+                "ecs": true,
+                "name": "@timestamp",
+                "type": "date"
+            },
+            {
+                "ecs": false,
+                "name": "druva.feature",
+                "type": "keyword"
+            },
+            {
+                "ecs": false,
+                "name": "druva.resource.name",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "message",
+                "type": "match_only_text"
+            }
+        ],
+        "investigation_fields": {
+            "field_names": [
+                "@timestamp",
+                "druva.feature",
+                "druva.resource.name",
+                "message"
+            ]
+        }
+    },
+    "id": "05279f4c-aee0-556c-b4b5-b163a65ab2aa_1",
+    "type": "security-rule"
+}

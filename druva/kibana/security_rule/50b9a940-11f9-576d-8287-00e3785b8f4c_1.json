@@ -1,0 +1,126 @@
+{
+    "attributes": {
+        "rule_id": "50b9a940-11f9-576d-8287-00e3785b8f4c",
+        "name": "Druva - Administrative Data Download",
+        "description": "Detects administrative data download in Druva Data Security Cloud events.",
+        "risk_score": 73,
+        "severity": "high",
+        "interval": "5m",
+        "from": "now-6m",
+        "to": "now",
+        "author": [
+            "Druva"
+        ],
+        "license": "Elastic License v2",
+        "references": [],
+        "false_positives": [],
+        "threat": [],
+        "tags": [
+            "Druva",
+            "Data Source: Druva",
+            "Druva Security",
+            "Druva Detection Pack 5 \u2013 Data Access & Insider Risk",
+            "Druva Phase 1",
+            "Druva Category: Security Monitoring"
+        ],
+        "version": 1,
+        "type": "query",
+        "language": "kuery",
+        "query": "druva.feature:\"Data Access\"\nand druva.event_type:\"Admin Download\"",
+        "filters": [],
+        "risk_score_mapping": [],
+        "severity_mapping": [],
+        "setup": "",
+        "note": "",
+        "max_signals": 100,
+        "related_integrations": [
+            {
+                "package": "druva",
+                "version": "^0.3.0"
+            }
+        ],
+        "required_fields": [
+            {
+                "ecs": true,
+                "name": "@timestamp",
+                "type": "date"
+            },
+            {
+                "ecs": false,
+                "name": "druva.event_type",
+                "type": "keyword"
+            },
+            {
+                "ecs": false,
+                "name": "druva.feature",
+                "type": "keyword"
+            },
+            {
+                "ecs": false,
+                "name": "druva.resource.name",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "event.action",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "event.id",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "event.outcome",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "event.severity",
+                "type": "long"
+            },
+            {
+                "ecs": true,
+                "name": "message",
+                "type": "match_only_text"
+            },
+            {
+                "ecs": true,
+                "name": "source.ip",
+                "type": "ip"
+            },
+            {
+                "ecs": true,
+                "name": "user.email",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "user.name",
+                "type": "keyword"
+            }
+        ],
+        "investigation_fields": {
+            "field_names": [
+                "@timestamp",
+                "event.id",
+                "event.action",
+                "event.outcome",
+                "event.severity",
+                "druva.feature",
+                "druva.event_type",
+                "user.name",
+                "user.email",
+                "source.ip",
+                "druva.resource.name",
+                "message"
+            ]
+        },
+        "index": [
+            "logs-druva.event-*"
+        ]
+    },
+    "id": "50b9a940-11f9-576d-8287-00e3785b8f4c_1",
+    "type": "security-rule"
+}

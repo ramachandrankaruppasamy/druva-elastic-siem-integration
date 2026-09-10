@@ -1,0 +1,12 @@
+{
+    "attributes": {
+        "color": "#312bde",
+        "description": "",
+        "name": "Configuration"
+    },
+    "id": "druva-2ff9b131-94e9-400d-97fc-ed9dace9a59b",
+    "references": [],
+    "type": "tag",
+    "coreMigrationVersion": "8.8.0",
+    "typeMigrationVersion": "8.0.0"
+}

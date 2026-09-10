@@ -1,0 +1,12 @@
+{
+    "attributes": {
+        "color": "#abbb12",
+        "description": "",
+        "name": "Cyber Resilience"
+    },
+    "id": "druva-9dfe0530-d0a9-4818-b4ea-5074e9d6c731",
+    "references": [],
+    "type": "tag",
+    "coreMigrationVersion": "8.8.0",
+    "typeMigrationVersion": "8.0.0"
+}

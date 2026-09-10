@@ -1,0 +1,12 @@
+{
+    "attributes": {
+        "color": "#63a109",
+        "description": "",
+        "name": "Governance"
+    },
+    "id": "druva-dd172d38-ad18-419a-af32-acd4e6fc6da4",
+    "references": [],
+    "type": "tag",
+    "coreMigrationVersion": "8.8.0",
+    "typeMigrationVersion": "8.0.0"
+}

@@ -1,0 +1,12 @@
+{
+    "attributes": {
+        "color": "#50dad9",
+        "description": "",
+        "name": "Content Health"
+    },
+    "id": "druva-1851958f-d35c-488f-8044-9129aa248d9c",
+    "references": [],
+    "type": "tag",
+    "coreMigrationVersion": "8.8.0",
+    "typeMigrationVersion": "8.0.0"
+}

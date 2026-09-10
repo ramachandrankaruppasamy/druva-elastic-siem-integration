@@ -1,0 +1,96 @@
+{
+    "attributes": {
+        "rule_id": "09eb31b6-30ff-598f-a17b-ba49884c6631",
+        "name": "Druva - Administrator Impossible Travel",
+        "description": "Detects the same Druva administrator successfully authenticating from two or more countries within 60 minutes, which may indicate impossible travel or compromised credentials.",
+        "risk_score": 73,
+        "severity": "high",
+        "interval": "5m",
+        "from": "now-65m",
+        "to": "now",
+        "author": [
+            "Druva"
+        ],
+        "license": "Elastic License v2",
+        "references": [],
+        "false_positives": [],
+        "threat": [],
+        "tags": [
+            "Druva",
+            "Data Source: Druva",
+            "Druva Security",
+            "Druva Detection Pack 0 \u2013 Core Cyber Resilience",
+            "Druva Phase 1",
+            "Druva Category: Authentication",
+            "Druva Category: SOC",
+            "Druva Category: Identity",
+            "Druva Category: Impossible Travel"
+        ],
+        "version": 1,
+        "type": "esql",
+        "language": "esql",
+        "query": "FROM logs-druva.event-*\n| WHERE druva.feature == \"Admin Event\"\n    AND druva.event_type == \"Admin Login\"\n    AND event.outcome == \"success\"\n    AND user.email IS NOT NULL\n    AND source.ip IS NOT NULL\n    AND source.geo.location IS NOT NULL\n\n| STATS\n    login_count = COUNT_DISTINCT(event.id),\n    ip_count = COUNT_DISTINCT(source.ip),\n    first_login = MIN(@timestamp),\n    last_login = MAX(@timestamp),\n    first_location = FIRST(source.geo.location, @timestamp),\n    last_location = LAST(source.geo.location, @timestamp),\n    first_ip = FIRST(source.ip, @timestamp),\n    last_ip = LAST(source.ip, @timestamp)\n  BY user.email\n\n| WHERE login_count >= 2\n    AND ip_count >= 2\n    AND last_login > first_login\n\n| EVAL\n    elapsed_minutes = DATE_DIFF(\"minutes\", first_login, last_login),\n    distance_meters = ST_DISTANCE(first_location, last_location)\n\n| WHERE elapsed_minutes > 0\n    AND elapsed_minutes <= 60\n    AND distance_meters >= 500000\n\n| EVAL implied_speed_kmh =\n    (distance_meters / 1000.0) / (elapsed_minutes / 60.0)\n\n| WHERE implied_speed_kmh >= 900",
+        "filters": [],
+        "risk_score_mapping": [],
+        "severity_mapping": [],
+        "setup": "",
+        "note": "",
+        "max_signals": 100,
+        "related_integrations": [
+            {
+                "package": "druva",
+                "version": "^0.3.0"
+            }
+        ],
+        "required_fields": [
+            {
+                "ecs": true,
+                "name": "@timestamp",
+                "type": "date"
+            },
+            {
+                "ecs": false,
+                "name": "druva.event_type",
+                "type": "keyword"
+            },
+            {
+                "ecs": false,
+                "name": "druva.feature",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "event.outcome",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "source.geo.country_iso_code",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "source.ip",
+                "type": "ip"
+            },
+            {
+                "ecs": true,
+                "name": "user.email",
+                "type": "keyword"
+            }
+        ],
+        "investigation_fields": {
+            "field_names": [
+                "@timestamp",
+                "event.outcome",
+                "druva.feature",
+                "druva.event_type",
+                "user.email",
+                "source.ip",
+                "source.geo.country_iso_code"
+            ]
+        }
+    },
+    "id": "09eb31b6-30ff-598f-a17b-ba49884c6631_1",
+    "type": "security-rule"
+}

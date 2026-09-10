@@ -1,0 +1,110 @@
+{
+    "attributes": {
+        "rule_id": "ef1b31a6-65d8-561f-88a0-38a5c36d1101",
+        "name": "Druva - Administrator Self Privilege Escalation",
+        "description": "Detects a Druva administrator modifying their own account and changing their assigned administrator role. Self-directed role changes can indicate privilege escalation or misuse of administrative access.",
+        "risk_score": 99,
+        "severity": "critical",
+        "interval": "5m",
+        "from": "now-6m",
+        "to": "now",
+        "author": [
+            "Druva"
+        ],
+        "license": "Elastic License v2",
+        "references": [],
+        "false_positives": [],
+        "threat": [],
+        "tags": [
+            "Druva",
+            "Data Source: Druva",
+            "Druva Security",
+            "Druva Detection Pack 1 \u2013 Administrator & Identity",
+            "Druva Phase 1",
+            "Druva Category: Identity",
+            "Druva Category: Administrator",
+            "Druva Category: IAM",
+            "Druva Category: Privilege Escalation",
+            "Druva Category: Critical",
+            "Druva Category: Account Manipulation"
+        ],
+        "version": 1,
+        "type": "esql",
+        "language": "esql",
+        "query": "FROM logs-druva.event-*\n| WHERE druva.feature == \"Admin Event\"\n    AND druva.event_type == \"Administrator Updated\"\n    AND druva.security.control == \"administrator_role\"\n    AND druva.security.previous_state == \"role=Product\"\n    AND druva.security.current_state == \"role=Druva Cloud\"\n\n| EVAL actor = TO_LOWER(\n    COALESCE(\n      TO_STRING(user.email),\n      TO_STRING(user.id),\n      TO_STRING(user.name)\n    )\n  )\n\n| EVAL target_admin = TO_LOWER(\n    COALESCE(\n      TO_STRING(user.target.email),\n      TO_STRING(user.target.name)\n    )\n  )\n\n| WHERE actor IS NOT NULL\n    AND target_admin IS NOT NULL\n    AND actor == target_admin",
+        "filters": [],
+        "risk_score_mapping": [],
+        "severity_mapping": [],
+        "setup": "",
+        "note": "",
+        "max_signals": 100,
+        "related_integrations": [
+            {
+                "package": "druva",
+                "version": "^0.3.0"
+            }
+        ],
+        "required_fields": [
+            {
+                "ecs": true,
+                "name": "@timestamp",
+                "type": "date"
+            },
+            {
+                "ecs": false,
+                "name": "druva.change.fields",
+                "type": "keyword"
+            },
+            {
+                "ecs": false,
+                "name": "druva.event_type",
+                "type": "keyword"
+            },
+            {
+                "ecs": false,
+                "name": "druva.feature",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "user.email",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "user.id",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "user.name",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "user.target.email",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "user.target.name",
+                "type": "keyword"
+            }
+        ],
+        "investigation_fields": {
+            "field_names": [
+                "@timestamp",
+                "druva.feature",
+                "druva.event_type",
+                "user.name",
+                "user.email",
+                "druva.change.fields",
+                "user.id",
+                "user.target.email",
+                "user.target.name"
+            ]
+        }
+    },
+    "id": "ef1b31a6-65d8-561f-88a0-38a5c36d1101_1",
+    "type": "security-rule"
+}

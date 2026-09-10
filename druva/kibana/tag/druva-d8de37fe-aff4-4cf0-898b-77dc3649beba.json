@@ -1,0 +1,12 @@
+{
+    "attributes": {
+        "color": "#fedb02",
+        "description": "",
+        "name": "Audit"
+    },
+    "id": "druva-d8de37fe-aff4-4cf0-898b-77dc3649beba",
+    "references": [],
+    "type": "tag",
+    "coreMigrationVersion": "8.8.0",
+    "typeMigrationVersion": "8.0.0"
+}

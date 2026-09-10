@@ -1,0 +1,12 @@
+{
+    "attributes": {
+        "color": "#96c9cd",
+        "description": "",
+        "name": "Overview"
+    },
+    "id": "druva-58f66c2b-0abe-4e30-9edb-bf78c4ee5329",
+    "references": [],
+    "type": "tag",
+    "coreMigrationVersion": "8.8.0",
+    "typeMigrationVersion": "8.0.0"
+}

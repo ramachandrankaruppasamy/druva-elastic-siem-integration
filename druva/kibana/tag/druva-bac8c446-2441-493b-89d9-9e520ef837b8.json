@@ -1,0 +1,12 @@
+{
+    "attributes": {
+        "color": "#92ad12",
+        "description": "",
+        "name": "Incident Response"
+    },
+    "id": "druva-bac8c446-2441-493b-89d9-9e520ef837b8",
+    "references": [],
+    "type": "tag",
+    "coreMigrationVersion": "8.8.0",
+    "typeMigrationVersion": "8.0.0"
+}

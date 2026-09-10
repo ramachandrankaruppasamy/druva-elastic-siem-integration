@@ -1,0 +1,89 @@
+{
+    "attributes": {
+        "rule_id": "54841313-666c-5ccd-8a94-f490f74031e0",
+        "name": "Druva - Repeated Failed Administrator Logins",
+        "description": "Detects repeated failed Druva administrator login attempts originating from the same source IP address. Multiple authentication failures within a short period may indicate brute-force attacks, password spraying, credential stuffing, or an attempt to compromise an administrator account.",
+        "risk_score": 47,
+        "severity": "medium",
+        "interval": "5m",
+        "from": "now-11m",
+        "to": "now",
+        "author": [
+            "Druva"
+        ],
+        "license": "Elastic License v2",
+        "references": [],
+        "false_positives": [],
+        "threat": [],
+        "tags": [
+            "Druva",
+            "Data Source: Druva",
+            "Druva Security",
+            "Druva Detection Pack 1 \u2013 Administrator & Identity",
+            "Druva Phase 1",
+            "Druva Category: Identity",
+            "Druva Category: Authentication",
+            "Druva Category: Administrator",
+            "Druva Category: Brute Force",
+            "Druva Category: Credential Access",
+            "Druva Category: Password Spraying",
+            "Druva Category: SOC",
+            "Druva Category: Security Monitoring",
+            "Druva: Review Threshold"
+        ],
+        "version": 1,
+        "type": "esql",
+        "language": "esql",
+        "query": "FROM logs-druva.event-*\n| WHERE druva.feature == \"Admin Event\"\n    AND druva.event_type == \"Admin Login\"\n    AND event.outcome == \"failure\"\n    AND event.id IS NOT NULL\n    AND source.ip IS NOT NULL\n\n| EVAL principal = COALESCE(\n    TO_STRING(user.email),\n    TO_STRING(user.name)\n  )\n\n| WHERE principal IS NOT NULL\n\n| STATS\n    failed_attempts = COUNT_DISTINCT(event.id),\n    first_failure = MIN(@timestamp),\n    last_failure = MAX(@timestamp)\n  BY principal, source.ip\n\n| WHERE failed_attempts >= 5",
+        "filters": [],
+        "risk_score_mapping": [],
+        "severity_mapping": [],
+        "setup": "",
+        "note": "",
+        "max_signals": 100,
+        "related_integrations": [
+            {
+                "package": "druva",
+                "version": "^0.3.0"
+            }
+        ],
+        "required_fields": [
+            {
+                "ecs": true,
+                "name": "@timestamp",
+                "type": "date"
+            },
+            {
+                "ecs": false,
+                "name": "druva.event_type",
+                "type": "keyword"
+            },
+            {
+                "ecs": false,
+                "name": "druva.feature",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "event.outcome",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "source.ip",
+                "type": "ip"
+            }
+        ],
+        "investigation_fields": {
+            "field_names": [
+                "@timestamp",
+                "event.outcome",
+                "druva.feature",
+                "druva.event_type",
+                "source.ip"
+            ]
+        }
+    },
+    "id": "54841313-666c-5ccd-8a94-f490f74031e0_1",
+    "type": "security-rule"
+}

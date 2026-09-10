@@ -1,0 +1,695 @@
+{
+    "events": [
+        {
+            "category": "EVENT",
+            "details": {
+                "clientOS": null,
+                "clientVersion": null,
+                "eventDetails": "https://cloud.druva.com/admin/:Success",
+                "eventID": 5631203742,
+                "eventState": "Success",
+                "eventType": "Admin Login",
+                "inSyncDataSourceID": null,
+                "inSyncDataSourceName": null,
+                "inSyncUserEmail": null,
+                "inSyncUserID": null,
+                "inSyncUserName": null,
+                "initiator": "sourabh.bhat+dcp@druva.com",
+                "ip": "192.0.2.10",
+                "profileID": "",
+                "profileName": null,
+                "timestamp": "08/25/26 21:00"
+            },
+            "feature": "Admin Event",
+            "globalID": "adb02a82-c484-4bba-9e29-b2f4d1a4dba5-7915",
+            "productID": 8193,
+            "syslogFacility": 1,
+            "syslogSeverity": 6,
+            "timeStamp": 1787691639,
+            "type": "Admin Login"
+        },
+        {
+            "category": "EVENT",
+            "details": {
+                "adminActivity": "Admin Login Event",
+                "adminEmail": "suryakanth.yalgar+CU185@druva.com",
+                "adminIPAddress": "192.0.2.20",
+                "adminLoginTime": "2026-08-25T08:31:58Z",
+                "adminName": "suryakanth.yalgar+CU185@druva.com",
+                "location": "Pune,India",
+                "loginResult": "Failure"
+            },
+            "feature": "Admin Event",
+            "globalID": "e0663cd2-1ff2-46dc-86fe-80de3bccfe74-10608",
+            "productID": 4097,
+            "syslogFacility": 1,
+            "syslogSeverity": 3,
+            "timeStamp": 1787646718,
+            "type": "Admin Login"
+        },
+        {
+            "category": "EVENT",
+            "details": {
+                "clientOS": "Windows",
+                "clientVersion": "7.5.6r110908",
+                "eventDetails": "Total Backup Size:0, Files Backed up:0, Files Missed:0, System and App Settings:Yes, Error Details:Failed., Total Bytes Transferred:0, eventsGroupId:4981136532",
+                "eventID": 5631430744,
+                "eventState": "Failed",
+                "eventType": "Backup",
+                "inSyncDataSourceID": 25862632,
+                "inSyncDataSourceName": "DESKTOP-1R8HOSD",
+                "inSyncUserEmail": "vani_pps@druva.org",
+                "inSyncUserID": 18843501,
+                "inSyncUserName": "vani_pps",
+                "initiator": null,
+                "ip": "192.0.2.20",
+                "profileID": 60061,
+                "profileName": "vani_prof",
+                "timestamp": "08/25/26 21:45"
+            },
+            "feature": "Backup And Restore",
+            "globalID": "e0663cd2-1ff2-46dc-86fe-80de3bccfe74-10608",
+            "productID": 8193,
+            "syslogFacility": 1,
+            "syslogSeverity": 3,
+            "timeStamp": 1787694301,
+            "type": "Backup"
+        },
+        {
+            "category": "EVENT",
+            "details": {
+                "clientOS": "Windows",
+                "clientVersion": "7.5.6r110908",
+                "eventDetails": "Total Restore Size:4073152474, Files Restored:32, Files Missed:0, System and App Settings:No, Total Bytes Transferred:3812058900, eventsGroupId:33969681",
+                "eventID": 5620296580,
+                "eventState": "Success",
+                "eventType": "Restore",
+                "inSyncDataSourceID": 25862632,
+                "inSyncDataSourceName": "DESKTOP-1R8HOSD",
+                "inSyncUserEmail": "vani_pps@druva.org",
+                "inSyncUserID": 18843501,
+                "inSyncUserName": "vani_pps",
+                "initiator": null,
+                "ip": "192.0.2.30",
+                "profileID": 60061,
+                "profileName": "vani_prof",
+                "timestamp": "08/24/26 01:58"
+            },
+            "feature": "Backup And Restore",
+            "globalID": "e0663cd2-1ff2-46dc-86fe-80de3bccfe74-10608",
+            "productID": 8193,
+            "syslogFacility": 1,
+            "syslogSeverity": 6,
+            "timeStamp": 1787536724,
+            "type": "Restore"
+        },
+        {
+            "category": "EVENT",
+            "details": {
+                "clientOS": "G Suite Gmail",
+                "clientVersion": "7.5.0r(39afef5e)",
+                "eventDetails": "Total Downloaded Size:4896, Files Downloaded:1, Files Missed:0, System and App Settings:Yes, Total Bytes Transferred:4896, eventsGroupId:7615419544",
+                "eventID": 5628781446,
+                "eventState": "Success",
+                "eventType": "Download",
+                "inSyncDataSourceID": 4243344,
+                "inSyncDataSourceName": "Gmail",
+                "inSyncUserEmail": "carmen.krueger@druvasedemo-gs.co.in",
+                "inSyncUserID": 3209908,
+                "inSyncUserName": "Carmen Krueger",
+                "initiator": null,
+                "ip": "",
+                "profileID": 34963,
+                "profileName": "Google Workspace",
+                "timestamp": "08/25/26 12:57"
+            },
+            "feature": "Backup And Restore",
+            "globalID": "adb02a82-c484-4bba-9e29-b2f4d1a4dba5-7915",
+            "productID": 8193,
+            "syslogFacility": 1,
+            "syslogSeverity": 6,
+            "timeStamp": 1787662659,
+            "type": "Download"
+        },
+        {
+            "category": "EVENT",
+            "details": {
+                "clientOS": null,
+                "clientVersion": null,
+                "eventDetails": "Alert:Teams Backup Failed, Alert Description:Your Team Data was not backed up, see below for details., Source:omkarMay12, Details:[Team Metadata]: Backup time: Aug 25 2026 07:49, Reason: Unable to read file. Permission Denied Response Code: 404 Text:{\"error\":{\"code\":\"UnknownError\",\"message\":\"404 FILE NOT FOUND\",\"innerError\":{\"date\":\"2026-08-25T07:49:21\",\"request-id\":\"9c1b4b9b-9bf0-4a8c-a931-b106c2f9b665\",\"client-request-id\":\"02f60c78-9dc0-48fb-bfc4-0648f138f09e\"}}}., Alert Time: 1787644163, eventsGroupId:42235829",
+                "eventID": 5627586894,
+                "eventState": "Warning",
+                "eventType": "Alert",
+                "inSyncDataSourceID": null,
+                "inSyncDataSourceName": null,
+                "inSyncUserEmail": null,
+                "inSyncUserID": null,
+                "inSyncUserName": null,
+                "initiator": "omkarMay12",
+                "ip": null,
+                "profileID": "",
+                "profileName": null,
+                "timestamp": "08/25/26 07:49"
+            },
+            "feature": "Alerts And Notifications",
+            "globalID": "128a5df5-e891-48b1-8e8c-68e95b9081a2-4273",
+            "productID": 8193,
+            "syslogFacility": 1,
+            "syslogSeverity": 4,
+            "timeStamp": 1787644163,
+            "type": "Alert"
+        },
+        {
+            "category": "EVENT",
+            "details": {
+                "clientOS": null,
+                "clientVersion": null,
+                "eventDetails": "Alert:Teams Backup Failed, Alert Description:Your Team Data was not backed up, see below for details., Source:omkar bulk incremental, Details:[Team Metadata]: Backup time: Aug 25 2026 20:57, Reason: Unable to read file. Permission Denied Response Code: 404 Text:{\"error\":{\"code\":\"UnknownError\",\"message\":\"404 FILE NOT FOUND\",\"innerError\":{\"date\":\"2026-08-25T20:57:47\",\"request-id\":\"356223df-6f11-4992-a1b5-fa5a307ede38\",\"client-request-id\":\"fa3994a0-c9fc-4625-9015-b8964a1b6605\"}}}., Alert Time: 1787691477.26, eventsGroupId:42235828",
+                "eventID": 5631189492,
+                "eventState": "Warning",
+                "eventType": "Alert Resolution",
+                "inSyncDataSourceID": null,
+                "inSyncDataSourceName": null,
+                "inSyncUserEmail": null,
+                "inSyncUserID": null,
+                "inSyncUserName": null,
+                "initiator": "omkar bulk incremental",
+                "ip": null,
+                "profileID": "",
+                "profileName": null,
+                "timestamp": "08/25/26 20:57"
+            },
+            "feature": "Alerts And Notifications",
+            "globalID": "128a5df5-e891-48b1-8e8c-68e95b9081a2-4273",
+            "productID": 8193,
+            "syslogFacility": 1,
+            "syslogSeverity": 4,
+            "timeStamp": 1787691477,
+            "type": "Alert Resolution"
+        },
+        {
+            "category": "EVENT",
+            "details": {
+                "adminEmail": "ganesh.shinde1+62@druva.com",
+                "adminName": "GS View only admin",
+                "adminRole": "Druva Cloud (View Only)",
+                "initiator": "Admin",
+                "initiatorID": "sandeep.gaikwad+62@druva.com",
+                "sourceIP": "192.0.2.20",
+                "status": "Success",
+                "timezone": "UTC"
+            },
+            "feature": "Admin Event",
+            "globalID": "e0663cd2-1ff2-46dc-86fe-80de3bccfe74-10608",
+            "productID": 4097,
+            "syslogFacility": 1,
+            "syslogSeverity": 2,
+            "timeStamp": 1787643730,
+            "type": "Administrator Created"
+        },
+        {
+            "category": "EVENT",
+            "details": {
+                "adminEmail": "flora.hopkins+dcp3@druva.com",
+                "adminName": "Flora Hopkins",
+                "adminRole": "Product",
+                "initiator": "Admin",
+                "initiatorID": "richard.storry+pristine@druva.com",
+                "sourceIP": "198.51.100.10",
+                "status": "Success"
+            },
+            "feature": "Admin Event",
+            "globalID": "adb02a82-c484-4bba-9e29-b2f4d1a4dba5-7915",
+            "productID": 4097,
+            "syslogFacility": 1,
+            "syslogSeverity": 2,
+            "timeStamp": 1787585782,
+            "type": "Administrator Deleted"
+        },
+        {
+            "category": "EVENT",
+            "details": {
+                "adminEmail": "safe2@d.in",
+                "adminName": "safe2",
+                "adminRole": "Druva Cloud",
+                "description": "The admin has been marked as disabled due to Prolonged Inactivity.",
+                "initiator": "System",
+                "initiatorID": "JobExecutor",
+                "sourceIP": "198.51.100.20",
+                "status": "Success"
+            },
+            "feature": "Admin Event",
+            "globalID": "bed8d931-b764-487c-b0d8-3ae9ea3df094",
+            "productID": 4097,
+            "syslogFacility": 1,
+            "syslogSeverity": 2,
+            "timeStamp": 1787557686,
+            "type": "Administrator Disabled"
+        },
+        {
+            "category": "EVENT",
+            "details": {
+                "adminEmail": "ranga.rajagopalan@druva.com",
+                "adminName": "Ranga Rajagopalan",
+                "adminRole": "Druva Cloud",
+                "initiator": "Admin",
+                "initiatorID": "william.urban+dcp@druva.com",
+                "sourceIP": "198.51.100.30",
+                "status": "Success"
+            },
+            "feature": "Admin Event",
+            "globalID": "adb02a82-c484-4bba-9e29-b2f4d1a4dba5-7915",
+            "productID": 4097,
+            "syslogFacility": 1,
+            "syslogSeverity": 2,
+            "timeStamp": 1787594925,
+            "type": "Administrator Activated"
+        },
+        {
+            "category": "EVENT",
+            "details": {
+                "initiator": "Admin",
+                "initiatorID": "nilesh.patil@druva.com",
+                "newState": {
+                    "adminEmail": "nilesh.patil+isttz@druva.com",
+                    "adminName": "Nilesh",
+                    "adminRole": "Druva Cloud",
+                    "timezone": "UTC"
+                },
+                "oldState": {
+                    "adminEmail": "nilesh.patil+isttz@druva.com",
+                    "adminName": "Nilesh",
+                    "adminRole": "Druva Cloud",
+                    "timezone": "Asia/Kolkata"
+                },
+                "sourceIP": "192.0.2.20",
+                "status": "Success"
+            },
+            "feature": "Admin Event",
+            "globalID": "128a5df5-e891-48b1-8e8c-68e95b9081a2-4273",
+            "productID": 4097,
+            "syslogFacility": 1,
+            "syslogSeverity": 5,
+            "timeStamp": 1787264944,
+            "type": "Administrator Updated"
+        },
+        {
+            "category": "EVENT",
+            "details": {
+                "description": null,
+                "initiatorID": "test_all_prod_dep0@d.in",
+                "name": "bdyw",
+                "networkRestriction": {
+                    "allowedIPs": null,
+                    "enableNetworkRestriction": false
+                },
+                "role": "Druva Cloud",
+                "sourceIP": "203.0.113.10",
+                "status": "Success"
+            },
+            "feature": "API",
+            "globalID": "bed8d931-b764-487c-b0d8-3ae9ea3df094",
+            "productID": 4097,
+            "syslogFacility": 1,
+            "syslogSeverity": 5,
+            "timeStamp": 1787559270,
+            "type": "API Credentials Created"
+        },
+        {
+            "category": "EVENT",
+            "details": {
+                "initiatorID": "amit.deshpande@druva.com",
+                "newState": {
+                    "description": "mericson testing manual onboarding",
+                    "name": "mericson-test",
+                    "networkRestriction": {
+                        "allowedIPs": null,
+                        "enableNetworkRestriction": false
+                    },
+                    "role": "Product"
+                },
+                "oldState": {
+                    "description": "mericson testing manual onboarding",
+                    "name": "mericson-test",
+                    "networkRestriction": {
+                        "allowedIPs": null,
+                        "enableNetworkRestriction": false
+                    },
+                    "role": "Druva Cloud"
+                },
+                "sourceIP": "192.0.2.30",
+                "status": "Success"
+            },
+            "feature": "API",
+            "globalID": "128a5df5-e891-48b1-8e8c-68e95b9081a2-4273",
+            "productID": 4097,
+            "syslogFacility": 1,
+            "syslogSeverity": 5,
+            "timeStamp": 1787632794,
+            "type": "API Credentials Updated"
+        },
+        {
+            "category": "EVENT",
+            "details": {
+                "description": null,
+                "initiatorID": "test_all_prod_dep0@d.in",
+                "name": "bdyw",
+                "networkRestriction": {
+                    "allowedIPs": null,
+                    "enableNetworkRestriction": false
+                },
+                "role": "Druva Cloud",
+                "sourceIP": "203.0.113.10",
+                "status": "Success"
+            },
+            "feature": "API",
+            "globalID": "bed8d931-b764-487c-b0d8-3ae9ea3df094",
+            "productID": 4097,
+            "syslogFacility": 1,
+            "syslogSeverity": 5,
+            "timeStamp": 1787559285,
+            "type": "API Credentials Deleted"
+        },
+        {
+            "category": "EVENT",
+            "details": {
+                "action": "Create Ranges",
+                "initiatorID": "vaishnavi.pande+62@druva.com",
+                "ipAddress": "192.0.2.30",
+                "mode": "Admin Portal",
+                "note": "",
+                "orgID": 0,
+                "resourceID": 0,
+                "resourceName": "",
+                "resourceParent": "",
+                "resourcePlatform": "",
+                "resourceType": "",
+                "state": "Failure"
+            },
+            "feature": "Ransomware Recovery",
+            "globalID": "e0663cd2-1ff2-46dc-86fe-80de3bccfe74-10608",
+            "productID": 4097,
+            "syslogFacility": 1,
+            "syslogSeverity": 0,
+            "timeStamp": 1787619253,
+            "type": "Added To Quarantine Bay"
+        },
+        {
+            "category": "EVENT",
+            "details": {
+                "action": "Delete Ranges",
+                "deletedDateRanges": [
+                    {
+                        "endTime": "2026-08-22T23:59:59Z",
+                        "startTime": "2026-08-21T00:00:00Z"
+                    }
+                ],
+                "initiatorID": "prod_creds",
+                "ipAddress": "192.0.2.30",
+                "mode": "API",
+                "note": "",
+                "orgID": -1,
+                "resourceID": 25862632,
+                "resourceName": "DESKTOP-1R8HOSD",
+                "resourceParent": "vani_pps",
+                "resourcePlatform": "Windows",
+                "resourceType": "Endpoint",
+                "state": "Success"
+            },
+            "feature": "Ransomware Recovery",
+            "globalID": "e0663cd2-1ff2-46dc-86fe-80de3bccfe74-10608",
+            "productID": 4097,
+            "syslogFacility": 1,
+            "syslogSeverity": 0,
+            "timeStamp": 1787619486,
+            "type": "Removed From Quarantine Bay"
+        },
+        {
+            "category": "EVENT",
+            "details": {
+                "affectedSnapshot": "Aug 22 2026, 19:18",
+                "alertTime": "2026-08-23T02:32:07Z",
+                "error_reason": "Guest VM credentials are not assigned or invalid",
+                "resourceID": 235706,
+                "resourceName": "PRI-VM-UDA",
+                "resourceParentID": 13075,
+                "resourceParentName": "pri-vcsa-01.acme.org",
+                "resourceType": "VMware"
+            },
+            "feature": "Unusual Data Activity",
+            "globalID": "adb02a82-c484-4bba-9e29-b2f4d1a4dba5-7915",
+            "productID": 4097,
+            "syslogFacility": 1,
+            "syslogSeverity": 4,
+            "timeStamp": 1787452327,
+            "type": "System Event"
+        },
+        {
+            "category": "EVENT",
+            "details": {
+                "adminActivity": "Unusual Data Activity - Download logs",
+                "adminName": "Matt Rubin",
+                "affectedSnapshot": "Fri Aug 21 01:14:49 2026",
+                "alertTime": "2026-08-21T08:14:49Z",
+                "fileInfo": {
+                    "deletedFiles": 33151,
+                    "encryptedFiles": 0,
+                    "newFiles": 33166,
+                    "updatedFiles": 2201
+                },
+                "resourceID": 58370,
+                "resourceName": "LinFileServ01",
+                "resourceParentID": 7360,
+                "resourceParentName": "Druva SE DEV",
+                "resourceType": "EC2",
+                "udaType": [
+                    "Creation",
+                    "Deletion"
+                ]
+            },
+            "feature": "Unusual Data Activity",
+            "globalID": "adb02a82-c484-4bba-9e29-b2f4d1a4dba5-7915",
+            "productID": 4097,
+            "syslogFacility": 1,
+            "syslogSeverity": 6,
+            "timeStamp": 1787679213,
+            "type": "Admin Audit Trail"
+        },
+        {
+            "category": "EVENT",
+            "details": {
+                "authType": "APIKey",
+                "endpointURL": "https://d9ca77c3ea5b447b9666129454ad29df.ingest.us-2.crowdstrike.com/services/collector/raw",
+                "initiator": "ashish.ravande+prod@druva.com",
+                "providerName": "CrowdStrike",
+                "sourceIP": "",
+                "webhookName": "Dolphins_PPS"
+            },
+            "feature": "Admin Event",
+            "globalID": "128a5df5-e891-48b1-8e8c-68e95b9081a2-4273",
+            "productID": 4097,
+            "syslogFacility": 1,
+            "syslogSeverity": 5,
+            "timeStamp": 1787211029,
+            "type": "Webhook Configuration Created"
+        },
+        {
+            "category": "EVENT",
+            "details": {
+                "initiator": "ajay_fips_realize@druva.org",
+                "newState": {
+                    "authType": "APIKey",
+                    "endpointURL": "https://b8107722a54d4c4984ba8e245a16d271.ingest.us-2.crowdstrike.com/services/collector/raw",
+                    "providerName": "CrowdStrike",
+                    "webhookName": "test 201"
+                },
+                "oldState": {
+                    "authType": "APIKey",
+                    "endpointURL": "https://b8107722a54d4c4984ba8e245a16d271.ingest.us-2.crowdstrike.com/services/collector/raw",
+                    "providerName": "CrowdStrike",
+                    "webhookName": "test 201"
+                },
+                "sourceIP": ""
+            },
+            "feature": "Admin Event",
+            "globalID": "61fb3522-a4c6-41f3-95c5-de964dd74a84",
+            "productID": 4097,
+            "syslogFacility": 1,
+            "syslogSeverity": 5,
+            "timeStamp": 1787644405,
+            "type": "Webhook Configuration Updated"
+        },
+        {
+            "category": "EVENT",
+            "details": {
+                "authType": "APIKey",
+                "endpointURL": "https://d9ca77c3ea5b447b9666129454ad29df.ingest.us-2.crowdstrike.com/services/collector/raw",
+                "initiator": "ashish.ravande+prod@druva.com",
+                "providerName": "CrowdStrike",
+                "sourceIP": "",
+                "webhookName": "Dolphins_PPS"
+            },
+            "feature": "Admin Event",
+            "globalID": "128a5df5-e891-48b1-8e8c-68e95b9081a2-4273",
+            "productID": 4097,
+            "syslogFacility": 1,
+            "syslogSeverity": 5,
+            "timeStamp": 1787211042,
+            "type": "Webhook Configuration Deleted"
+        },
+        {
+            "category": "EVENT",
+            "details": {
+                "endTime": "2026-08-25T02:37:33Z",
+                "files": 32,
+                "initiatorName": "Vaishnavi EP",
+                "resourceID": 25862632,
+                "resourceName": "DESKTOP-1R8HOSD",
+                "size": 3724585864,
+                "startTime": "2026-08-25T02:31:28Z",
+                "status": "Successful",
+                "targetIP": "192.0.2.30",
+                "targetLocation": "Faridabad,India"
+            },
+            "feature": "Data Access",
+            "globalID": "e0663cd2-1ff2-46dc-86fe-80de3bccfe74-10608",
+            "productID": 4097,
+            "syslogFacility": 1,
+            "syslogSeverity": 4,
+            "timeStamp": 1787625088,
+            "type": "Admin Restore"
+        },
+        {
+            "category": "EVENT",
+            "details": {
+                "endTime": "2026-08-20T02:12:36Z",
+                "files": -1,
+                "initiatorName": "Sandeep Gaikwad",
+                "resourceID": 327756,
+                "resourceName": "Sid_backup",
+                "size": 0,
+                "startTime": "2026-08-20T02:12:23Z",
+                "status": "Download Successful",
+                "targetIP": "192.0.2.20",
+                "targetLocation": "Pune,India"
+            },
+            "feature": "Data Access",
+            "globalID": "e0663cd2-1ff2-46dc-86fe-80de3bccfe74-10608",
+            "productID": 4097,
+            "syslogFacility": 1,
+            "syslogSeverity": 4,
+            "timeStamp": 1787191943,
+            "type": "Admin Download"
+        },
+        {
+            "category": "EVENT",
+            "details": {
+                "email": "suryakanth.yalgar+CU185@druva.com",
+                "errorMessage": "Invalid Password",
+                "sourceIP": "192.0.2.20",
+                "status": "Failure"
+            },
+            "feature": "Admin Event",
+            "globalID": "e0663cd2-1ff2-46dc-86fe-80de3bccfe74-10608",
+            "productID": 4097,
+            "syslogFacility": 1,
+            "syslogSeverity": 3,
+            "timeStamp": 1787646718,
+            "type": "Password Verified"
+        },
+        {
+            "category": "EVENT",
+            "details": {
+                "initiatorID": "test_all_prod_dep0@d.in",
+                "isFailsafeForAdministratorsEnabled": true,
+                "sourceIP": "172.16.89.6",
+                "status": "Success"
+            },
+            "feature": "Admin Event",
+            "globalID": "bed8d931-b764-487c-b0d8-3ae9ea3df094",
+            "productID": 4097,
+            "syslogFacility": 1,
+            "syslogSeverity": 5,
+            "timeStamp": 1787559353,
+            "type": "Failsafe Setting Updated"
+        },
+        {
+            "category": "EVENT",
+            "details": {
+                "AVScanEnabled": true,
+                "AllowAdminToSkipScanEndpoints": true,
+                "AllowAdminToSkipScanServers": true,
+                "AllowUserToSkipScanEndpoints": true,
+                "DaysBeyondWhichToSkipScan": 30,
+                "ExcludeExtensionsFromScan": ".jpeg,.jpg,.png,.gif,.bmp,.mp3,.mp4,.avi,.wav,.mov,.mkv,.log",
+                "FileHashScanEnabled": true,
+                "MaxFileSizeToScanInMB": 100,
+                "SkipScanForDeviceReplace": false,
+                "Successful": true,
+                "UseDruvaCuratedIOCs": false,
+                "UseLightScan": true
+            },
+            "feature": "Admin Event",
+            "globalID": "e0663cd2-1ff2-46dc-86fe-80de3bccfe74-10608",
+            "productID": 4097,
+            "syslogFacility": 1,
+            "syslogSeverity": 6,
+            "timeStamp": 1787536263,
+            "type": "Scan Settings Updated"
+        },
+        {
+            "category": "EVENT",
+            "details": {
+                "initiator": "security.admin@example.com",
+                "initiatorID": "security.admin@example.com",
+                "sourceIP": "192.0.2.31",
+                "status": "Success",
+                "oldState": {
+                    "adminName": "Security Test Admin",
+                    "adminEmail": "security.test.admin@example.com",
+                    "adminRole": "Product",
+                    "timezone": "America/Los_Angeles"
+                },
+                "newState": {
+                    "adminName": "Security Test Admin",
+                    "adminEmail": "security.test.admin@example.com",
+                    "adminRole": "Druva Cloud",
+                    "timezone": "America/Los_Angeles"
+                }
+            },
+            "feature": "Admin Event",
+            "globalID": "fixture-admin-role-transition",
+            "productID": 4097,
+            "syslogFacility": 1,
+            "syslogSeverity": 5,
+            "timeStamp": 1788912000,
+            "type": "Administrator Updated"
+        },
+        {
+            "category": "EVENT",
+            "details": {
+                "initiator": "security.admin@example.com",
+                "sourceIP": "192.0.2.32",
+                "oldState": {
+                    "providerName": "Generic",
+                    "webhookName": "Security SIEM",
+                    "endpointURL": "https://example.invalid/events",
+                    "authType": "OAuth2"
+                },
+                "newState": {
+                    "providerName": "Generic",
+                    "webhookName": "Security SIEM",
+                    "endpointURL": "https://example.invalid/events",
+                    "authType": "APIKey"
+                }
+            },
+            "feature": "Admin Event",
+            "globalID": "fixture-webhook-auth-transition",
+            "productID": 4097,
+            "syslogFacility": 1,
+            "syslogSeverity": 5,
+            "timeStamp": 1788912060,
+            "type": "Webhook Configuration Updated"
+        }
+    ]
+}

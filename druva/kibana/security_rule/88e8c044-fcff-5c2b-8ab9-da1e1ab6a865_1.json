@@ -1,0 +1,87 @@
+{
+    "attributes": {
+        "rule_id": "88e8c044-fcff-5c2b-8ab9-da1e1ab6a865",
+        "name": "Druva - Short-Lived Administrator Account",
+        "description": "Detects an administrator account that is created and subsequently deleted within 24 hours. Highlights potentially temporary or covert privileged access.",
+        "risk_score": 73,
+        "severity": "high",
+        "interval": "5m",
+        "from": "now-24h",
+        "to": "now",
+        "author": [
+            "Druva"
+        ],
+        "license": "Elastic License v2",
+        "references": [],
+        "false_positives": [],
+        "threat": [],
+        "tags": [
+            "Druva",
+            "Data Source: Druva",
+            "Druva Security",
+            "Druva Detection Pack 0 \u2013 Core Cyber Resilience",
+            "Druva Phase 1",
+            "Druva Category: Identity",
+            "Druva Category: Privileged Access",
+            "Druva Category: Insider Risk",
+            "Druva Category: Correlation"
+        ],
+        "version": 1,
+        "type": "eql",
+        "language": "eql",
+        "query": "sequence by user.target.email with maxspan=24h\n  [ any where\n      druva.event_type == \"Administrator Created\"\n      and user.target.email != null\n  ]\n  [ any where\n      druva.event_type == \"Administrator Deleted\"\n      and user.target.email != null\n  ]",
+        "filters": [],
+        "risk_score_mapping": [],
+        "severity_mapping": [],
+        "setup": "",
+        "note": "",
+        "max_signals": 100,
+        "related_integrations": [
+            {
+                "package": "druva",
+                "version": "^0.3.0"
+            }
+        ],
+        "required_fields": [
+            {
+                "ecs": true,
+                "name": "@timestamp",
+                "type": "date"
+            },
+            {
+                "ecs": false,
+                "name": "druva.event_type",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "event.outcome",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "user.email",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "user.id",
+                "type": "keyword"
+            }
+        ],
+        "investigation_fields": {
+            "field_names": [
+                "@timestamp",
+                "event.outcome",
+                "druva.event_type",
+                "user.email",
+                "user.id"
+            ]
+        },
+        "index": [
+            "logs-druva.event-*"
+        ]
+    },
+    "id": "88e8c044-fcff-5c2b-8ab9-da1e1ab6a865_1",
+    "type": "security-rule"
+}

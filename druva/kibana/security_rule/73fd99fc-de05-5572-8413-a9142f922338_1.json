@@ -1,0 +1,83 @@
+{
+    "attributes": {
+        "rule_id": "73fd99fc-de05-5572-8413-a9142f922338",
+        "name": "Druva - Successful Administrator Login After Multiple Failures",
+        "description": "Detect an administrator successfully authenticating shortly after several failed login attempts. This can indicate:\n\u2022\tPassword spraying\n\u2022\tBrute-force attacks\n\u2022\tCredential stuffing\n\u2022\tSuccessful account compromise",
+        "risk_score": 73,
+        "severity": "high",
+        "interval": "5m",
+        "from": "now-11m",
+        "to": "now",
+        "author": [
+            "Druva"
+        ],
+        "license": "Elastic License v2",
+        "references": [],
+        "false_positives": [],
+        "threat": [],
+        "tags": [
+            "Druva",
+            "Data Source: Druva",
+            "Druva Security",
+            "Druva Detection Pack 1 \u2013 Administrator & Identity",
+            "Druva Phase 1",
+            "Druva Category: Identity",
+            "Druva Category: Authentication",
+            "Druva Category: Administrator",
+            "Druva Category: Credential Access",
+            "Druva Category: Brute Force",
+            "Druva Category: Credential Stuffing",
+            "Druva Category: Account Compromise",
+            "Druva Category: SOC",
+            "Druva: Review Threshold"
+        ],
+        "version": 1,
+        "type": "esql",
+        "language": "esql",
+        "query": "FROM logs-druva.event-*\n| WHERE druva.feature == \"Admin Event\"\n    AND druva.event_type == \"Admin Login\"\n    AND event.id IS NOT NULL\n    AND source.ip IS NOT NULL\n    AND (\n      event.outcome == \"failure\"\n      OR event.outcome == \"success\"\n    )\n\n| EVAL principal = COALESCE(\n    TO_STRING(user.email),\n    TO_STRING(user.name)\n  )\n\n| WHERE principal IS NOT NULL\n\n| STATS\n    failed_attempts =\n      COUNT_DISTINCT(event.id) WHERE event.outcome == \"failure\",\n\n    successful_attempts =\n      COUNT_DISTINCT(event.id) WHERE event.outcome == \"success\",\n\n    last_failure =\n      MAX(@timestamp) WHERE event.outcome == \"failure\",\n\n    last_success =\n      MAX(@timestamp) WHERE event.outcome == \"success\"\n\n  BY principal, source.ip\n\n| WHERE failed_attempts >= 3\n    AND successful_attempts >= 1\n    AND last_failure IS NOT NULL\n    AND last_success IS NOT NULL\n    AND last_success > last_failure",
+        "filters": [],
+        "risk_score_mapping": [],
+        "severity_mapping": [],
+        "setup": "",
+        "note": "",
+        "max_signals": 100,
+        "related_integrations": [
+            {
+                "package": "druva",
+                "version": "^0.3.0"
+            }
+        ],
+        "required_fields": [
+            {
+                "ecs": true,
+                "name": "@timestamp",
+                "type": "date"
+            },
+            {
+                "ecs": false,
+                "name": "druva.event_type",
+                "type": "keyword"
+            },
+            {
+                "ecs": false,
+                "name": "druva.feature",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "event.outcome",
+                "type": "keyword"
+            }
+        ],
+        "investigation_fields": {
+            "field_names": [
+                "@timestamp",
+                "event.outcome",
+                "druva.feature",
+                "druva.event_type"
+            ]
+        }
+    },
+    "id": "73fd99fc-de05-5572-8413-a9142f922338_1",
+    "type": "security-rule"
+}

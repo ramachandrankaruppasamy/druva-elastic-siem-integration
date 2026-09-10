@@ -1,0 +1,96 @@
+{
+    "attributes": {
+        "rule_id": "053b140a-7b13-52ae-ba24-50e23a09d3bf",
+        "name": "Druva - Unusual Data Activity Followed by Quarantine",
+        "description": "Correlates unusual data activity with subsequent quarantine of the same protected resource.",
+        "risk_score": 73,
+        "severity": "high",
+        "interval": "5m",
+        "from": "now-65m",
+        "to": "now",
+        "author": [
+            "Druva"
+        ],
+        "license": "Elastic License v2",
+        "references": [],
+        "false_positives": [],
+        "threat": [],
+        "tags": [
+            "Druva",
+            "Data Source: Druva",
+            "Druva Security",
+            "Druva Detection Pack 0 \u2013 Core Cyber Resilience",
+            "Druva Phase 1",
+            "Druva Category: Cyber Resilience",
+            "Druva Category: SOC",
+            "Druva Category: Backup Deletion",
+            "Druva Category: Ransomware",
+            "Druva Category: Backup",
+            "Druva Category: UDA",
+            "Druva Category: Quarantine"
+        ],
+        "version": 1,
+        "type": "eql",
+        "language": "eql",
+        "query": "sequence by druva.resource.name with maxspan=60m\n  [ any where druva.uda.type != null ]\n  [ any where\n      druva.feature == \"Ransomware Recovery\"\n      and druva.operation.action == \"Create Ranges\"\n  ]",
+        "filters": [],
+        "risk_score_mapping": [],
+        "severity_mapping": [],
+        "setup": "",
+        "note": "",
+        "max_signals": 100,
+        "related_integrations": [
+            {
+                "package": "druva",
+                "version": "^0.3.0"
+            }
+        ],
+        "required_fields": [
+            {
+                "ecs": true,
+                "name": "@timestamp",
+                "type": "date"
+            },
+            {
+                "ecs": false,
+                "name": "druva.alert.name",
+                "type": "keyword"
+            },
+            {
+                "ecs": false,
+                "name": "druva.event_type",
+                "type": "keyword"
+            },
+            {
+                "ecs": false,
+                "name": "druva.resource.name",
+                "type": "keyword"
+            },
+            {
+                "ecs": false,
+                "name": "druva.uda.type",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "message",
+                "type": "match_only_text"
+            }
+        ],
+        "investigation_fields": {
+            "field_names": [
+                "@timestamp",
+                "druva.event_type",
+                "druva.resource.name",
+                "druva.alert.name",
+                "druva.uda.type",
+                "message"
+            ]
+        },
+        "index": [
+            "logs-druva.event-*"
+        ]
+    },
+    "id": "053b140a-7b13-52ae-ba24-50e23a09d3bf_1",
+    "type": "security-rule"
+}

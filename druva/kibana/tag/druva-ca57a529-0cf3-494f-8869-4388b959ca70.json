@@ -1,0 +1,12 @@
+{
+    "attributes": {
+        "color": "#dae388",
+        "description": "",
+        "name": "Detection Engineering"
+    },
+    "id": "druva-ca57a529-0cf3-494f-8869-4388b959ca70",
+    "references": [],
+    "type": "tag",
+    "coreMigrationVersion": "8.8.0",
+    "typeMigrationVersion": "8.0.0"
+}

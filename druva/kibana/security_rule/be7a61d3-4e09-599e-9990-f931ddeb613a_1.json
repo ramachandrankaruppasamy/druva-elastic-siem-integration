@@ -1,0 +1,75 @@
+{
+    "attributes": {
+        "rule_id": "be7a61d3-4e09-599e-9990-f931ddeb613a",
+        "name": "Druva - Backup Retention Reduced or Removed",
+        "description": "Detects administrative events indicating that backup retention may have been reduced, shortened, removed, disabled, or deleted. Candidate rule pending final semantic validation.",
+        "risk_score": 73,
+        "severity": "high",
+        "interval": "5m",
+        "from": "now-6m",
+        "to": "now",
+        "author": [
+            "Druva"
+        ],
+        "license": "Elastic License v2",
+        "references": [],
+        "false_positives": [],
+        "threat": [],
+        "tags": [
+            "Druva",
+            "Data Source: Druva",
+            "Druva Security",
+            "Druva Detection Pack 2 \u2013 Backup Operations",
+            "Druva Phase 1",
+            "Druva Category: Backup",
+            "Druva Category: Retention",
+            "Druva Category: Protection Degradation",
+            "Druva Category: Configuration"
+        ],
+        "version": 1,
+        "index": [
+            "logs-druva.event-*"
+        ],
+        "type": "query",
+        "language": "kuery",
+        "query": "druva.feature:\"Admin Event\"\nand (\n  druva.event_type:\"Backup Retention Reduced\"\n  or druva.event_type:\"Backup Retention Removed\"\n)",
+        "filters": [],
+        "risk_score_mapping": [],
+        "severity_mapping": [],
+        "setup": "",
+        "note": "",
+        "max_signals": 100,
+        "related_integrations": [
+            {
+                "package": "druva",
+                "version": "^0.3.0"
+            }
+        ],
+        "required_fields": [
+            {
+                "ecs": true,
+                "name": "@timestamp",
+                "type": "date"
+            },
+            {
+                "ecs": false,
+                "name": "druva.feature",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "message",
+                "type": "match_only_text"
+            }
+        ],
+        "investigation_fields": {
+            "field_names": [
+                "@timestamp",
+                "druva.feature",
+                "message"
+            ]
+        }
+    },
+    "id": "be7a61d3-4e09-599e-9990-f931ddeb613a_1",
+    "type": "security-rule"
+}

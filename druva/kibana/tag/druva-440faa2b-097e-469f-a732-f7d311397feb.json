@@ -1,0 +1,12 @@
+{
+    "attributes": {
+        "color": "#249e56",
+        "description": "",
+        "name": "Recovery"
+    },
+    "id": "druva-440faa2b-097e-469f-a732-f7d311397feb",
+    "references": [],
+    "type": "tag",
+    "coreMigrationVersion": "8.8.0",
+    "typeMigrationVersion": "8.0.0"
+}

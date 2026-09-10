@@ -1,0 +1,1326 @@
+---
+description: Normalize Druva events into Elastic Common Schema and Druva integration fields.
+
+processors:
+  - script:
+      tag: normalize_native_druva_webhook
+      description: Wrap native Druva webhook payloads under json so the existing normalization pipeline can process them.
+      if: ctx.json == null && ctx.category == 'EVENT' && ctx.feature != null && ctx.type != null
+      lang: painless
+      source: >-
+        def raw = new HashMap();
+        if (ctx.category != null) raw.category = ctx.remove('category');
+        if (ctx.details != null) raw.details = ctx.remove('details');
+        if (ctx.feature != null) raw.feature = ctx.remove('feature');
+        if (ctx.globalID != null) raw.globalID = ctx.remove('globalID');
+        if (ctx.productID != null) raw.productID = ctx.remove('productID');
+        if (ctx.syslogFacility != null) raw.syslogFacility = ctx.remove('syslogFacility');
+        if (ctx.syslogSeverity != null) raw.syslogSeverity = ctx.remove('syslogSeverity');
+        if (ctx.timeStamp != null) raw.timeStamp = ctx.remove('timeStamp');
+        if (ctx.type != null) raw.type = ctx.remove('type');
+        ctx.json = raw;
+
+  - script:
+      tag: convert_druva_timestamp
+      description: Convert Druva Unix epoch seconds into epoch milliseconds.
+      if: ctx.json?.timeStamp != null
+      lang: painless
+      source: >-
+        ctx._temp_druva_timestamp =
+        Long.parseLong(ctx.json.timeStamp.toString()) * 1000L;
+
+  - date:
+      tag: set_druva_event_timestamp
+      description: Set @timestamp from the Druva event timestamp.
+      if: ctx._temp_druva_timestamp != null
+      field: _temp_druva_timestamp
+      target_field: '@timestamp'
+      formats:
+        - UNIX_MS
+
+  - remove:
+      tag: remove_temporary_timestamp
+      field: _temp_druva_timestamp
+      ignore_missing: true
+
+  - set:
+      tag: set_event_kind
+      field: event.kind
+      value: event
+
+  - set:
+      tag: set_event_module
+      field: event.module
+      value: druva
+
+  - set:
+      tag: set_event_dataset
+      field: event.dataset
+      value: druva.event
+
+  - set:
+      tag: set_observer_vendor
+      field: observer.vendor
+      value: Druva
+
+  - set:
+      tag: set_observer_product
+      field: observer.product
+      value: Druva Data Security Cloud
+
+  - script:
+      tag: set_event_id_from_event_id
+      description: Normalize Druva event ID as a string identifier.
+      if: ctx.json?.details?.eventID != null && ctx.json.details.eventID.toString().length() > 0
+      lang: painless
+      source: >-
+        if (ctx.event == null) ctx.event = new HashMap();
+        ctx.event.id = ctx.json.details.eventID.toString();
+
+  - set:
+      tag: set_druva_customer_id
+      if: ctx.json?.globalID != null && ctx.json.globalID.toString().length() > 0
+      field: druva.customer.id
+      copy_from: json.globalID
+
+  - set:
+      tag: set_event_action_from_type
+      if: ctx.json?.type != null && ctx.json.type.toString().length() > 0
+      field: event.action
+      copy_from: json.type
+
+  - set:
+      tag: set_event_severity
+      if: ctx.json?.syslogSeverity != null
+      field: event.severity
+      copy_from: json.syslogSeverity
+
+  - set:
+      tag: set_message
+      if: ctx.json?.details?.eventDetails != null && ctx.json.details.eventDetails.toString().length() > 0
+      field: message
+      copy_from: json.details.eventDetails
+
+  - set:
+      tag: set_druva_feature
+      if: ctx.json?.feature != null && ctx.json.feature.toString().length() > 0
+      field: druva.feature
+      copy_from: json.feature
+
+  - set:
+      tag: set_druva_event_type_from_details
+      if: ctx.json?.details?.eventType != null && ctx.json.details.eventType.toString().length() > 0
+      field: druva.event_type
+      copy_from: json.details.eventType
+
+  - set:
+      tag: set_druva_event_type_from_type
+      if: ctx.druva?.event_type == null && ctx.json?.type != null && ctx.json.type.toString().length() > 0
+      field: druva.event_type
+      copy_from: json.type
+
+  - script:
+      tag: set_resource_id
+      description: Normalize Druva resource ID as a string identifier.
+      if: ctx.json?.details?.resourceID != null
+      lang: painless
+      source: >-
+        if (ctx.druva == null) ctx.druva = new HashMap();
+        if (ctx.druva.resource == null) ctx.druva.resource = new HashMap();
+        ctx.druva.resource.id = ctx.json.details.resourceID.toString();
+
+  - set:
+      tag: set_resource_name
+      if: ctx.json?.details?.resourceName != null && ctx.json.details.resourceName.toString().length() > 0
+      field: druva.resource.name
+      copy_from: json.details.resourceName
+
+  - set:
+      tag: set_resource_type
+      if: ctx.json?.details?.resourceType != null && ctx.json.details.resourceType.toString().length() > 0
+      field: druva.resource.type
+      copy_from: json.details.resourceType
+
+  - set:
+      tag: set_resource_parent
+      if: ctx.json?.details?.resourceParent != null && ctx.json.details.resourceParent.toString().length() > 0
+      field: druva.resource.parent.name
+      copy_from: json.details.resourceParent
+
+  - set:
+      tag: set_resource_parent_name
+      if: ctx.druva?.resource?.parent?.name == null && ctx.json?.details?.resourceParentName != null && ctx.json.details.resourceParentName.toString().length() > 0
+      field: druva.resource.parent.name
+      copy_from: json.details.resourceParentName
+
+  - set:
+      tag: set_profile_name
+      if: ctx.json?.details?.profileName != null && ctx.json.details.profileName.toString().length() > 0
+      field: druva.profile.name
+      copy_from: json.details.profileName
+
+  - set:
+      tag: set_alert_name
+      if: ctx.json?.details?.alertName != null && ctx.json.details.alertName.toString().length() > 0
+      field: druva.alert.name
+      copy_from: json.details.alertName
+
+  - set:
+      tag: set_uda_type
+      if: ctx.json?.details?.udaType != null
+      field: druva.uda.type
+      copy_from: json.details.udaType
+
+  - set:
+      tag: set_new_file_count
+      if: ctx.json?.details?.fileInfo?.newFiles != null
+      field: druva.file.created_count
+      copy_from: json.details.fileInfo.newFiles
+
+  - set:
+      tag: set_updated_file_count
+      if: ctx.json?.details?.fileInfo?.updatedFiles != null
+      field: druva.file.updated_count
+      copy_from: json.details.fileInfo.updatedFiles
+
+  - set:
+      tag: set_deleted_file_count
+      if: ctx.json?.details?.fileInfo?.deletedFiles != null
+      field: druva.file.deleted_count
+      copy_from: json.details.fileInfo.deletedFiles
+
+  - set:
+      tag: set_encrypted_file_count
+      if: ctx.json?.details?.fileInfo?.encryptedFiles != null
+      field: druva.file.encrypted_count
+      copy_from: json.details.fileInfo.encryptedFiles
+
+  - script:
+      tag: normalize_webhook_configuration
+      description: Normalize Druva webhook configuration metadata from newState/oldState and record changed fields.
+      if: >
+        ctx.json?.type != null &&
+        (
+          ctx.json.type == 'Webhook Configuration Created' ||
+          ctx.json.type == 'Webhook Configuration Updated' ||
+          ctx.json.type == 'Webhook Configuration Deleted'
+        )
+      lang: painless
+      source: >-
+        if (ctx.druva == null) ctx.druva = new HashMap();
+        if (ctx.druva.webhook == null) ctx.druva.webhook = new HashMap();
+
+        def d = ctx.json?.details;
+        if (d == null) return;
+
+        def newState = d.newState instanceof Map ? d.newState : null;
+        def oldState = d.oldState instanceof Map ? d.oldState : null;
+
+        /*
+         * Prefer newState as the resulting/current configuration.
+         * For delete-style events where newState is absent, fall back
+         * to oldState so the deleted webhook can still be identified.
+         *
+         * Also support the older flat details schema as a fallback.
+         */
+        def state = newState != null ? newState : oldState;
+
+        if (state != null) {
+          if (state.webhookName != null &&
+              state.webhookName.toString().length() > 0) {
+            ctx.druva.webhook.name = state.webhookName;
+          }
+
+          if (state.providerName != null &&
+              state.providerName.toString().length() > 0) {
+            ctx.druva.webhook.provider = state.providerName;
+          }
+
+          if (state.endpointURL != null &&
+              state.endpointURL.toString().length() > 0) {
+            ctx.druva.webhook.url = state.endpointURL;
+          }
+
+          if (state.authType != null &&
+              state.authType.toString().length() > 0) {
+            ctx.druva.webhook.auth_type = state.authType;
+          }
+        }
+
+        if (ctx.druva.webhook.name == null &&
+            d.webhookName != null &&
+            d.webhookName.toString().length() > 0) {
+          ctx.druva.webhook.name = d.webhookName;
+        }
+
+        if (ctx.druva.webhook.provider == null &&
+            d.providerName != null &&
+            d.providerName.toString().length() > 0) {
+          ctx.druva.webhook.provider = d.providerName;
+        }
+
+        if (ctx.druva.webhook.url == null &&
+            d.endpointURL != null &&
+            d.endpointURL.toString().length() > 0) {
+          ctx.druva.webhook.url = d.endpointURL;
+        }
+
+        if (ctx.druva.webhook.auth_type == null &&
+            d.authType != null &&
+            d.authType.toString().length() > 0) {
+          ctx.druva.webhook.auth_type = d.authType;
+        }
+
+        if (oldState != null && newState != null &&
+            oldState.authType != null && newState.authType != null) {
+          ctx.druva.webhook.previous_auth_type = oldState.authType.toString();
+          ctx.druva.webhook.current_auth_type = newState.authType.toString();
+        }
+
+        if (oldState != null && newState != null) {
+          def changed = new ArrayList();
+          def keys = new HashSet();
+          keys.addAll(oldState.keySet());
+          keys.addAll(newState.keySet());
+
+          for (def k : keys) {
+            def before = oldState[k];
+            def after = newState[k];
+
+            if ((before == null && after != null) ||
+                (before != null && after == null) ||
+                (before != null && !before.equals(after))) {
+              changed.add(k.toString());
+            }
+          }
+
+          if (!changed.isEmpty()) {
+            if (ctx.druva.change == null) ctx.druva.change = new HashMap();
+            ctx.druva.change.fields = changed;
+            ctx.druva.change.count = changed.size();
+          }
+        }
+
+        if (ctx.druva.webhook.isEmpty()) ctx.druva.remove('webhook');
+
+  - script:
+      tag: normalize_source_ip
+      description: Select the first non-empty Druva source IP field.
+      lang: painless
+      source: >-
+        def d = ctx.json != null ? ctx.json.details : null;
+        if (d != null) {
+          def ip = null;
+          if (d.ip != null && d.ip.toString().length() > 0) ip = d.ip;
+          else if (d.adminIPAddress != null && d.adminIPAddress.toString().length() > 0) ip = d.adminIPAddress;
+          else if (d.sourceIP != null && d.sourceIP.toString().length() > 0) ip = d.sourceIP;
+          else if (d.ipAddress != null && d.ipAddress.toString().length() > 0) ip = d.ipAddress;
+          if (ip != null) {
+            if (ctx.source == null) ctx.source = new HashMap();
+            ctx.source.ip = ip;
+          }
+        }
+
+  - geoip:
+      tag: enrich_source_geo
+      description: Enrich the normalized Druva source IP with geographic information.
+      field: source.ip
+      target_field: source.geo
+      database_file: GeoLite2-City.mmdb
+      properties:
+        - continent_name
+        - country_iso_code
+        - country_name
+        - region_iso_code
+        - region_name
+        - city_name
+        - timezone
+        - location
+      ignore_missing: true
+
+  - script:
+      tag: normalize_user_identity
+      description: Normalize Druva actor and target administrator identity fields.
+      lang: painless
+      source: >-
+        def j = ctx.json;
+        def d = j != null ? j.details : null;
+        if (j != null && d != null) {
+          if (ctx.user == null) ctx.user = new HashMap();
+
+          if (j.type == 'Admin Login') {
+            if (d.initiator != null && d.initiator.toString().length() > 0) {
+              ctx.user.name = d.initiator;
+              if (d.initiator.toString().contains('@')) ctx.user.email = d.initiator.toString();
+            } else if (d.adminName != null && d.adminName.toString().length() > 0) {
+              ctx.user.name = d.adminName;
+            }
+
+            if (d.adminEmail != null && d.adminEmail.toString().length() > 0) {
+              ctx.user.email = d.adminEmail;
+            }
+          } else {
+            if (d.initiator != null && d.initiator.toString().length() > 0) {
+              ctx.user.name = d.initiator;
+              if (d.initiator.toString().contains('@')) {
+                ctx.user.email = d.initiator.toString();
+              }
+            }
+
+            if (d.initiatorID != null && d.initiatorID.toString().length() > 0) {
+              ctx.user.id = d.initiatorID.toString();
+              if (d.initiatorID.toString().contains('@')) {
+                ctx.user.email = d.initiatorID.toString();
+              }
+            }
+          }
+
+          if (j.type == 'Administrator Created' ||
+              j.type == 'Administrator Deleted' ||
+              j.type == 'Administrator Updated' ||
+              j.type == 'Administrator Modified' ||
+              j.type == 'Administrator Disabled' ||
+              j.type == 'Administrator Activated') {
+
+            if (ctx.user.target == null) ctx.user.target = new HashMap();
+
+            if (d.adminName != null && d.adminName.toString().length() > 0) {
+              ctx.user.target.name = d.adminName;
+            }
+
+            if (d.adminEmail != null && d.adminEmail.toString().length() > 0) {
+              ctx.user.target.email = d.adminEmail;
+            }
+
+            if (j.type == 'Administrator Updated' ||
+                j.type == 'Administrator Modified') {
+
+              def newState = d.newState instanceof Map ? d.newState : null;
+              def oldState = d.oldState instanceof Map ? d.oldState : null;
+
+              if (ctx.user.target.name == null) {
+                if (newState != null &&
+                    newState.adminName != null &&
+                    newState.adminName.toString().length() > 0) {
+                  ctx.user.target.name = newState.adminName;
+                } else if (oldState != null &&
+                           oldState.adminName != null &&
+                           oldState.adminName.toString().length() > 0) {
+                  ctx.user.target.name = oldState.adminName;
+                }
+              }
+
+              if (ctx.user.target.email == null) {
+                if (newState != null &&
+                    newState.adminEmail != null &&
+                    newState.adminEmail.toString().length() > 0) {
+                  ctx.user.target.email = newState.adminEmail;
+                } else if (oldState != null &&
+                           oldState.adminEmail != null &&
+                           oldState.adminEmail.toString().length() > 0) {
+                  ctx.user.target.email = oldState.adminEmail;
+                }
+              }
+            }
+
+            if (ctx.user.target.isEmpty()) ctx.user.remove('target');
+          }
+
+          if (ctx.user.name == null &&
+              d.initiatorName != null &&
+              d.initiatorName.toString().length() > 0) {
+            ctx.user.name = d.initiatorName;
+          }
+
+          if (ctx.user.name == null &&
+              j.feature == 'Unusual Data Activity' &&
+              d.adminName != null &&
+              d.adminName.toString().length() > 0) {
+            ctx.user.name = d.adminName;
+          }
+
+          if (ctx.user.isEmpty()) ctx.remove('user');
+        }
+
+  - script:
+      tag: normalize_druva_identity_resource_and_security_context
+      description: Normalize v2/v3 identity/resource variants and deterministic security context.
+      lang: painless
+      source: >-
+        def j = ctx.json;
+        def d = j != null ? j.details : null;
+
+        if (j != null && d != null) {
+          if (ctx.user == null) ctx.user = new HashMap();
+
+          if (ctx.user.name == null &&
+              d.initiatorName != null &&
+              d.initiatorName.toString().length() > 0) {
+            ctx.user.name = d.initiatorName;
+          }
+
+          if (ctx.user.name == null &&
+              d.initiator != null &&
+              d.initiator.toString().length() > 0) {
+            ctx.user.name = d.initiator;
+          }
+
+          if (ctx.user.email == null &&
+              d.email != null &&
+              d.email.toString().contains('@')) {
+            ctx.user.email = d.email.toString();
+          }
+
+          if (ctx.user.email == null &&
+              d.initiatorID != null &&
+              d.initiatorID.toString().contains('@')) {
+            ctx.user.email = d.initiatorID.toString();
+          }
+
+          if (ctx.user.id == null &&
+              d.initiatorID != null &&
+              d.initiatorID.toString().length() > 0) {
+            ctx.user.id = d.initiatorID.toString();
+          }
+
+          boolean dataSubject =
+            (j.feature == 'Backup And Restore' || j.feature == 'Data Access');
+
+          if (dataSubject &&
+              (d.inSyncUserID != null ||
+               d.inSyncUserName != null ||
+               d.inSyncUserEmail != null)) {
+
+            if (ctx.user.target == null) ctx.user.target = new HashMap();
+
+            if (d.inSyncUserID != null) {
+              ctx.user.target.id = d.inSyncUserID.toString();
+            }
+
+            if (d.inSyncUserName != null &&
+                d.inSyncUserName.toString().length() > 0) {
+              ctx.user.target.name = d.inSyncUserName;
+            }
+
+            if (d.inSyncUserEmail != null &&
+                d.inSyncUserEmail.toString().length() > 0) {
+              ctx.user.target.email = d.inSyncUserEmail;
+            }
+          }
+
+          if (ctx.user.isEmpty()) ctx.remove('user');
+
+          if (ctx.druva == null) ctx.druva = new HashMap();
+          if (ctx.druva.resource == null) ctx.druva.resource = new HashMap();
+
+          if (ctx.druva.resource.id == null && d.inSyncDataSourceID != null) {
+            ctx.druva.resource.id = d.inSyncDataSourceID.toString();
+          }
+
+          if (ctx.druva.resource.name == null &&
+              d.inSyncDataSourceName != null &&
+              d.inSyncDataSourceName.toString().length() > 0) {
+            ctx.druva.resource.name = d.inSyncDataSourceName;
+          }
+
+          if (ctx.druva.resource.name == null &&
+              d.vmName != null &&
+              d.vmName.toString().length() > 0) {
+            ctx.druva.resource.name = d.vmName;
+          }
+
+          if (ctx.druva.resource.name == null &&
+              d.ResourceName != null &&
+              d.ResourceName.toString().length() > 0) {
+            ctx.druva.resource.name = d.ResourceName;
+          }
+
+          if (ctx.druva.resource.type == null &&
+              d.workloadName != null &&
+              d.workloadName.toString().length() > 0) {
+            ctx.druva.resource.type = d.workloadName;
+          }
+
+          if (ctx.druva.resource.type == null &&
+              d.ResourceType != null &&
+              d.ResourceType.toString().length() > 0) {
+            ctx.druva.resource.type = d.ResourceType;
+          }
+
+          /*
+           * API credential lifecycle events expose the credential name directly
+           * under details.name (or under oldState/newState for updates).
+           */
+          if (j.feature == 'API' &&
+              j.type != null &&
+              j.type.toString().contains('API Credentials')) {
+
+            def apiNewState = d.newState instanceof Map ? d.newState : null;
+            def apiOldState = d.oldState instanceof Map ? d.oldState : null;
+
+            if (ctx.druva.resource.name == null) {
+              if (d.name != null && d.name.toString().length() > 0) {
+                ctx.druva.resource.name = d.name.toString();
+              } else if (apiNewState != null &&
+                         apiNewState.name != null &&
+                         apiNewState.name.toString().length() > 0) {
+                ctx.druva.resource.name = apiNewState.name.toString();
+              } else if (apiOldState != null &&
+                         apiOldState.name != null &&
+                         apiOldState.name.toString().length() > 0) {
+                ctx.druva.resource.name = apiOldState.name.toString();
+              }
+            }
+
+            if (ctx.druva.resource.type == null) {
+              ctx.druva.resource.type = 'api_credential';
+            }
+          }
+
+          if (ctx.druva.operation == null) ctx.druva.operation = new HashMap();
+
+          if (j.type != null) {
+            def t = j.type.toString().toLowerCase();
+
+            if (t.contains('download')) ctx.druva.operation.type = 'download';
+            else if (t.contains('restore')) ctx.druva.operation.type = 'restore';
+            else if (t.contains('backup')) ctx.druva.operation.type = 'backup';
+            else if (t.contains('rollback')) ctx.druva.operation.type = 'rollback';
+          }
+
+          if (d.files != null) {
+            try {
+              long fileCount = Long.parseLong(d.files.toString());
+              if (fileCount >= 0) {
+                ctx.druva.operation.file_count = fileCount;
+              }
+            } catch (Exception ignored) {
+            }
+          }
+
+          if (d.size != null) ctx.druva.operation.size_bytes = d.size;
+
+          if (ctx.druva.operation.isEmpty()) ctx.druva.remove('operation');
+
+          if (d.targetIP != null && d.targetIP.toString().length() > 0) {
+            if (ctx.destination == null) ctx.destination = new HashMap();
+            ctx.destination.ip = d.targetIP;
+          }
+
+          if (d.oldState instanceof Map && d.newState instanceof Map) {
+            if (ctx.druva.change == null) ctx.druva.change = new HashMap();
+
+            def changed = new ArrayList();
+            def keys = new HashSet();
+            keys.addAll(d.oldState.keySet());
+            keys.addAll(d.newState.keySet());
+
+            for (def k : keys) {
+              def a = d.oldState[k];
+              def b = d.newState[k];
+
+              if ((a == null && b != null) ||
+                  (a != null && b == null) ||
+                  (a != null && !a.equals(b))) {
+                changed.add(k.toString());
+              }
+            }
+
+            if (!changed.isEmpty()) {
+              ctx.druva.change.fields = changed;
+              ctx.druva.change.count = changed.size();
+            }
+          }
+
+          if (ctx.druva.security == null) ctx.druva.security = new HashMap();
+
+          def typ = j.type != null ? j.type.toString().toLowerCase() : '';
+
+          if (typ.contains('mfa')) ctx.druva.security.control = 'mfa';
+          else if (typ.contains('geofenc')) ctx.druva.security.control = 'geofencing';
+          else if (typ.contains('failsafe')) ctx.druva.security.control = 'failsafe_for_administrators';
+          else if (typ.contains('api credential')) ctx.druva.security.control = 'api_credentials';
+          else if (typ.contains('webhook')) ctx.druva.security.control = 'webhook';
+          else if (typ.contains('scan setting')) ctx.druva.security.control = 'malware_scan';
+
+          if (ctx.druva.security.isEmpty()) ctx.druva.remove('security');
+        }
+
+  - script:
+      tag: extract_operation_metrics_from_event_details
+      description: Extract deterministic backup, restore and download metrics embedded in eventDetails.
+      if: ctx.json?.details?.eventDetails != null
+      lang: painless
+      source: >-
+        def s = ctx.json.details.eventDetails.toString();
+
+        if (ctx.druva == null) ctx.druva = new HashMap();
+        if (ctx.druva.operation == null) ctx.druva.operation = new HashMap();
+
+        def patterns = [
+          'size_bytes': /(?:Total Backup Size|Total Restore Size|Total Downloaded Size):([0-9]+)/,
+          'file_count': /(?:Files Backed up|Files Restored|Files Downloaded):([0-9]+)/,
+          'files_missed': /Files Missed:([0-9]+)/,
+          'bytes_transferred': /Total Bytes Transferred:([0-9]+)/,
+          'group_id': /eventsGroupId:([0-9]+)/
+        ];
+
+        for (def e : patterns.entrySet()) {
+          def m = e.getValue().matcher(s);
+
+          if (m.find()) {
+            if (e.getKey() == 'group_id') {
+              ctx.druva.operation[e.getKey()] = m.group(1);
+            } else {
+              ctx.druva.operation[e.getKey()] = Long.parseLong(m.group(1));
+            }
+          }
+        }
+
+        def sm = /(?:System and App Settings):([^,]+)/.matcher(s);
+        if (sm.find()) {
+          ctx.druva.operation.system_app_settings =
+            sm.group(1).trim().equalsIgnoreCase('yes');
+        }
+
+  - script:
+      tag: normalize_security_control_state
+      description: Normalize source-provided Druva security-control state without inventing unavailable prior state.
+      lang: painless
+      source: >-
+        def j = ctx.json;
+        def d = j != null ? j.details : null;
+        if (j == null || d == null) return;
+
+        if (ctx.druva == null) ctx.druva = new HashMap();
+        if (ctx.druva.security == null) ctx.druva.security = new HashMap();
+
+        def typ = j.type != null ? j.type.toString().toLowerCase() : '';
+        def o = d.oldState instanceof Map ? d.oldState : null;
+        def n = d.newState instanceof Map ? d.newState : null;
+
+        /*
+         * MFA: use the actual old/new Druva mfaMode values when supplied.
+         */
+        if (o != null && n != null &&
+            o.containsKey('mfaMode') && n.containsKey('mfaMode')) {
+
+          ctx.druva.security.control = 'mfa';
+
+          if (o.mfaMode != null) {
+            ctx.druva.security.previous_state = o.mfaMode.toString();
+          }
+          if (n.mfaMode != null) {
+            ctx.druva.security.current_state = n.mfaMode.toString();
+          }
+
+          if (n.mfaMode != null &&
+              n.mfaMode.toString().toLowerCase().contains('no multifactor')) {
+            ctx.druva.security.impact = 'reduced';
+          }
+        }
+
+        /*
+         * Administrator geofencing: preserve the actual old/new boolean values.
+         */
+        if (o != null && n != null &&
+            o.containsKey('enableGeofencingForAdministrators') &&
+            n.containsKey('enableGeofencingForAdministrators')) {
+
+          ctx.druva.security.control = 'geofencing';
+
+          def before = o.enableGeofencingForAdministrators;
+          def after = n.enableGeofencingForAdministrators;
+
+          if (before instanceof Boolean) {
+            ctx.druva.security.previous_enabled = before;
+            ctx.druva.security.previous_state = before == true ? 'enabled' : 'disabled';
+          }
+
+          if (after instanceof Boolean) {
+            ctx.druva.security.current_enabled = after;
+            ctx.druva.security.current_state = after == true ? 'enabled' : 'disabled';
+          }
+
+          if (before == true && after == false) {
+            ctx.druva.security.impact = 'reduced';
+          }
+        }
+
+        /*
+         * Failsafe Setting Updated is a flat source event. Druva supplies only
+         * the resulting state, so previous_* is intentionally left unset.
+         */
+        if (typ == 'failsafe setting updated' &&
+            d.isFailsafeForAdministratorsEnabled instanceof Boolean) {
+
+          ctx.druva.security.control = 'failsafe_for_administrators';
+          ctx.druva.security.current_enabled =
+            d.isFailsafeForAdministratorsEnabled;
+          ctx.druva.security.current_state =
+            d.isFailsafeForAdministratorsEnabled == true ? 'enabled' : 'disabled';
+        }
+
+        /*
+         * Scan Settings Updated is a flat configuration snapshot in the
+         * observed source events. AVScanEnabled is the primary boolean state;
+         * current_state records the other source-provided scan controls.
+         */
+        if (typ == 'scan settings updated') {
+          ctx.druva.security.control = 'malware_scan';
+
+          if (d.AVScanEnabled instanceof Boolean) {
+            ctx.druva.security.current_enabled = d.AVScanEnabled;
+          }
+
+          def scanState = new ArrayList();
+
+          if (d.AVScanEnabled instanceof Boolean) {
+            scanState.add('av_scan=' +
+              (d.AVScanEnabled == true ? 'enabled' : 'disabled'));
+          }
+
+          if (d.FileHashScanEnabled instanceof Boolean) {
+            scanState.add('file_hash_scan=' +
+              (d.FileHashScanEnabled == true ? 'enabled' : 'disabled'));
+          }
+
+          if (d.UseDruvaCuratedIOCs instanceof Boolean) {
+            scanState.add('curated_iocs=' +
+              (d.UseDruvaCuratedIOCs == true ? 'enabled' : 'disabled'));
+          }
+
+          if (d.UseLightScan instanceof Boolean) {
+            scanState.add('light_scan=' +
+              (d.UseLightScan == true ? 'enabled' : 'disabled'));
+          }
+
+          if (d.AllowAdminToSkipScanEndpoints instanceof Boolean) {
+            scanState.add('admin_skip_endpoints=' +
+              (d.AllowAdminToSkipScanEndpoints == true ? 'enabled' : 'disabled'));
+          }
+
+          if (d.AllowAdminToSkipScanServers instanceof Boolean) {
+            scanState.add('admin_skip_servers=' +
+              (d.AllowAdminToSkipScanServers == true ? 'enabled' : 'disabled'));
+          }
+
+          if (d.AllowUserToSkipScanEndpoints instanceof Boolean) {
+            scanState.add('user_skip_endpoints=' +
+              (d.AllowUserToSkipScanEndpoints == true ? 'enabled' : 'disabled'));
+          }
+
+          if (d.SkipScanForDeviceReplace instanceof Boolean) {
+            scanState.add('skip_device_replace=' +
+              (d.SkipScanForDeviceReplace == true ? 'enabled' : 'disabled'));
+          }
+
+          if (!scanState.isEmpty()) {
+            ctx.druva.security.current_state = String.join(', ', scanState);
+          }
+        }
+
+        /*
+         * If a scan-settings variant carries oldState/newState, use its actual
+         * Curated IOC before/after state and mark only explicit true -> false
+         * transitions as reduced.
+         */
+        if (o != null && n != null &&
+            o.containsKey('UseDruvaCuratedIOCs') &&
+            n.containsKey('UseDruvaCuratedIOCs')) {
+
+          ctx.druva.security.control = 'malware_scan';
+
+          def before = o.UseDruvaCuratedIOCs;
+          def after = n.UseDruvaCuratedIOCs;
+
+          if (before instanceof Boolean) {
+            ctx.druva.security.previous_enabled = before;
+            ctx.druva.security.previous_state =
+              before == true ? 'enabled' : 'disabled';
+          }
+
+          if (after instanceof Boolean) {
+            ctx.druva.security.current_enabled = after;
+            ctx.druva.security.current_state =
+              after == true ? 'enabled' : 'disabled';
+          }
+
+          if (before == true && after == false) {
+            ctx.druva.security.impact = 'reduced';
+          }
+        }
+
+        /*
+         * API Credentials Updated carries genuine oldState/newState objects.
+         * Prefer a network-restriction transition when present; otherwise use
+         * a source-provided role change. Create/delete/key-regeneration events
+         * intentionally do not get fabricated previous/current state.
+         */
+        if (typ == 'api credentials updated' && o != null && n != null) {
+          ctx.druva.security.control = 'api_credentials';
+
+          def oldNR = o.networkRestriction instanceof Map ?
+            o.networkRestriction : null;
+          def newNR = n.networkRestriction instanceof Map ?
+            n.networkRestriction : null;
+
+          boolean apiStateSet = false;
+
+          if (oldNR != null && newNR != null &&
+              oldNR.enableNetworkRestriction instanceof Boolean &&
+              newNR.enableNetworkRestriction instanceof Boolean &&
+              oldNR.enableNetworkRestriction != newNR.enableNetworkRestriction) {
+
+            def before = oldNR.enableNetworkRestriction;
+            def after = newNR.enableNetworkRestriction;
+
+            ctx.druva.security.previous_enabled = before;
+            ctx.druva.security.current_enabled = after;
+            ctx.druva.security.previous_state =
+              before == true ? 'network_restriction_enabled' : 'network_restriction_disabled';
+            ctx.druva.security.current_state =
+              after == true ? 'network_restriction_enabled' : 'network_restriction_disabled';
+
+            if (before == true && after == false) {
+              ctx.druva.security.impact = 'reduced';
+            }
+
+            apiStateSet = true;
+          }
+
+          if (!apiStateSet &&
+              o.role != null && n.role != null &&
+              !o.role.equals(n.role)) {
+
+            ctx.druva.security.previous_state = 'role=' + o.role.toString();
+            ctx.druva.security.current_state = 'role=' + n.role.toString();
+          }
+        }
+
+        /*
+         * Administrator Updated supplies oldState/newState adminRole in the
+         * DCP Events API v3 contract. Preserve the source-provided role
+         * transition without inferring which role is more privileged.
+         */
+        if (typ == 'administrator updated' &&
+            o != null && n != null &&
+            o.adminRole != null && n.adminRole != null &&
+            !o.adminRole.equals(n.adminRole)) {
+
+          ctx.druva.security.control = 'administrator_role';
+          ctx.druva.security.previous_state =
+            'role=' + o.adminRole.toString();
+          ctx.druva.security.current_state =
+            'role=' + n.adminRole.toString();
+        }
+
+        /*
+         * Webhook Configuration Updated supplies oldState/newState. Expose the
+         * first changed source field in a stable priority order. No security
+         * impact is inferred because the source does not classify the change.
+         */
+        if (typ == 'webhook configuration updated' &&
+            o != null && n != null) {
+
+          ctx.druva.security.control = 'webhook';
+
+          if (o.endpointURL != null && n.endpointURL != null &&
+              !o.endpointURL.equals(n.endpointURL)) {
+
+            ctx.druva.security.previous_state =
+              'endpoint=' + o.endpointURL.toString();
+            ctx.druva.security.current_state =
+              'endpoint=' + n.endpointURL.toString();
+
+          } else if (o.authType != null && n.authType != null &&
+                     !o.authType.equals(n.authType)) {
+
+            ctx.druva.security.previous_state =
+              'auth_type=' + o.authType.toString();
+            ctx.druva.security.current_state =
+              'auth_type=' + n.authType.toString();
+
+          } else if (o.providerName != null && n.providerName != null &&
+                     !o.providerName.equals(n.providerName)) {
+
+            ctx.druva.security.previous_state =
+              'provider=' + o.providerName.toString();
+            ctx.druva.security.current_state =
+              'provider=' + n.providerName.toString();
+
+          } else if (o.webhookName != null && n.webhookName != null &&
+                     !o.webhookName.equals(n.webhookName)) {
+
+            ctx.druva.security.previous_state =
+              'name=' + o.webhookName.toString();
+            ctx.druva.security.current_state =
+              'name=' + n.webhookName.toString();
+          }
+        }
+
+        if (ctx.druva.security.isEmpty()) ctx.druva.remove('security');
+
+  - set:
+      tag: set_backup_status
+      description: Set backup status only for actual backup operations.
+      if: ctx.json?.feature == 'Backup And Restore' && ctx.druva?.operation?.type == 'backup' && ctx.json?.details?.eventState != null
+      field: druva.backup.status
+      copy_from: json.details.eventState
+
+  - script:
+      tag: normalize_event_outcome
+      description: Normalize Druva status values to ECS event.outcome.
+      lang: painless
+      source: >-
+        def d = ctx.json != null ? ctx.json.details : null;
+
+        if (d != null) {
+          def value = null;
+
+          if (d.eventState != null) value = d.eventState;
+          else if (d.loginResult != null) value = d.loginResult;
+          else if (d.status != null) value = d.status;
+          else if (d.state != null) value = d.state;
+          else if (d.Successful instanceof Boolean) {
+            value = d.Successful == true ? 'success' : 'failure';
+          }
+
+          if (value != null) {
+            def v = value.toString().toLowerCase();
+
+            if (v == 'backed up with errors' ||
+                v == 'completed with errors' ||
+                v == 'completed with warnings') {
+
+              if (ctx.event == null) ctx.event = new HashMap();
+              ctx.event.outcome = 'unknown';
+
+            } else if (v == 'success' ||
+                       v == 'succeeded' ||
+                       v == 'successful' ||
+                       v == 'download successful' ||
+                       v == 'restore successful' ||
+                       v == 'backup successful') {
+
+              if (ctx.event == null) ctx.event = new HashMap();
+              ctx.event.outcome = 'success';
+
+            } else if (v == 'failure' ||
+                       v == 'failed' ||
+                       v == 'error' ||
+                       v == 'download failed' ||
+                       v == 'restore failed' ||
+                       v == 'backup failed') {
+
+              if (ctx.event == null) ctx.event = new HashMap();
+              ctx.event.outcome = 'failure';
+            }
+          }
+        }
+
+  # ---------------------------------------------------------------------------
+  # ECS classification: authentication
+  # ---------------------------------------------------------------------------
+
+  - set:
+      tag: classify_admin_login_category
+      if: ctx.json?.feature == 'Admin Event' && ctx.json?.type == 'Admin Login'
+      field: event.category
+      value:
+        - authentication
+
+  - set:
+      tag: classify_admin_login_type
+      if: ctx.json?.feature == 'Admin Event' && ctx.json?.type == 'Admin Login'
+      field: event.type
+      value:
+        - start
+
+  - set:
+      tag: classify_password_verified_category
+      if: ctx.json?.feature == 'Admin Event' && ctx.json?.type == 'Password Verified'
+      field: event.category
+      value:
+        - authentication
+
+  - set:
+      tag: classify_password_verified_type
+      if: ctx.json?.feature == 'Admin Event' && ctx.json?.type == 'Password Verified'
+      field: event.type
+      value:
+        - info
+
+  # ---------------------------------------------------------------------------
+  # ECS classification: administrator lifecycle / IAM
+  # ---------------------------------------------------------------------------
+
+  - set:
+      tag: classify_admin_created_category
+      if: ctx.json?.type == 'Administrator Created'
+      field: event.category
+      value:
+        - iam
+
+  - set:
+      tag: classify_admin_created_type
+      if: ctx.json?.type == 'Administrator Created'
+      field: event.type
+      value:
+        - user
+        - creation
+
+  - set:
+      tag: classify_admin_deleted_category
+      if: ctx.json?.type == 'Administrator Deleted'
+      field: event.category
+      value:
+        - iam
+
+  - set:
+      tag: classify_admin_deleted_type
+      if: ctx.json?.type == 'Administrator Deleted'
+      field: event.type
+      value:
+        - user
+        - deletion
+
+  - set:
+      tag: classify_admin_updated_category
+      if: ctx.json?.type == 'Administrator Updated' || ctx.json?.type == 'Administrator Modified'
+      field: event.category
+      value:
+        - iam
+
+  - set:
+      tag: classify_admin_updated_type
+      if: ctx.json?.type == 'Administrator Updated' || ctx.json?.type == 'Administrator Modified'
+      field: event.type
+      value:
+        - user
+        - change
+
+  - set:
+      tag: classify_admin_disabled_category
+      if: ctx.json?.type == 'Administrator Disabled'
+      field: event.category
+      value:
+        - iam
+
+  - set:
+      tag: classify_admin_disabled_type
+      if: ctx.json?.type == 'Administrator Disabled'
+      field: event.type
+      value:
+        - user
+        - change
+
+  - set:
+      tag: classify_admin_activated_category
+      if: ctx.json?.type == 'Administrator Activated'
+      field: event.category
+      value:
+        - iam
+
+  - set:
+      tag: classify_admin_activated_type
+      if: ctx.json?.type == 'Administrator Activated'
+      field: event.type
+      value:
+        - user
+        - change
+
+  # ---------------------------------------------------------------------------
+  # ECS classification: security-control configuration
+  # ---------------------------------------------------------------------------
+
+  - set:
+      tag: classify_failsafe_setting_updated_category
+      if: ctx.json?.feature == 'Admin Event' && ctx.json?.type == 'Failsafe Setting Updated'
+      field: event.category
+      value:
+        - configuration
+
+  - set:
+      tag: classify_failsafe_setting_updated_type
+      if: ctx.json?.feature == 'Admin Event' && ctx.json?.type == 'Failsafe Setting Updated'
+      field: event.type
+      value:
+        - change
+
+  - set:
+      tag: classify_scan_settings_updated_category
+      if: ctx.json?.feature == 'Admin Event' && ctx.json?.type == 'Scan Settings Updated'
+      field: event.category
+      value:
+        - configuration
+
+  - set:
+      tag: classify_scan_settings_updated_type
+      if: ctx.json?.feature == 'Admin Event' && ctx.json?.type == 'Scan Settings Updated'
+      field: event.type
+      value:
+        - change
+
+  # ---------------------------------------------------------------------------
+  # ECS classification: API credential configuration
+  # ---------------------------------------------------------------------------
+
+  - set:
+      tag: classify_api_credentials_created_category
+      if: ctx.json?.feature == 'API' && ctx.json?.type == 'API Credentials Created'
+      field: event.category
+      value:
+        - configuration
+
+  - set:
+      tag: classify_api_credentials_created_type
+      if: ctx.json?.feature == 'API' && ctx.json?.type == 'API Credentials Created'
+      field: event.type
+      value:
+        - creation
+
+  - set:
+      tag: classify_api_credentials_updated_category
+      if: ctx.json?.feature == 'API' && ctx.json?.type == 'API Credentials Updated'
+      field: event.category
+      value:
+        - configuration
+
+  - set:
+      tag: classify_api_credentials_updated_type
+      if: ctx.json?.feature == 'API' && ctx.json?.type == 'API Credentials Updated'
+      field: event.type
+      value:
+        - change
+
+  - set:
+      tag: classify_api_credentials_deleted_category
+      if: ctx.json?.feature == 'API' && ctx.json?.type == 'API Credentials Deleted'
+      field: event.category
+      value:
+        - configuration
+
+  - set:
+      tag: classify_api_credentials_deleted_type
+      if: ctx.json?.feature == 'API' && ctx.json?.type == 'API Credentials Deleted'
+      field: event.type
+      value:
+        - deletion
+
+  # ---------------------------------------------------------------------------
+  # ECS classification: webhook configuration
+  # ---------------------------------------------------------------------------
+
+  - set:
+      tag: classify_webhook_created_category
+      if: ctx.json?.type == 'Webhook Configuration Created'
+      field: event.category
+      value:
+        - configuration
+
+  - set:
+      tag: classify_webhook_created_type
+      if: ctx.json?.type == 'Webhook Configuration Created'
+      field: event.type
+      value:
+        - creation
+
+  - set:
+      tag: classify_webhook_updated_category
+      if: ctx.json?.type == 'Webhook Configuration Updated'
+      field: event.category
+      value:
+        - configuration
+
+  - set:
+      tag: classify_webhook_updated_type
+      if: ctx.json?.type == 'Webhook Configuration Updated'
+      field: event.type
+      value:
+        - change
+
+  - set:
+      tag: classify_webhook_deleted_category
+      if: ctx.json?.type == 'Webhook Configuration Deleted'
+      field: event.category
+      value:
+        - configuration
+
+  - set:
+      tag: classify_webhook_deleted_type
+      if: ctx.json?.type == 'Webhook Configuration Deleted'
+      field: event.type
+      value:
+        - deletion
+
+  # ---------------------------------------------------------------------------
+  # ECS classification: Data Access
+  # ---------------------------------------------------------------------------
+
+  - set:
+      tag: classify_admin_restore_category
+      if: ctx.json?.feature == 'Data Access' && ctx.json?.type == 'Admin Restore'
+      field: event.category
+      value:
+        - file
+
+  - set:
+      tag: classify_admin_restore_type
+      if: ctx.json?.feature == 'Data Access' && ctx.json?.type == 'Admin Restore'
+      field: event.type
+      value:
+        - access
+
+  - set:
+      tag: classify_admin_download_category
+      if: ctx.json?.feature == 'Data Access' && ctx.json?.type == 'Admin Download'
+      field: event.category
+      value:
+        - file
+
+  - set:
+      tag: classify_admin_download_type
+      if: ctx.json?.feature == 'Data Access' && ctx.json?.type == 'Admin Download'
+      field: event.type
+      value:
+        - access
+
+  # ---------------------------------------------------------------------------
+  # ECS classification: Unusual Data Activity
+  # ---------------------------------------------------------------------------
+
+  - set:
+      tag: classify_uda_category
+      if: ctx.json?.details?.udaType != null || ctx.json?.details?.alertName == 'Unusual Data Activity'
+      field: event.category
+      value:
+        - file
+
+  - set:
+      tag: classify_uda_type
+      if: ctx.json?.details?.udaType != null || ctx.json?.details?.alertName == 'Unusual Data Activity'
+      field: event.type
+      value:
+        - info
+
+  - remove:
+      tag: remove_temporary_json
+      description: Remove the temporary raw Druva object after normalization.
+      field: json
+      ignore_missing: true
+
+on_failure:
+  - set:
+      tag: set_pipeline_error_kind
+      field: event.kind
+      value: pipeline_error
+
+  - set:
+      tag: set_ingest_error_message
+      field: error.message
+      value: >-
+        Pipeline '{{{ _ingest.pipeline }}}' failed in processor
+        '{{{ _ingest.on_failure_processor_type }}}'
+        with tag '{{{ _ingest.on_failure_processor_tag }}}':
+        {{{ _ingest.on_failure_message }}}
