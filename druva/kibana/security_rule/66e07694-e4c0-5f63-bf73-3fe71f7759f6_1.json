@@ -13,17 +13,21 @@
         ],
         "license": "Elastic License v2",
         "references": [],
-        "false_positives": [],
+        "false_positives": [
+            "Authorized release of a resource after security investigation.",
+            "Recovery personnel removing quarantine after confirming the resource is safe.",
+            "Security testing or incident-response exercises."
+        ],
         "threat": [],
         "tags": [
             "Druva",
             "Data Source: Druva",
             "Druva Security",
-            "Druva Detection Pack 4 \u2013 Ransomware & Unusual Data Activity",
+            "Druva Detection Pack 4 – Ransomware & Unusual Data Activity",
             "Druva Phase 1",
             "Druva Category: Security Monitoring"
         ],
-        "version": 1,
+        "version": 2,
         "type": "query",
         "language": "kuery",
         "query": "druva.feature:\"Ransomware Recovery\"\nand druva.operation.action:\"Delete Ranges\"",
@@ -31,7 +35,7 @@
         "risk_score_mapping": [],
         "severity_mapping": [],
         "setup": "",
-        "note": "",
+        "note": "### Investigation guide\n\nThis rule detects removal of a Druva resource from quarantine. Removing quarantine may be expected after investigation, but premature or unauthorized release can reintroduce risk.\n\n#### Investigation steps\n\n- Identify the resource and administrator associated with the action.\n- Determine why the resource was originally quarantined.\n- Review the related UDA, ransomware, malicious-file, or security events.\n- Confirm that the resource was investigated and approved for release.\n- Review recovery and backup status and determine whether clean recovery points are available.\n- Check for additional activity by the administrator around the release.\n\n#### Response\n\n- Re-quarantine the resource if compromise has not been resolved.\n- Escalate unauthorized release.\n- Validate recovery and containment status before returning the resource to normal operation.",
         "max_signals": 100,
         "related_integrations": [
             {

@@ -13,17 +13,37 @@
         ],
         "license": "Elastic License v2",
         "references": [],
-        "false_positives": [],
-        "threat": [],
+        "false_positives": [
+            "Authorized administrator export for recovery, investigation, eDiscovery, audit, or support.",
+            "Approved migration or data-validation activity.",
+            "Security or incident-response personnel retrieving data for analysis."
+        ],
+        "threat": [
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0009",
+                    "name": "Collection",
+                    "reference": "https://attack.mitre.org/tactics/TA0009/"
+                },
+                "technique": [
+                    {
+                        "id": "T1530",
+                        "name": "Data from Cloud Storage",
+                        "reference": "https://attack.mitre.org/techniques/T1530/"
+                    }
+                ]
+            }
+        ],
         "tags": [
             "Druva",
             "Data Source: Druva",
             "Druva Security",
-            "Druva Detection Pack 5 \u2013 Data Access & Insider Risk",
+            "Druva Detection Pack 5 – Data Access & Insider Risk",
             "Druva Phase 1",
             "Druva Category: Security Monitoring"
         ],
-        "version": 1,
+        "version": 2,
         "type": "query",
         "language": "kuery",
         "query": "druva.feature:\"Data Access\"\nand druva.event_type:\"Admin Download\"",
@@ -31,7 +51,7 @@
         "risk_score_mapping": [],
         "severity_mapping": [],
         "setup": "",
-        "note": "",
+        "note": "### Investigation guide\n\nThis rule detects an administrative download of data from Druva. Administrative downloads may expose protected data and should be validated against the administrator's expected duties.\n\n#### Investigation steps\n\n- Identify the administrator, source IP, affected resource, and time of download.\n- Determine what data was downloaded and whether the volume or scope is expected.\n- Confirm a legitimate recovery, investigation, audit, support, or migration purpose.\n- Review recent authentication activity for the administrator, including impossible-travel or repeated-login alerts.\n- Review role changes, API credential changes, and other sensitive administrative activity.\n- Determine whether the destination or endpoint used for the download is expected.\n\n#### Response\n\n- Escalate unauthorized or unexplained downloads.\n- Review the administrator account for compromise.\n- Follow organizational procedures for potential unauthorized data access or disclosure.",
         "max_signals": 100,
         "related_integrations": [
             {

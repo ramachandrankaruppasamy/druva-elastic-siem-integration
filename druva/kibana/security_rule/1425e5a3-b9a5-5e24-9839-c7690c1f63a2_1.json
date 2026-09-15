@@ -13,20 +13,40 @@
         ],
         "license": "Elastic License v2",
         "references": [],
-        "false_positives": [],
-        "threat": [],
+        "false_positives": [
+            "Approved retirement of an obsolete backup repository.",
+            "Planned migration to a replacement repository or storage architecture.",
+            "Cleanup of a test, lab, or decommissioned environment."
+        ],
+        "threat": [
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0040",
+                    "name": "Impact",
+                    "reference": "https://attack.mitre.org/tactics/TA0040/"
+                },
+                "technique": [
+                    {
+                        "id": "T1490",
+                        "name": "Inhibit System Recovery",
+                        "reference": "https://attack.mitre.org/techniques/T1490/"
+                    }
+                ]
+            }
+        ],
         "tags": [
             "Druva",
             "Data Source: Druva",
             "Druva Security",
-            "Druva Detection Pack 2 \u2013 Backup Operations",
+            "Druva Detection Pack 2 – Backup Operations",
             "Druva Phase 1",
             "Druva Category: Backup",
             "Druva Category: Repository",
             "Druva Category: Deletion",
             "Druva Category: Impact"
         ],
-        "version": 1,
+        "version": 2,
         "index": [
             "logs-druva.event-*"
         ],
@@ -37,7 +57,7 @@
         "risk_score_mapping": [],
         "severity_mapping": [],
         "setup": "",
-        "note": "",
+        "note": "### Investigation guide\n\nThis rule detects deletion of a Druva backup repository. Repository deletion can reduce recovery capability and is consistent with attempts to inhibit system recovery.\n\n#### Investigation steps\n\n- Identify the deleted repository and administrator responsible for the action.\n- Confirm whether the repository was scheduled for retirement or migration.\n- Review the administrator's source IP and other privileged actions around the event.\n- Determine which protected workloads depended on the repository and whether alternative recovery copies remain.\n- Review recent retention, repository-permission, storage-target, backup-protection, and backup-data deletion events.\n- Check for UDA, ransomware, suspicious login, or privilege activity preceding the deletion.\n\n#### Response\n\n- Escalate unauthorized repository deletion immediately.\n- Preserve and validate remaining recovery copies.\n- Restore or replace repository configuration where appropriate.\n- Investigate the responsible administrator account for compromise.",
         "max_signals": 100,
         "related_integrations": [
             {

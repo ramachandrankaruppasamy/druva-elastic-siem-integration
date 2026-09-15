@@ -13,20 +13,40 @@
         ],
         "license": "Elastic License v2",
         "references": [],
-        "false_positives": [],
-        "threat": [],
+        "false_positives": [
+            "Approved repository access-control maintenance.",
+            "Storage migration requiring permission changes.",
+            "Authorized least-privilege or service-account updates."
+        ],
+        "threat": [
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0040",
+                    "name": "Impact",
+                    "reference": "https://attack.mitre.org/tactics/TA0040/"
+                },
+                "technique": [
+                    {
+                        "id": "T1490",
+                        "name": "Inhibit System Recovery",
+                        "reference": "https://attack.mitre.org/techniques/T1490/"
+                    }
+                ]
+            }
+        ],
         "tags": [
             "Druva",
             "Data Source: Druva",
             "Druva Security",
-            "Druva Detection Pack 2 \u2013 Backup Operations",
+            "Druva Detection Pack 2 – Backup Operations",
             "Druva Phase 1",
             "Druva Category: Backup",
             "Druva Category: Repository",
             "Druva Category: Permissions",
             "Druva Category: Access Control"
         ],
-        "version": 1,
+        "version": 2,
         "index": [
             "logs-druva.event-*"
         ],
@@ -37,7 +57,7 @@
         "risk_score_mapping": [],
         "severity_mapping": [],
         "setup": "",
-        "note": "",
+        "note": "### Investigation guide\n\nThis rule detects changes to permissions or access controls affecting a Druva backup repository. Unauthorized permission changes may interfere with backup or recovery access.\n\n#### Investigation steps\n\n- Identify the repository and administrator responsible for the change.\n- Review the previous and current permissions where available.\n- Confirm the modification is covered by an approved access-control change.\n- Determine whether backup or recovery operations failed after the change.\n- Review repository deletion, storage-target, retention, protection, and privilege events around the same period.\n- Search for suspicious authentication or security activity involving the administrator.\n\n#### Response\n\n- Restore required repository permissions if the change was unauthorized.\n- Validate backup and recovery access.\n- Investigate the responsible administrator account when necessary.",
         "max_signals": 100,
         "related_integrations": [
             {

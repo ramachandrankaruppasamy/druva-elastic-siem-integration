@@ -13,13 +13,33 @@
         ],
         "license": "Elastic License v2",
         "references": [],
-        "false_positives": [],
-        "threat": [],
+        "false_positives": [
+            "Security testing or ransomware simulation followed by intentional backup suspension.",
+            "Known benign UDA occurring during approved maintenance where protection is paused.",
+            "Incident-response activity where administrators intentionally alter protection for a documented reason."
+        ],
+        "threat": [
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0040",
+                    "name": "Impact",
+                    "reference": "https://attack.mitre.org/tactics/TA0040/"
+                },
+                "technique": [
+                    {
+                        "id": "T1490",
+                        "name": "Inhibit System Recovery",
+                        "reference": "https://attack.mitre.org/techniques/T1490/"
+                    }
+                ]
+            }
+        ],
         "tags": [
             "Druva",
             "Data Source: Druva",
             "Druva Security",
-            "Druva Detection Pack 0 \u2013 Core Cyber Resilience",
+            "Druva Detection Pack 0 – Core Cyber Resilience",
             "Druva Phase 1",
             "Druva Category: Cyber Resilience",
             "Druva Category: SOC",
@@ -29,7 +49,7 @@
             "Druva Category: Correlation",
             "Druva Category: Backup Disabled"
         ],
-        "version": 1,
+        "version": 2,
         "type": "eql",
         "language": "eql",
         "query": "sequence by druva.resource.name with maxspan=60m\n  [ any where druva.uda.type != null ]\n  [ any where\n      druva.event_type in (\n        \"Backup Protection Disabled\",\n        \"Backup Protection Paused\",\n        \"Backup Protection Suspended\"\n      )\n  ]",
@@ -37,7 +57,7 @@
         "risk_score_mapping": [],
         "severity_mapping": [],
         "setup": "",
-        "note": "",
+        "note": "### Investigation guide\n\nThis rule correlates Unusual Data Activity with subsequent backup disablement, pause, or suspension for the same resource within 60 minutes. The combination is higher risk because suspicious data activity and reduced recoverability occur together.\n\n#### Investigation steps\n\n- Identify the affected resource and both events in the sequence.\n- Review the UDA type, affected files, and related security context.\n- Identify the administrator responsible for changing protection.\n- Determine whether an approved maintenance, security test, or incident-response process explains both events.\n- Review ransomware, quarantine, backup-failure, retention, repository, authentication, and privilege events.\n- Determine the last known-good recovery point and whether protection was restored.\n\n#### Response\n\n- Escalate unexplained correlation as a potentially serious cyber-recovery event.\n- Re-enable protection where appropriate.\n- Preserve and validate clean recovery points.\n- Investigate associated administrator accounts and affected workloads.",
         "max_signals": 100,
         "related_integrations": [
             {

@@ -13,20 +13,40 @@
         ],
         "license": "Elastic License v2",
         "references": [],
-        "false_positives": [],
-        "threat": [],
+        "false_positives": [
+            "Planned workload decommissioning or migration.",
+            "Temporary suspension during approved maintenance or troubleshooting.",
+            "Authorized lifecycle automation pausing protection."
+        ],
+        "threat": [
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0040",
+                    "name": "Impact",
+                    "reference": "https://attack.mitre.org/tactics/TA0040/"
+                },
+                "technique": [
+                    {
+                        "id": "T1490",
+                        "name": "Inhibit System Recovery",
+                        "reference": "https://attack.mitre.org/techniques/T1490/"
+                    }
+                ]
+            }
+        ],
         "tags": [
             "Druva",
             "Data Source: Druva",
             "Druva Security",
-            "Druva Detection Pack 0 \u2013 Core Cyber Resilience",
+            "Druva Detection Pack 0 – Core Cyber Resilience",
             "Druva Phase 1",
             "Druva Category: Cyber Resilience",
             "Druva Category: SOC",
             "Druva Category: Backup",
             "Druva Category: Recovery"
         ],
-        "version": 1,
+        "version": 2,
         "type": "query",
         "language": "kuery",
         "query": "druva.feature:\"Admin Event\"\nand (\n  druva.event_type:\"Backup Protection Disabled\"\n  or druva.event_type:\"Backup Protection Paused\"\n  or druva.event_type:\"Backup Protection Suspended\"\n)",
@@ -34,7 +54,7 @@
         "risk_score_mapping": [],
         "severity_mapping": [],
         "setup": "",
-        "note": "",
+        "note": "### Investigation guide\n\nThis rule detects backup protection being disabled, paused, or suspended for a Druva resource. Disabling protection can reduce future recovery capability and is consistent with attempts to inhibit system recovery.\n\n#### Investigation steps\n\n- Identify the affected resource and administrator responsible for the action.\n- Determine whether the change corresponds to approved maintenance, migration, or decommissioning.\n- Review the administrator's source IP and other privileged activity.\n- Check for UDA, ransomware, backup failures, retention changes, repository changes, or recovery activity involving the resource.\n- Determine the last successful backup before protection changed.\n- Confirm whether protection was subsequently restored.\n\n#### Response\n\n- Re-enable unauthorized or unnecessary protection changes.\n- Validate current backup status and available recovery points.\n- Investigate the administrator account when the action cannot be explained.",
         "max_signals": 100,
         "related_integrations": [
             {

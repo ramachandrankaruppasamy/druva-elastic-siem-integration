@@ -13,17 +13,21 @@
         ],
         "license": "Elastic License v2",
         "references": [],
-        "false_positives": [],
+        "false_positives": [
+            "Routine API credential rotation.",
+            "Removal of credentials belonging to a retired integration or service.",
+            "Revocation of a credential as part of normal access cleanup or incident response."
+        ],
         "threat": [],
         "tags": [
             "Druva",
             "Data Source: Druva",
             "Druva Security",
-            "Druva Detection Pack 6 \u2013 Security Configuration & Integrations",
+            "Druva Detection Pack 6 – Security Configuration & Integrations",
             "Druva Phase 1",
             "Druva Category: Security Monitoring"
         ],
-        "version": 1,
+        "version": 2,
         "type": "query",
         "language": "kuery",
         "query": "druva.feature:\"API\"\nand druva.event_type:\"API Credentials Deleted\"",
@@ -31,7 +35,7 @@
         "risk_score_mapping": [],
         "severity_mapping": [],
         "setup": "",
-        "note": "",
+        "note": "### Investigation guide\n\nThis rule detects deletion of Druva API credentials. Credential deletion may be legitimate lifecycle management, but unauthorized deletion can disrupt integrations, automation, or security monitoring.\n\n#### Investigation steps\n\n- Identify the deleted credential and administrator responsible for the action.\n- Determine which application, integration, or automation depended on the credential.\n- Confirm whether deletion was part of an approved rotation or decommissioning process.\n- Review API credential modifications and administrator activity around the event.\n- Determine whether downstream integrations or security-event delivery were disrupted.\n\n#### Response\n\n- Restore required integration access using a newly issued credential when appropriate.\n- Rotate related secrets if compromise is suspected.\n- Investigate unauthorized credential deletion and associated administrator activity.",
         "max_signals": 100,
         "related_integrations": [
             {

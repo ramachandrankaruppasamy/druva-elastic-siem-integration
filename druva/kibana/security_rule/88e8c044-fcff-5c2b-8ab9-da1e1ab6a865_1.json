@@ -13,20 +13,40 @@
         ],
         "license": "Elastic License v2",
         "references": [],
-        "false_positives": [],
-        "threat": [],
+        "false_positives": [
+            "Temporary administrator account created for approved support or troubleshooting.",
+            "Short-lived account used during migration or implementation work.",
+            "Automated provisioning tests that create and remove administrator accounts."
+        ],
+        "threat": [
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0003",
+                    "name": "Persistence",
+                    "reference": "https://attack.mitre.org/tactics/TA0003/"
+                },
+                "technique": [
+                    {
+                        "id": "T1136.003",
+                        "name": "Cloud Account",
+                        "reference": "https://attack.mitre.org/techniques/T1136/003/"
+                    }
+                ]
+            }
+        ],
         "tags": [
             "Druva",
             "Data Source: Druva",
             "Druva Security",
-            "Druva Detection Pack 0 \u2013 Core Cyber Resilience",
+            "Druva Detection Pack 0 – Core Cyber Resilience",
             "Druva Phase 1",
             "Druva Category: Identity",
             "Druva Category: Privileged Access",
             "Druva Category: Insider Risk",
             "Druva Category: Correlation"
         ],
-        "version": 1,
+        "version": 2,
         "type": "eql",
         "language": "eql",
         "query": "sequence by user.target.email with maxspan=24h\n  [ any where\n      druva.event_type == \"Administrator Created\"\n      and user.target.email != null\n  ]\n  [ any where\n      druva.event_type == \"Administrator Deleted\"\n      and user.target.email != null\n  ]",
@@ -34,7 +54,7 @@
         "risk_score_mapping": [],
         "severity_mapping": [],
         "setup": "",
-        "note": "",
+        "note": "### Investigation guide\n\nThis rule detects a Druva administrator account created and deleted within 24 hours. Short-lived privileged accounts can be legitimate, but they may also provide temporary access that is harder to notice during later review.\n\n#### Investigation steps\n\n- Identify the target administrator account and the actors responsible for creation and deletion.\n- Confirm a documented business reason for the short-lived account.\n- Review the role assigned to the account.\n- Review all authentication and privileged activity performed by the account during its lifetime.\n- Determine whether the account performed downloads, role changes, API changes, protection changes, or recovery operations.\n- Review the creating administrator's activity for other unusual changes.\n\n#### Response\n\n- Escalate unexplained temporary privileged accounts.\n- Review actions performed during the account lifetime for unauthorized activity.\n- Investigate the creator account if compromise or misuse is suspected.",
         "max_signals": 100,
         "related_integrations": [
             {

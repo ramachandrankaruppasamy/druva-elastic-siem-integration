@@ -13,19 +13,23 @@
         ],
         "license": "Elastic License v2",
         "references": [],
-        "false_positives": [],
+        "false_positives": [
+            "Planned disaster-recovery testing.",
+            "Migration to new recovery infrastructure.",
+            "Approved change to a restore destination during maintenance or capacity management."
+        ],
         "threat": [],
         "tags": [
             "Druva",
             "Data Source: Druva",
             "Druva Security",
-            "Druva Detection Pack 3 \u2013 Cyber Recovery & Recovery Operations",
+            "Druva Detection Pack 3 – Cyber Recovery & Recovery Operations",
             "Druva Phase 1",
             "Druva Category: Recovery",
             "Druva Category: Destination Change",
             "Druva Category: Cyber Recovery"
         ],
-        "version": 1,
+        "version": 2,
         "index": [
             "logs-druva.event-*"
         ],
@@ -36,7 +40,7 @@
         "risk_score_mapping": [],
         "severity_mapping": [],
         "setup": "",
-        "note": "",
+        "note": "### Investigation guide\n\nThis rule detects an administrative change to a Druva recovery target. An unauthorized target change could alter where protected data is restored or interfere with established recovery procedures.\n\n#### Investigation steps\n\n- Identify the administrator and affected recovery configuration.\n- Determine the previous and new recovery target when available.\n- Confirm that the new destination is approved and expected.\n- Review the source IP and other administrative actions by the same account.\n- Search for nearby recovery operations, protection changes, repository changes, or suspicious security events.\n- Determine whether sensitive data was subsequently restored to the changed target.\n\n#### Response\n\n- Revert unauthorized target changes.\n- Review recovery activity performed after the modification.\n- Investigate the responsible administrator account when the change cannot be validated.",
         "max_signals": 100,
         "related_integrations": [
             {

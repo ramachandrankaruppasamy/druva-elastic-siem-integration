@@ -13,20 +13,24 @@
         ],
         "license": "Elastic License v2",
         "references": [],
-        "false_positives": [],
+        "false_positives": [
+            "Approved encryption-policy migration or troubleshooting.",
+            "Temporary configuration change during a documented maintenance activity.",
+            "Replacement of the existing encryption configuration with another approved control."
+        ],
         "threat": [],
         "tags": [
             "Druva",
             "Data Source: Druva",
             "Druva Security",
-            "Druva Detection Pack 2 \u2013 Backup Operations",
+            "Druva Detection Pack 2 – Backup Operations",
             "Druva Phase 1",
             "Druva Category: Backup",
             "Druva Category: Encryption",
             "Druva Category: Critical",
             "Druva Category: Configuration"
         ],
-        "version": 1,
+        "version": 2,
         "index": [
             "logs-druva.event-*"
         ],
@@ -37,7 +41,7 @@
         "risk_score_mapping": [],
         "severity_mapping": [],
         "setup": "",
-        "note": "",
+        "note": "### Investigation guide\n\nThis rule detects administrative activity indicating that Druva backup encryption was disabled. Disabling encryption can reduce protection of backup data, but the detected behavior does not cleanly correspond to a current Enterprise ATT&CK technique and is therefore intentionally left without an ATT&CK mapping.\n\n#### Investigation steps\n\n- Identify the administrator, source IP, affected workload or configuration, and timestamp.\n- Determine whether the change was approved and whether an alternative encryption control was introduced.\n- Review nearby security-setting, repository, permission, retention, storage-target, and protection changes.\n- Review authentication and privilege activity by the responsible administrator.\n- Determine whether backups were created or transferred while encryption was disabled.\n- Confirm whether encryption was subsequently restored.\n\n#### Response\n\n- Restore required encryption controls.\n- Investigate unauthorized changes and the responsible administrator account.\n- Assess exposure of backup data created or handled while encryption was disabled.",
         "max_signals": 100,
         "related_integrations": [
             {

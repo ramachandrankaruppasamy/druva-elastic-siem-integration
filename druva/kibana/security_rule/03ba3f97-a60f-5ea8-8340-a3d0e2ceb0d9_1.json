@@ -13,20 +13,24 @@
         ],
         "license": "Elastic License v2",
         "references": [],
-        "false_positives": [],
+        "false_positives": [
+            "Planned recovery testing where verification fails because of a known test-environment or configuration issue.",
+            "Temporary infrastructure, connectivity, credential, or target availability problems affecting a legitimate recovery test.",
+            "An administrator intentionally testing a recovery scenario that is expected to fail as part of troubleshooting."
+        ],
         "threat": [],
         "tags": [
             "Druva",
             "Data Source: Druva",
             "Druva Security",
-            "Druva Detection Pack 3 \u2013 Cyber Recovery & Recovery Operations",
+            "Druva Detection Pack 3 – Cyber Recovery & Recovery Operations",
             "Druva Phase 1",
             "Druva Category: Recovery",
             "Druva Category: Verification",
             "Druva Category: Failure",
             "Druva Category: Cyber Recovery"
         ],
-        "version": 1,
+        "version": 2,
         "index": [
             "logs-druva.event-*"
         ],
@@ -37,7 +41,7 @@
         "risk_score_mapping": [],
         "severity_mapping": [],
         "setup": "",
-        "note": "",
+        "note": "### Investigation guide\n\nThis rule detects a failed Druva recovery verification, validation, or recovery-test event. A failed verification does not by itself establish malicious activity, but it can indicate that expected recovery capability is unavailable when needed.\n\n#### Investigation steps\n\n- Identify the recovery operation, affected workload, resource, and recovery point associated with the failure.\n- Review the failure reason and determine whether the failure resulted from the recovery target, credentials, connectivity, configuration, or the protected data itself.\n- Determine whether this was a scheduled recovery test, disaster-recovery exercise, or an unexpected verification attempt.\n- Review recent Druva administrative activity affecting the same resource, including backup protection, retention, repositories, permissions, encryption, and recovery-target changes.\n- Check for nearby Unusual Data Activity, ransomware, backup-failure, or other security events affecting the resource.\n- Determine whether another valid recovery point can be successfully verified.\n\n#### Response\n\n- Escalate unexpected failures that materially reduce recoverability.\n- Correct the underlying recovery or infrastructure issue and repeat verification.\n- If suspicious administrative changes preceded the failure, investigate the responsible administrator account and validate remaining recovery points.",
         "max_signals": 100,
         "related_integrations": [
             {

@@ -13,13 +13,17 @@
         ],
         "license": "Elastic License v2",
         "references": [],
-        "false_positives": [],
+        "false_positives": [
+            "Expected quarantine performed by security or recovery personnel after investigating a legitimate Druva UDA alert.",
+            "Security testing or ransomware-response exercises that intentionally generate UDA followed by quarantine.",
+            "Known benign activity that generated a UDA alert and was conservatively quarantined by an administrator."
+        ],
         "threat": [],
         "tags": [
             "Druva",
             "Data Source: Druva",
             "Druva Security",
-            "Druva Detection Pack 0 \u2013 Core Cyber Resilience",
+            "Druva Detection Pack 0 – Core Cyber Resilience",
             "Druva Phase 1",
             "Druva Category: Cyber Resilience",
             "Druva Category: SOC",
@@ -29,7 +33,7 @@
             "Druva Category: UDA",
             "Druva Category: Quarantine"
         ],
-        "version": 1,
+        "version": 2,
         "type": "eql",
         "language": "eql",
         "query": "sequence by druva.resource.name with maxspan=60m\n  [ any where druva.uda.type != null ]\n  [ any where\n      druva.feature == \"Ransomware Recovery\"\n      and druva.operation.action == \"Create Ranges\"\n  ]",
@@ -37,7 +41,7 @@
         "risk_score_mapping": [],
         "severity_mapping": [],
         "setup": "",
-        "note": "",
+        "note": "### Investigation guide\n\nThis rule correlates Unusual Data Activity with subsequent quarantine activity for the same Druva resource within 60 minutes. The sequence increases confidence that suspicious activity affecting the resource was considered significant enough to isolate or quarantine.\n\n#### Investigation steps\n\n- Identify the resource associated with both events.\n- Review the UDA type, alert context, timestamps, and any available affected-file information.\n- Determine who initiated the quarantine and whether it was manual, automated, or part of an incident-response process.\n- Review ransomware, malicious-file, authentication, privilege, and configuration events around the same period.\n- Determine whether backup operations continued successfully and identify clean recovery points preceding the suspicious activity.\n- Establish whether the UDA represents expected workload behavior, a security test, or potentially malicious activity.\n\n#### Response\n\n- Keep the affected resource isolated when compromise remains possible.\n- Validate clean recovery points before recovery.\n- Escalate confirmed or unexplained malicious activity into the organization's incident-response process.",
         "max_signals": 100,
         "related_integrations": [
             {

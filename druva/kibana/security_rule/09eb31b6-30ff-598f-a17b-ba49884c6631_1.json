@@ -13,20 +13,86 @@
         ],
         "license": "Elastic License v2",
         "references": [],
-        "false_positives": [],
-        "threat": [],
+        "false_positives": [
+            "An administrator legitimately using geographically separated VPN or secure-access egress points.",
+            "Corporate proxy, cloud security service, or mobile carrier routing that causes large apparent geographic changes.",
+            "GeoIP inaccuracies or reassignment of IP address geolocation.",
+            "Approved travel combined with remote-access infrastructure that makes the calculated travel speed unreliable."
+        ],
+        "threat": [
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0001",
+                    "name": "Initial Access",
+                    "reference": "https://attack.mitre.org/tactics/TA0001/"
+                },
+                "technique": [
+                    {
+                        "id": "T1078.004",
+                        "name": "Cloud Accounts",
+                        "reference": "https://attack.mitre.org/techniques/T1078/004/"
+                    }
+                ]
+            },
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0003",
+                    "name": "Persistence",
+                    "reference": "https://attack.mitre.org/tactics/TA0003/"
+                },
+                "technique": [
+                    {
+                        "id": "T1078.004",
+                        "name": "Cloud Accounts",
+                        "reference": "https://attack.mitre.org/techniques/T1078/004/"
+                    }
+                ]
+            },
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0004",
+                    "name": "Privilege Escalation",
+                    "reference": "https://attack.mitre.org/tactics/TA0004/"
+                },
+                "technique": [
+                    {
+                        "id": "T1078.004",
+                        "name": "Cloud Accounts",
+                        "reference": "https://attack.mitre.org/techniques/T1078/004/"
+                    }
+                ]
+            },
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0005",
+                    "name": "Defense Evasion",
+                    "reference": "https://attack.mitre.org/tactics/TA0005/"
+                },
+                "technique": [
+                    {
+                        "id": "T1078.004",
+                        "name": "Cloud Accounts",
+                        "reference": "https://attack.mitre.org/techniques/T1078/004/"
+                    }
+                ]
+            }
+        ],
         "tags": [
             "Druva",
             "Data Source: Druva",
             "Druva Security",
-            "Druva Detection Pack 0 \u2013 Core Cyber Resilience",
+            "Druva Detection Pack 0 – Core Cyber Resilience",
             "Druva Phase 1",
             "Druva Category: Authentication",
             "Druva Category: SOC",
             "Druva Category: Identity",
             "Druva Category: Impossible Travel"
         ],
-        "version": 1,
+        "version": 2,
         "type": "esql",
         "language": "esql",
         "query": "FROM logs-druva.event-*\n| WHERE druva.feature == \"Admin Event\"\n    AND druva.event_type == \"Admin Login\"\n    AND event.outcome == \"success\"\n    AND user.email IS NOT NULL\n    AND source.ip IS NOT NULL\n    AND source.geo.location IS NOT NULL\n\n| STATS\n    login_count = COUNT_DISTINCT(event.id),\n    ip_count = COUNT_DISTINCT(source.ip),\n    first_login = MIN(@timestamp),\n    last_login = MAX(@timestamp),\n    first_location = FIRST(source.geo.location, @timestamp),\n    last_location = LAST(source.geo.location, @timestamp),\n    first_ip = FIRST(source.ip, @timestamp),\n    last_ip = LAST(source.ip, @timestamp)\n  BY user.email\n\n| WHERE login_count >= 2\n    AND ip_count >= 2\n    AND last_login > first_login\n\n| EVAL\n    elapsed_minutes = DATE_DIFF(\"minutes\", first_login, last_login),\n    distance_meters = ST_DISTANCE(first_location, last_location)\n\n| WHERE elapsed_minutes > 0\n    AND elapsed_minutes <= 60\n    AND distance_meters >= 500000\n\n| EVAL implied_speed_kmh =\n    (distance_meters / 1000.0) / (elapsed_minutes / 60.0)\n\n| WHERE implied_speed_kmh >= 900",
@@ -34,7 +100,7 @@
         "risk_score_mapping": [],
         "severity_mapping": [],
         "setup": "",
-        "note": "",
+        "note": "### Investigation guide\n\nThis rule detects successful Druva administrator authentication from geographically distant source locations within 60 minutes where the implied travel speed is at least 900 km/h. This may indicate use of compromised cloud-account credentials.\n\n#### Investigation steps\n\n- Identify the administrator, source IP addresses, timestamps, and geographic locations contributing to the alert.\n- Validate GeoIP accuracy and determine whether either address belongs to a VPN, proxy, corporate gateway, mobile provider, or security service.\n- Confirm whether the administrator was traveling or intentionally using multiple network egress locations.\n- Review successful and failed administrator logins before and after the alert.\n- Review role changes, API credential activity, downloads, protection changes, repository changes, and other sensitive actions performed by the account.\n- Determine whether authentication or session information indicates unauthorized access.\n\n#### Response\n\n- Contact the administrator through a trusted channel when compromise is suspected.\n- Revoke or rotate affected credentials and sessions according to organizational procedure.\n- Review all privileged actions performed during the suspicious access window.",
         "max_signals": 100,
         "related_integrations": [
             {

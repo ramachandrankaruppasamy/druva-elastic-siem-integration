@@ -13,20 +13,40 @@
         ],
         "license": "Elastic License v2",
         "references": [],
-        "false_positives": [],
-        "threat": [],
+        "false_positives": [
+            "Approved retention-policy reduction due to business or compliance changes.",
+            "Migration to a different retention model or storage tier.",
+            "Cleanup of obsolete, test, or decommissioned workloads."
+        ],
+        "threat": [
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0040",
+                    "name": "Impact",
+                    "reference": "https://attack.mitre.org/tactics/TA0040/"
+                },
+                "technique": [
+                    {
+                        "id": "T1490",
+                        "name": "Inhibit System Recovery",
+                        "reference": "https://attack.mitre.org/techniques/T1490/"
+                    }
+                ]
+            }
+        ],
         "tags": [
             "Druva",
             "Data Source: Druva",
             "Druva Security",
-            "Druva Detection Pack 2 \u2013 Backup Operations",
+            "Druva Detection Pack 2 – Backup Operations",
             "Druva Phase 1",
             "Druva Category: Backup",
             "Druva Category: Retention",
             "Druva Category: Protection Degradation",
             "Druva Category: Configuration"
         ],
-        "version": 1,
+        "version": 2,
         "index": [
             "logs-druva.event-*"
         ],
@@ -37,7 +57,7 @@
         "risk_score_mapping": [],
         "severity_mapping": [],
         "setup": "",
-        "note": "",
+        "note": "### Investigation guide\n\nThis rule detects administrative activity indicating that Druva backup retention was reduced or removed. Reduced retention can shorten the recovery window available after destructive activity.\n\n#### Investigation steps\n\n- Identify the affected policy, workload, or resource and the administrator responsible.\n- Determine the previous and new retention configuration where available.\n- Confirm that the change was approved by the appropriate data owner or policy owner.\n- Review nearby backup-protection, repository, storage-target, permission, and deletion events.\n- Check for UDA, ransomware, suspicious authentication, or privilege changes preceding the retention modification.\n- Determine which recovery points may expire or become unavailable because of the change.\n\n#### Response\n\n- Restore required retention when the change was unauthorized or incorrect.\n- Preserve critical recovery points when possible.\n- Investigate the responsible administrator if the activity cannot be validated.",
         "max_signals": 100,
         "related_integrations": [
             {

@@ -13,17 +13,37 @@
         ],
         "license": "Elastic License v2",
         "references": [],
-        "false_positives": [],
-        "threat": [],
+        "false_positives": [
+            "Authorized ransomware simulation, red-team exercise, or security test.",
+            "Benign high-volume encryption or file transformation activity that Druva classifies as unusual.",
+            "Legitimate application behavior producing an encryption-pattern UDA."
+        ],
+        "threat": [
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0040",
+                    "name": "Impact",
+                    "reference": "https://attack.mitre.org/tactics/TA0040/"
+                },
+                "technique": [
+                    {
+                        "id": "T1486",
+                        "name": "Data Encrypted for Impact",
+                        "reference": "https://attack.mitre.org/techniques/T1486/"
+                    }
+                ]
+            }
+        ],
         "tags": [
             "Druva",
             "Data Source: Druva",
             "Druva Security",
-            "Druva Detection Pack 4 \u2013 Ransomware & Unusual Data Activity",
+            "Druva Detection Pack 4 – Ransomware & Unusual Data Activity",
             "Druva Phase 1",
             "Druva Category: Security Monitoring"
         ],
-        "version": 1,
+        "version": 2,
         "type": "query",
         "language": "kuery",
         "query": "druva.uda.type:\"Encryption\"",
@@ -31,7 +51,7 @@
         "risk_score_mapping": [],
         "severity_mapping": [],
         "setup": "",
-        "note": "",
+        "note": "### Investigation guide\n\nThis rule detects a Druva UDA event classified as Encryption. Such activity may indicate ransomware or another process encrypting data for impact.\n\n#### Investigation steps\n\n- Identify the affected resource, UDA details, timestamp, and available affected-file information.\n- Determine whether the activity corresponds to an approved security test or known application workload.\n- Review nearby UDA, malicious-file, quarantine, backup, and recovery events.\n- Review authentication and privileged administrative activity affecting the resource.\n- Determine the last known-good backup or curated recovery point preceding the suspicious activity.\n- Look for additional resources exhibiting similar encryption behavior.\n\n#### Response\n\n- Escalate unexplained encryption activity according to the ransomware-response process.\n- Isolate affected systems when appropriate.\n- Preserve clean recovery points and validate recoverability before restoration.",
         "max_signals": 100,
         "related_integrations": [
             {

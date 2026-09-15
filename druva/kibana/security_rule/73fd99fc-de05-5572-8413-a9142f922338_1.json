@@ -2,7 +2,7 @@
     "attributes": {
         "rule_id": "73fd99fc-de05-5572-8413-a9142f922338",
         "name": "Druva - Successful Administrator Login After Multiple Failures",
-        "description": "Detect an administrator successfully authenticating shortly after several failed login attempts. This can indicate:\n\u2022\tPassword spraying\n\u2022\tBrute-force attacks\n\u2022\tCredential stuffing\n\u2022\tSuccessful account compromise",
+        "description": "Detect an administrator successfully authenticating shortly after several failed login attempts. This can indicate:\n•\tPassword spraying\n•\tBrute-force attacks\n•\tCredential stuffing\n•\tSuccessful account compromise",
         "risk_score": 73,
         "severity": "high",
         "interval": "5m",
@@ -13,13 +13,93 @@
         ],
         "license": "Elastic License v2",
         "references": [],
-        "false_positives": [],
-        "threat": [],
+        "false_positives": [
+            "An administrator correcting an incorrectly entered password and then successfully authenticating.",
+            "Stale credentials followed by use of the correct newly rotated password.",
+            "Authorized authentication testing."
+        ],
+        "threat": [
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0006",
+                    "name": "Credential Access",
+                    "reference": "https://attack.mitre.org/tactics/TA0006/"
+                },
+                "technique": [
+                    {
+                        "id": "T1110.001",
+                        "name": "Password Guessing",
+                        "reference": "https://attack.mitre.org/techniques/T1110/001/"
+                    }
+                ]
+            },
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0001",
+                    "name": "Initial Access",
+                    "reference": "https://attack.mitre.org/tactics/TA0001/"
+                },
+                "technique": [
+                    {
+                        "id": "T1078.004",
+                        "name": "Cloud Accounts",
+                        "reference": "https://attack.mitre.org/techniques/T1078/004/"
+                    }
+                ]
+            },
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0003",
+                    "name": "Persistence",
+                    "reference": "https://attack.mitre.org/tactics/TA0003/"
+                },
+                "technique": [
+                    {
+                        "id": "T1078.004",
+                        "name": "Cloud Accounts",
+                        "reference": "https://attack.mitre.org/techniques/T1078/004/"
+                    }
+                ]
+            },
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0004",
+                    "name": "Privilege Escalation",
+                    "reference": "https://attack.mitre.org/tactics/TA0004/"
+                },
+                "technique": [
+                    {
+                        "id": "T1078.004",
+                        "name": "Cloud Accounts",
+                        "reference": "https://attack.mitre.org/techniques/T1078/004/"
+                    }
+                ]
+            },
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0005",
+                    "name": "Defense Evasion",
+                    "reference": "https://attack.mitre.org/tactics/TA0005/"
+                },
+                "technique": [
+                    {
+                        "id": "T1078.004",
+                        "name": "Cloud Accounts",
+                        "reference": "https://attack.mitre.org/techniques/T1078/004/"
+                    }
+                ]
+            }
+        ],
         "tags": [
             "Druva",
             "Data Source: Druva",
             "Druva Security",
-            "Druva Detection Pack 1 \u2013 Administrator & Identity",
+            "Druva Detection Pack 1 – Administrator & Identity",
             "Druva Phase 1",
             "Druva Category: Identity",
             "Druva Category: Authentication",
@@ -31,7 +111,7 @@
             "Druva Category: SOC",
             "Druva: Review Threshold"
         ],
-        "version": 1,
+        "version": 2,
         "type": "esql",
         "language": "esql",
         "query": "FROM logs-druva.event-*\n| WHERE druva.feature == \"Admin Event\"\n    AND druva.event_type == \"Admin Login\"\n    AND event.id IS NOT NULL\n    AND source.ip IS NOT NULL\n    AND (\n      event.outcome == \"failure\"\n      OR event.outcome == \"success\"\n    )\n\n| EVAL principal = COALESCE(\n    TO_STRING(user.email),\n    TO_STRING(user.name)\n  )\n\n| WHERE principal IS NOT NULL\n\n| STATS\n    failed_attempts =\n      COUNT_DISTINCT(event.id) WHERE event.outcome == \"failure\",\n\n    successful_attempts =\n      COUNT_DISTINCT(event.id) WHERE event.outcome == \"success\",\n\n    last_failure =\n      MAX(@timestamp) WHERE event.outcome == \"failure\",\n\n    last_success =\n      MAX(@timestamp) WHERE event.outcome == \"success\"\n\n  BY principal, source.ip\n\n| WHERE failed_attempts >= 3\n    AND successful_attempts >= 1\n    AND last_failure IS NOT NULL\n    AND last_success IS NOT NULL\n    AND last_success > last_failure",
@@ -39,7 +119,7 @@
         "risk_score_mapping": [],
         "severity_mapping": [],
         "setup": "",
-        "note": "",
+        "note": "### Investigation guide\n\nThis rule detects a successful Druva administrator login from the same source IP after at least three failed attempts. The pattern may indicate that password guessing eventually obtained valid cloud-account credentials.\n\n#### Investigation steps\n\n- Identify the administrator, source IP, failure count, and successful-login time.\n- Confirm whether the administrator recognizes the failed and successful attempts.\n- Determine whether the source IP is expected and whether VPN or proxy infrastructure is involved.\n- Review additional failed logins against other administrator accounts from the same source.\n- Review privileged activity performed after the successful login, including downloads, role changes, credential changes, protection changes, and recovery operations.\n- Correlate with impossible-travel or other authentication alerts.\n\n#### Response\n\n- Treat an unrecognized successful login as potential account compromise.\n- Revoke active sessions and rotate credentials according to organizational procedure.\n- Review all privileged actions performed after the suspicious authentication.",
         "max_signals": 100,
         "related_integrations": [
             {

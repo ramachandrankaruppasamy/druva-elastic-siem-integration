@@ -13,17 +13,21 @@
         ],
         "license": "Elastic License v2",
         "references": [],
-        "false_positives": [],
+        "false_positives": [
+            "Routine API credential rotation.",
+            "Approved integration configuration change.",
+            "Modification of network restrictions, role, description, or other credential properties during maintenance."
+        ],
         "threat": [],
         "tags": [
             "Druva",
             "Data Source: Druva",
             "Druva Security",
-            "Druva Detection Pack 6 \u2013 Security Configuration & Integrations",
+            "Druva Detection Pack 6 – Security Configuration & Integrations",
             "Druva Phase 1",
             "Druva Category: Security Monitoring"
         ],
-        "version": 1,
+        "version": 2,
         "type": "esql",
         "language": "esql",
         "query": "FROM logs-druva.event-*\n| WHERE druva.feature == \"API\"\n    AND druva.event_type == \"API Credentials Updated\"\n    AND druva.security.control == \"api_credentials\"\n    AND druva.security.previous_state IS NOT NULL\n    AND druva.security.current_state IS NOT NULL\n    AND druva.security.previous_state != druva.security.current_state",
@@ -31,7 +35,7 @@
         "risk_score_mapping": [],
         "severity_mapping": [],
         "setup": "",
-        "note": "",
+        "note": "### Investigation guide\n\nThis rule detects modification of Druva API credential state. API credential changes can affect integrations, automation, and access to Druva services.\n\n#### Investigation steps\n\n- Identify the credential and administrator responsible for the modification.\n- Compare the previous and current credential state.\n- Determine whether role, network restrictions, or other security-relevant properties changed.\n- Confirm that the modification belongs to an approved credential rotation or integration change.\n- Review API credential creation/deletion, webhook changes, and administrator-role changes around the same time.\n- Check for unexpected API or administrative activity following the modification.\n\n#### Response\n\n- Revert unauthorized security-relevant changes.\n- Rotate affected credentials if compromise is suspected.\n- Validate dependent integrations and review activity performed with the credential.",
         "max_signals": 100,
         "related_integrations": [
             {

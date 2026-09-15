@@ -13,13 +13,18 @@
         ],
         "license": "Elastic License v2",
         "references": [],
-        "false_positives": [],
+        "false_positives": [
+            "Infrastructure or network outage affecting multiple protected workloads.",
+            "Planned maintenance that temporarily prevents backup completion.",
+            "Expired or rotated credentials affecting multiple backup jobs.",
+            "Storage, service, or configuration failure causing a temporary concentration of failed backups."
+        ],
         "threat": [],
         "tags": [
             "Druva",
             "Data Source: Druva",
             "Druva Security",
-            "Druva Detection Pack 0 \u2013 Core Cyber Resilience",
+            "Druva Detection Pack 0 – Core Cyber Resilience",
             "Druva Phase 1",
             "Druva Category: Cyber Resilience",
             "Druva Category: Backup",
@@ -28,7 +33,7 @@
             "Druva Category: Backup Failure",
             "Druva Category: Availability"
         ],
-        "version": 1,
+        "version": 2,
         "type": "esql",
         "language": "esql",
         "query": "FROM logs-druva.event-*\n| WHERE druva.feature == \"Backup And Restore\"\n    AND druva.event_type == \"Backup\"\n    AND event.outcome == \"failure\"\n    AND event.id IS NOT NULL\n    AND druva.resource.name IS NOT NULL\n\n| STATS\n    failure_count = COUNT_DISTINCT(event.id),\n    affected_resources = COUNT_DISTINCT(druva.resource.name),\n    resources = VALUES(druva.resource.name),\n    first_failure = MIN(@timestamp),\n    last_failure = MAX(@timestamp)\n\n| WHERE failure_count >= 20\n    AND affected_resources >= 5",
@@ -36,7 +41,7 @@
         "risk_score_mapping": [],
         "severity_mapping": [],
         "setup": "",
-        "note": "",
+        "note": "### Investigation guide\n\nThis rule detects at least 20 distinct failed Druva backup events affecting at least five resources in the evaluation window. The condition can indicate a widespread protection problem but does not by itself establish malicious activity.\n\n#### Investigation steps\n\n- Review the affected resource list and determine whether the failures share infrastructure, credentials, policy, network, or storage dependencies.\n- Identify the first and last failures and compare them with maintenance or outage timelines.\n- Review failure reasons and recent configuration changes.\n- Search for backup-protection, repository, retention, credential, or security-control changes preceding the failures.\n- Check for UDA, ransomware, or other security events affecting the same resources.\n- Determine whether subsequent backup attempts succeed.\n\n#### Response\n\n- Restore successful protection as quickly as possible.\n- Escalate unexplained widespread failures when they materially reduce recoverability.\n- Investigate suspicious administrative or security activity correlated with the failure period.",
         "max_signals": 100,
         "related_integrations": [
             {

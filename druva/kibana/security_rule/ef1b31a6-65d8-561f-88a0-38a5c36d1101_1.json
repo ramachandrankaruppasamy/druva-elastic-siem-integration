@@ -13,13 +13,48 @@
         ],
         "license": "Elastic License v2",
         "references": [],
-        "false_positives": [],
-        "threat": [],
+        "false_positives": [
+            "Authorized self-service privilege elevation under an approved administrative workflow.",
+            "Emergency or incident-response elevation explicitly approved by the organization.",
+            "Administrative testing in a non-production environment."
+        ],
+        "threat": [
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0003",
+                    "name": "Persistence",
+                    "reference": "https://attack.mitre.org/tactics/TA0003/"
+                },
+                "technique": [
+                    {
+                        "id": "T1098.003",
+                        "name": "Additional Cloud Roles",
+                        "reference": "https://attack.mitre.org/techniques/T1098/003/"
+                    }
+                ]
+            },
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0004",
+                    "name": "Privilege Escalation",
+                    "reference": "https://attack.mitre.org/tactics/TA0004/"
+                },
+                "technique": [
+                    {
+                        "id": "T1098.003",
+                        "name": "Additional Cloud Roles",
+                        "reference": "https://attack.mitre.org/techniques/T1098/003/"
+                    }
+                ]
+            }
+        ],
         "tags": [
             "Druva",
             "Data Source: Druva",
             "Druva Security",
-            "Druva Detection Pack 1 \u2013 Administrator & Identity",
+            "Druva Detection Pack 1 – Administrator & Identity",
             "Druva Phase 1",
             "Druva Category: Identity",
             "Druva Category: Administrator",
@@ -28,7 +63,7 @@
             "Druva Category: Critical",
             "Druva Category: Account Manipulation"
         ],
-        "version": 1,
+        "version": 2,
         "type": "esql",
         "language": "esql",
         "query": "FROM logs-druva.event-*\n| WHERE druva.feature == \"Admin Event\"\n    AND druva.event_type == \"Administrator Updated\"\n    AND druva.security.control == \"administrator_role\"\n    AND druva.security.previous_state == \"role=Product\"\n    AND druva.security.current_state == \"role=Druva Cloud\"\n\n| EVAL actor = TO_LOWER(\n    COALESCE(\n      TO_STRING(user.email),\n      TO_STRING(user.id),\n      TO_STRING(user.name)\n    )\n  )\n\n| EVAL target_admin = TO_LOWER(\n    COALESCE(\n      TO_STRING(user.target.email),\n      TO_STRING(user.target.name)\n    )\n  )\n\n| WHERE actor IS NOT NULL\n    AND target_admin IS NOT NULL\n    AND actor == target_admin",
@@ -36,7 +71,7 @@
         "risk_score_mapping": [],
         "severity_mapping": [],
         "setup": "",
-        "note": "",
+        "note": "### Investigation guide\n\nThis rule detects a Druva administrator changing their own role from Product to Druva Cloud. Self-directed privilege elevation is particularly sensitive because the actor and target account are the same.\n\n#### Investigation steps\n\n- Identify the administrator and source IP associated with the role change.\n- Confirm whether the administrator was authorized to elevate their own privileges.\n- Review authentication activity before the elevation, including failed logins and impossible-travel alerts.\n- Review privileged actions performed after elevation, including downloads, API credential changes, security-setting changes, protection changes, and recovery activity.\n- Determine whether the elevated role was subsequently removed.\n- Review other administrator-role changes performed by the account.\n\n#### Response\n\n- Revoke unauthorized elevated privileges.\n- Investigate the administrator account for compromise or misuse.\n- Review all privileged actions performed during the elevated period.",
         "max_signals": 100,
         "related_integrations": [
             {

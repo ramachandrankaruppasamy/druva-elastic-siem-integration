@@ -13,17 +13,21 @@
         ],
         "license": "Elastic License v2",
         "references": [],
-        "false_positives": [],
+        "false_positives": [
+            "Approved security-policy change performed during maintenance or troubleshooting.",
+            "Temporary relaxation of MFA, geofencing, or administrator failsafe controls under an approved change.",
+            "Policy migration or redesign where a control is intentionally replaced by another compensating control."
+        ],
         "threat": [],
         "tags": [
             "Druva",
             "Data Source: Druva",
             "Druva Security",
-            "Druva Detection Pack 6 \u2013 Security Configuration & Integrations",
+            "Druva Detection Pack 6 – Security Configuration & Integrations",
             "Druva Phase 1",
             "Druva Category: Security Monitoring"
         ],
-        "version": 1,
+        "version": 2,
         "type": "esql",
         "language": "esql",
         "query": "FROM logs-druva.event-*\n| WHERE druva.security.impact == \"reduced\"\n    AND (\n      druva.security.control == \"mfa\"\n      OR druva.security.control == \"geofencing\"\n      OR druva.security.control == \"failsafe_for_administrators\"\n    )",
@@ -31,7 +35,7 @@
         "risk_score_mapping": [],
         "severity_mapping": [],
         "setup": "",
-        "note": "",
+        "note": "### Investigation guide\n\nThis rule detects a reduction in a Druva security control involving MFA, geofencing, or failsafe protection for administrators. Because the rule covers multiple distinct controls, analysts should use `druva.security.control` to determine exactly what was weakened.\n\n#### Investigation steps\n\n- Identify the value of `druva.security.control` and determine which protection was reduced.\n- Review the administrator, source IP, previous state, current state, and timestamp.\n- Confirm whether an approved security-policy or maintenance change explains the activity.\n- Review authentication and privileged activity by the same administrator before and after the change.\n- Search for additional security-control changes, role changes, API credential changes, or sensitive data operations.\n- Determine whether the weakened control has subsequently been restored.\n\n#### Response\n\n- Restore unauthorized or unnecessary security controls.\n- Investigate the responsible administrator account if the change is unexplained.\n- Review privileged activity that occurred while the control was weakened.",
         "max_signals": 100,
         "related_integrations": [
             {

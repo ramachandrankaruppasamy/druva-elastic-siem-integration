@@ -13,17 +13,21 @@
         ],
         "license": "Elastic License v2",
         "references": [],
-        "false_positives": [],
+        "false_positives": [
+            "Legitimate high-volume file changes, migrations, synchronization, or application activity that differs from the established baseline.",
+            "Security testing or ransomware simulation.",
+            "Planned administrative or application activity generating unusual but authorized data changes."
+        ],
         "threat": [],
         "tags": [
             "Druva",
             "Data Source: Druva",
             "Druva Security",
-            "Druva Detection Pack 4 \u2013 Ransomware & Unusual Data Activity",
+            "Druva Detection Pack 4 – Ransomware & Unusual Data Activity",
             "Druva Phase 1",
             "Druva Category: Security Monitoring"
         ],
-        "version": 1,
+        "version": 2,
         "type": "query",
         "language": "kuery",
         "query": "druva.uda.type:*\nor druva.alert.name:\"Unusual Data Activity\"",
@@ -31,7 +35,7 @@
         "risk_score_mapping": [],
         "severity_mapping": [],
         "setup": "",
-        "note": "",
+        "note": "### Investigation guide\n\nThis rule detects a Druva Unusual Data Activity alert. UDA identifies behavior that differs from expected data activity and should be investigated in the context of the affected workload.\n\n#### Investigation steps\n\n- Identify the affected resource, UDA type, timestamp, and available alert details.\n- Review affected-file counts, file types, or other activity context when available.\n- Determine whether maintenance, migration, synchronization, application updates, or security testing explains the behavior.\n- Search for ransomware, quarantine, malicious-file, backup-failure, and recovery events involving the same resource.\n- Review authentication and privileged administrative activity around the alert.\n- Identify the last known-good recovery point preceding suspicious activity.\n\n#### Response\n\n- Escalate unexplained UDA when compromise is plausible.\n- Preserve clean recovery points.\n- Isolate or quarantine affected resources according to organizational incident-response procedures when necessary.",
         "max_signals": 100,
         "related_integrations": [
             {

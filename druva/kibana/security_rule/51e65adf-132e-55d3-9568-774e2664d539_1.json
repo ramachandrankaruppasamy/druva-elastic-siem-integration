@@ -13,17 +13,52 @@
         ],
         "license": "Elastic License v2",
         "references": [],
-        "false_positives": [],
-        "threat": [],
+        "false_positives": [
+            "Approved promotion of an administrator to a Druva Cloud role.",
+            "Temporary privilege elevation for support or incident-response activity.",
+            "Authorized access-model migration or organizational role change."
+        ],
+        "threat": [
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0003",
+                    "name": "Persistence",
+                    "reference": "https://attack.mitre.org/tactics/TA0003/"
+                },
+                "technique": [
+                    {
+                        "id": "T1098.003",
+                        "name": "Additional Cloud Roles",
+                        "reference": "https://attack.mitre.org/techniques/T1098/003/"
+                    }
+                ]
+            },
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0004",
+                    "name": "Privilege Escalation",
+                    "reference": "https://attack.mitre.org/tactics/TA0004/"
+                },
+                "technique": [
+                    {
+                        "id": "T1098.003",
+                        "name": "Additional Cloud Roles",
+                        "reference": "https://attack.mitre.org/techniques/T1098/003/"
+                    }
+                ]
+            }
+        ],
         "tags": [
             "Druva",
             "Data Source: Druva",
             "Druva Security",
-            "Druva Detection Pack 7 \u2013 Compliance & Audit",
+            "Druva Detection Pack 7 – Compliance & Audit",
             "Druva Phase 1",
             "Druva Category: Security Monitoring"
         ],
-        "version": 1,
+        "version": 2,
         "type": "esql",
         "language": "esql",
         "query": "FROM logs-druva.event-*\n| WHERE druva.feature == \"Admin Event\"\n    AND druva.event_type == \"Administrator Updated\"\n    AND druva.security.control == \"administrator_role\"\n    AND druva.security.previous_state == \"role=Product\"\n    AND druva.security.current_state == \"role=Druva Cloud\"",
@@ -31,7 +66,7 @@
         "risk_score_mapping": [],
         "severity_mapping": [],
         "setup": "",
-        "note": "",
+        "note": "### Investigation guide\n\nThis rule detects a Druva administrator role transition from Product to Druva Cloud. The change grants broader cloud-level administrative capability and may represent privilege escalation.\n\n#### Investigation steps\n\n- Identify the administrator performing the change and the target administrator.\n- Confirm that the role assignment was requested and approved.\n- Review the actor's source IP and recent authentication activity.\n- Determine whether the target account subsequently performed sensitive actions such as downloads, protection changes, credential changes, repository changes, or recovery operations.\n- Review other administrator creation, deletion, or role changes around the same period.\n\n#### Response\n\n- Revoke unauthorized elevated privileges.\n- Investigate both the actor and target accounts if the change is unexplained.\n- Review privileged activity performed after elevation.",
         "max_signals": 100,
         "related_integrations": [
             {

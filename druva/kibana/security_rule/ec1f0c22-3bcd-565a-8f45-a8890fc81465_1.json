@@ -13,13 +13,17 @@
         ],
         "license": "Elastic License v2",
         "references": [],
-        "false_positives": [],
+        "false_positives": [
+            "Benign high-change workload behavior generating UDA while an unrelated infrastructure issue causes backup failure.",
+            "Security or recovery testing that intentionally generates UDA and backup failures.",
+            "Known maintenance or connectivity problems occurring during a benign UDA event."
+        ],
         "threat": [],
         "tags": [
             "Druva",
             "Data Source: Druva",
             "Druva Security",
-            "Druva Detection Pack 0 \u2013 Core Cyber Resilience",
+            "Druva Detection Pack 0 – Core Cyber Resilience",
             "Druva Phase 1",
             "Druva Category: Cyber Resilience",
             "Druva Category: SOC",
@@ -29,7 +33,7 @@
             "Druva Category: Correlation",
             "Druva Category: Backup Failure"
         ],
-        "version": 1,
+        "version": 2,
         "type": "eql",
         "language": "eql",
         "query": "sequence by druva.resource.name with maxspan=60m\n  [ any where druva.uda.type != null ]\n  [ any where\n      druva.feature == \"Backup And Restore\"\n      and druva.event_type == \"Backup\"\n      and event.outcome == \"failure\"\n  ]",
@@ -37,7 +41,7 @@
         "risk_score_mapping": [],
         "severity_mapping": [],
         "setup": "",
-        "note": "",
+        "note": "### Investigation guide\n\nThis rule correlates Druva UDA with a failed backup for the same resource within 60 minutes. The combination may indicate suspicious activity occurring while recoverability is degraded, although either event can have a benign cause.\n\n#### Investigation steps\n\n- Identify the resource and both events in the sequence.\n- Review the UDA type and the reason for the backup failure.\n- Determine whether the failure is explained by maintenance, connectivity, credentials, storage, or another known issue.\n- Review ransomware, quarantine, protection, retention, repository, authentication, and privilege events.\n- Determine the most recent successful backup and whether later backups succeed.\n- Establish whether the UDA reflects expected workload behavior or potential compromise.\n\n#### Response\n\n- Restore successful backup protection.\n- Escalate unexplained UDA when recovery capability is simultaneously degraded.\n- Preserve and validate known-good recovery points.",
         "max_signals": 100,
         "related_integrations": [
             {

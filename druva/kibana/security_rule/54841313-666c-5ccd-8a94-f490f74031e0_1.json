@@ -13,13 +13,33 @@
         ],
         "license": "Elastic License v2",
         "references": [],
-        "false_positives": [],
-        "threat": [],
+        "false_positives": [
+            "An administrator repeatedly entering an incorrect password.",
+            "A recently changed password leaving stale credentials in a client or automation.",
+            "Authentication or integration testing performed by authorized personnel."
+        ],
+        "threat": [
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0006",
+                    "name": "Credential Access",
+                    "reference": "https://attack.mitre.org/tactics/TA0006/"
+                },
+                "technique": [
+                    {
+                        "id": "T1110.001",
+                        "name": "Password Guessing",
+                        "reference": "https://attack.mitre.org/techniques/T1110/001/"
+                    }
+                ]
+            }
+        ],
         "tags": [
             "Druva",
             "Data Source: Druva",
             "Druva Security",
-            "Druva Detection Pack 1 \u2013 Administrator & Identity",
+            "Druva Detection Pack 1 – Administrator & Identity",
             "Druva Phase 1",
             "Druva Category: Identity",
             "Druva Category: Authentication",
@@ -31,7 +51,7 @@
             "Druva Category: Security Monitoring",
             "Druva: Review Threshold"
         ],
-        "version": 1,
+        "version": 2,
         "type": "esql",
         "language": "esql",
         "query": "FROM logs-druva.event-*\n| WHERE druva.feature == \"Admin Event\"\n    AND druva.event_type == \"Admin Login\"\n    AND event.outcome == \"failure\"\n    AND event.id IS NOT NULL\n    AND source.ip IS NOT NULL\n\n| EVAL principal = COALESCE(\n    TO_STRING(user.email),\n    TO_STRING(user.name)\n  )\n\n| WHERE principal IS NOT NULL\n\n| STATS\n    failed_attempts = COUNT_DISTINCT(event.id),\n    first_failure = MIN(@timestamp),\n    last_failure = MAX(@timestamp)\n  BY principal, source.ip\n\n| WHERE failed_attempts >= 5",
@@ -39,7 +59,7 @@
         "risk_score_mapping": [],
         "severity_mapping": [],
         "setup": "",
-        "note": "",
+        "note": "### Investigation guide\n\nThis rule detects at least five distinct failed Druva administrator authentication attempts associated with the same principal and source IP. Repeated failures may indicate password guessing or other attempts to obtain administrator access.\n\n#### Investigation steps\n\n- Identify the administrator principal, source IP, failure count, and time range.\n- Determine whether the source IP is expected for the administrator.\n- Review successful logins by the same account or source after the failures.\n- Check whether the administrator recently changed credentials or reported authentication problems.\n- Review other administrator accounts receiving failures from the same source.\n- Search for sensitive administrative activity if a successful login follows.\n\n#### Response\n\n- Contact the administrator through a trusted channel when compromise is suspected.\n- Reset or rotate credentials according to organizational policy.\n- Investigate the source IP and any successful sessions associated with the activity.",
         "max_signals": 100,
         "related_integrations": [
             {

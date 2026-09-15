@@ -13,20 +13,40 @@
         ],
         "license": "Elastic License v2",
         "references": [],
-        "false_positives": [],
-        "threat": [],
+        "false_positives": [
+            "Approved disaster-recovery exercise involving temporary protection changes.",
+            "Migration or maintenance where backup protection is intentionally paused before a restore.",
+            "Administrator troubleshooting that requires both protection changes and recovery operations."
+        ],
+        "threat": [
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0040",
+                    "name": "Impact",
+                    "reference": "https://attack.mitre.org/tactics/TA0040/"
+                },
+                "technique": [
+                    {
+                        "id": "T1490",
+                        "name": "Inhibit System Recovery",
+                        "reference": "https://attack.mitre.org/techniques/T1490/"
+                    }
+                ]
+            }
+        ],
         "tags": [
             "Druva",
             "Data Source: Druva",
             "Druva Security",
-            "Druva Detection Pack 3 \u2013 Cyber Recovery & Recovery Operations",
+            "Druva Detection Pack 3 – Cyber Recovery & Recovery Operations",
             "Druva Phase 1",
             "Druva Category: Recovery",
             "Druva Category: Backup Protection",
             "Druva Category: Correlation",
             "Druva Category: Impact"
         ],
-        "version": 1,
+        "version": 2,
         "index": [
             "logs-druva.event-*"
         ],
@@ -37,7 +57,7 @@
         "risk_score_mapping": [],
         "severity_mapping": [],
         "setup": "",
-        "note": "",
+        "note": "### Investigation guide\n\nThis rule detects backup protection being disabled, paused, or suspended followed by restore or rollback activity for the same resource within 60 minutes. The sequence can indicate manipulation of protection followed by recovery activity and warrants validation.\n\n#### Investigation steps\n\n- Identify the affected resource and both events in the sequence.\n- Identify the administrator responsible for disabling protection and the actor initiating recovery when available.\n- Confirm whether the sequence belongs to an approved recovery test, migration, or maintenance activity.\n- Review UDA, ransomware, backup-failure, retention, repository, and privilege events around the same period.\n- Determine which recovery point was used and whether it predates any suspicious activity.\n- Confirm whether backup protection was restored afterward.\n\n#### Response\n\n- Restore protection if it remains disabled without authorization.\n- Validate the recovered data and recovery point.\n- Escalate unexplained sequences and investigate associated administrator accounts.",
         "max_signals": 100,
         "related_integrations": [
             {

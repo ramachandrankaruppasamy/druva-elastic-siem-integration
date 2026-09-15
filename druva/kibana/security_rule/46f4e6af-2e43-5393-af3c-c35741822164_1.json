@@ -13,19 +13,39 @@
         ],
         "license": "Elastic License v2",
         "references": [],
-        "false_positives": [],
-        "threat": [],
+        "false_positives": [
+            "Planned migration to new backup storage.",
+            "Storage maintenance or capacity-management changes.",
+            "Approved disaster-recovery architecture changes."
+        ],
+        "threat": [
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0040",
+                    "name": "Impact",
+                    "reference": "https://attack.mitre.org/tactics/TA0040/"
+                },
+                "technique": [
+                    {
+                        "id": "T1490",
+                        "name": "Inhibit System Recovery",
+                        "reference": "https://attack.mitre.org/techniques/T1490/"
+                    }
+                ]
+            }
+        ],
         "tags": [
             "Druva",
             "Data Source: Druva",
             "Druva Security",
-            "Druva Detection Pack 2 \u2013 Backup Operations",
+            "Druva Detection Pack 2 – Backup Operations",
             "Druva Phase 1",
             "Druva Category: Backup",
             "Druva Category: Storage",
             "Druva Category: Configuration"
         ],
-        "version": 1,
+        "version": 2,
         "index": [
             "logs-druva.event-*"
         ],
@@ -36,7 +56,7 @@
         "risk_score_mapping": [],
         "severity_mapping": [],
         "setup": "",
-        "note": "",
+        "note": "### Investigation guide\n\nThis rule detects an administrative change to a Druva backup storage target. Unauthorized storage changes may interfere with future backup or recovery operations.\n\n#### Investigation steps\n\n- Identify the administrator and affected storage configuration.\n- Determine the previous and new storage target where available.\n- Confirm the destination is approved and reachable.\n- Review backup success after the change.\n- Review repository, retention, protection, permission, and recovery-target changes around the same period.\n- Search for suspicious authentication, privilege, UDA, or ransomware activity.\n\n#### Response\n\n- Revert unauthorized storage changes.\n- Validate subsequent backups and recovery availability.\n- Investigate the responsible administrator when the modification cannot be explained.",
         "max_signals": 100,
         "related_integrations": [
             {

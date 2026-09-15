@@ -13,13 +13,33 @@
         ],
         "license": "Elastic License v2",
         "references": [],
-        "false_positives": [],
-        "threat": [],
+        "false_positives": [
+            "Approved expiration or cleanup of obsolete recovery assets.",
+            "Planned test-environment cleanup.",
+            "Authorized deletion performed under documented retention or data-lifecycle procedures."
+        ],
+        "threat": [
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0040",
+                    "name": "Impact",
+                    "reference": "https://attack.mitre.org/tactics/TA0040/"
+                },
+                "technique": [
+                    {
+                        "id": "T1490",
+                        "name": "Inhibit System Recovery",
+                        "reference": "https://attack.mitre.org/techniques/T1490/"
+                    }
+                ]
+            }
+        ],
         "tags": [
             "Druva",
             "Data Source: Druva",
             "Druva Security",
-            "Druva Detection Pack 0 \u2013 Core Cyber Resilience",
+            "Druva Detection Pack 0 – Core Cyber Resilience",
             "Druva Phase 1",
             "Druva Category: Cyber Resilience",
             "Druva Category: SOC",
@@ -29,7 +49,7 @@
             "Druva Category: Impact",
             "Druva Category: Backup"
         ],
-        "version": 1,
+        "version": 2,
         "type": "query",
         "language": "kuery",
         "query": "druva.feature:\"Admin Event\"\nand druva.event_type:\"Backup Data Deletion Attempt\"",
@@ -37,7 +57,7 @@
         "risk_score_mapping": [],
         "severity_mapping": [],
         "setup": "",
-        "note": "",
+        "note": "### Investigation guide\n\nThis rule detects an attempt to delete Druva backup data, snapshots, restore points, or related recovery assets. Such activity may directly reduce an organization's ability to recover from an incident.\n\n#### Investigation steps\n\n- Identify the administrator, source IP, affected resource, and recovery asset.\n- Determine whether the deletion succeeded or was prevented.\n- Confirm whether the activity is covered by an approved retention, cleanup, or decommissioning process.\n- Review other deletion attempts and protection changes by the same administrator.\n- Search for UDA, ransomware, privilege, authentication, retention, or repository events around the same time.\n- Determine whether sufficient independent recovery points remain.\n\n#### Response\n\n- Escalate unauthorized deletion attempts.\n- Preserve remaining recovery assets.\n- Investigate and restrict the responsible account when compromise is suspected.",
         "max_signals": 100,
         "related_integrations": [
             {

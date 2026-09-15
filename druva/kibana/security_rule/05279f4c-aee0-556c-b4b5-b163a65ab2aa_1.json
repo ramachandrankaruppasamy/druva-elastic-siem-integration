@@ -13,20 +13,40 @@
         ],
         "license": "Elastic License v2",
         "references": [],
-        "false_positives": [],
-        "threat": [],
+        "false_positives": [
+            "Approved workload decommissioning.",
+            "Migration of a workload to another protection policy, tenant, platform, or backup solution.",
+            "Removal of duplicate, stale, test, or retired resources from Druva protection."
+        ],
+        "threat": [
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0040",
+                    "name": "Impact",
+                    "reference": "https://attack.mitre.org/tactics/TA0040/"
+                },
+                "technique": [
+                    {
+                        "id": "T1490",
+                        "name": "Inhibit System Recovery",
+                        "reference": "https://attack.mitre.org/techniques/T1490/"
+                    }
+                ]
+            }
+        ],
         "tags": [
             "Druva",
             "Data Source: Druva",
             "Druva Security",
-            "Druva Detection Pack 2 \u2013 Backup Operations",
+            "Druva Detection Pack 2 – Backup Operations",
             "Druva Phase 1",
             "Druva Category: Backup",
             "Druva Category: Protected Workload",
             "Druva Category: Removal",
             "Druva Category: Impact"
         ],
-        "version": 1,
+        "version": 2,
         "index": [
             "logs-druva.event-*"
         ],
@@ -37,7 +57,7 @@
         "risk_score_mapping": [],
         "severity_mapping": [],
         "setup": "",
-        "note": "",
+        "note": "### Investigation guide\n\nThis rule detects removal of a workload or resource from Druva protection. Removing protection can reduce or eliminate future recovery capability and may be associated with attempts to inhibit system recovery.\n\n#### Investigation steps\n\n- Identify the removed workload or resource and the administrator responsible for the action.\n- Review the administrator identity, source IP, and nearby administrative activity.\n- Determine whether the resource was intentionally decommissioned, migrated, or otherwise approved for removal.\n- Review recent backup status and determine when the resource was last successfully protected.\n- Search for related retention, repository, backup-protection, permission, encryption, or recovery-setting changes.\n- Check for UDA, ransomware, authentication, or privilege events involving the same resource or administrator.\n\n#### Response\n\n- Confirm the removal with the resource owner or responsible administrator.\n- Restore protection when removal was unauthorized or accidental.\n- Investigate the administrator account if the activity cannot be explained.\n- Validate that required recovery points remain available.",
         "max_signals": 100,
         "related_integrations": [
             {
