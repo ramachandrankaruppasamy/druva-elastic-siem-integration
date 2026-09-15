@@ -28,9 +28,16 @@
                 },
                 "technique": [
                     {
-                        "id": "T1098.003",
-                        "name": "Additional Cloud Roles",
-                        "reference": "https://attack.mitre.org/techniques/T1098/003/"
+                        "id": "T1098",
+                        "name": "Account Manipulation",
+                        "reference": "https://attack.mitre.org/techniques/T1098/",
+                        "subtechnique": [
+                            {
+                                "id": "T1098.003",
+                                "name": "Additional Cloud Roles",
+                                "reference": "https://attack.mitre.org/techniques/T1098/003/"
+                            }
+                        ]
                     }
                 ]
             },
@@ -43,9 +50,16 @@
                 },
                 "technique": [
                     {
-                        "id": "T1098.003",
-                        "name": "Additional Cloud Roles",
-                        "reference": "https://attack.mitre.org/techniques/T1098/003/"
+                        "id": "T1098",
+                        "name": "Account Manipulation",
+                        "reference": "https://attack.mitre.org/techniques/T1098/",
+                        "subtechnique": [
+                            {
+                                "id": "T1098.003",
+                                "name": "Additional Cloud Roles",
+                                "reference": "https://attack.mitre.org/techniques/T1098/003/"
+                            }
+                        ]
                     }
                 ]
             }
@@ -54,7 +68,7 @@
             "Druva",
             "Data Source: Druva",
             "Druva Security",
-            "Druva Detection Pack 7 – Compliance & Audit",
+            "Druva Detection Pack 7 \u2013 Compliance & Audit",
             "Druva Phase 1",
             "Druva Category: Security Monitoring"
         ],

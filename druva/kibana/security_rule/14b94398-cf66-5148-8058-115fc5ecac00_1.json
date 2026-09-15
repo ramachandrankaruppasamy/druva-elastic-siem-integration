@@ -18,12 +18,160 @@
             "Temporary relaxation of MFA, geofencing, or administrator failsafe controls under an approved change.",
             "Policy migration or redesign where a control is intentionally replaced by another compensating control."
         ],
-        "threat": [],
+        "threat": [
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0112",
+                    "name": "Defense Impairment",
+                    "reference": "https://attack.mitre.org/tactics/TA0112/"
+                },
+                "technique": [
+                    {
+                        "id": "T1685",
+                        "name": "Disable or Modify Tools",
+                        "reference": "https://attack.mitre.org/techniques/T1685/"
+                    }
+                ]
+            },
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0112",
+                    "name": "Defense Impairment",
+                    "reference": "https://attack.mitre.org/tactics/TA0112/"
+                },
+                "technique": [
+                    {
+                        "id": "T1556",
+                        "name": "Modify Authentication Process",
+                        "reference": "https://attack.mitre.org/techniques/T1556/",
+                        "subtechnique": [
+                            {
+                                "id": "T1556.006",
+                                "name": "Multi-Factor Authentication",
+                                "reference": "https://attack.mitre.org/techniques/T1556/006/"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0003",
+                    "name": "Persistence",
+                    "reference": "https://attack.mitre.org/tactics/TA0003/"
+                },
+                "technique": [
+                    {
+                        "id": "T1556",
+                        "name": "Modify Authentication Process",
+                        "reference": "https://attack.mitre.org/techniques/T1556/",
+                        "subtechnique": [
+                            {
+                                "id": "T1556.006",
+                                "name": "Multi-Factor Authentication",
+                                "reference": "https://attack.mitre.org/techniques/T1556/006/"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0006",
+                    "name": "Credential Access",
+                    "reference": "https://attack.mitre.org/tactics/TA0006/"
+                },
+                "technique": [
+                    {
+                        "id": "T1556",
+                        "name": "Modify Authentication Process",
+                        "reference": "https://attack.mitre.org/techniques/T1556/",
+                        "subtechnique": [
+                            {
+                                "id": "T1556.006",
+                                "name": "Multi-Factor Authentication",
+                                "reference": "https://attack.mitre.org/techniques/T1556/006/"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0112",
+                    "name": "Defense Impairment",
+                    "reference": "https://attack.mitre.org/tactics/TA0112/"
+                },
+                "technique": [
+                    {
+                        "id": "T1556",
+                        "name": "Modify Authentication Process",
+                        "reference": "https://attack.mitre.org/techniques/T1556/",
+                        "subtechnique": [
+                            {
+                                "id": "T1556.009",
+                                "name": "Conditional Access Policies",
+                                "reference": "https://attack.mitre.org/techniques/T1556/009/"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0003",
+                    "name": "Persistence",
+                    "reference": "https://attack.mitre.org/tactics/TA0003/"
+                },
+                "technique": [
+                    {
+                        "id": "T1556",
+                        "name": "Modify Authentication Process",
+                        "reference": "https://attack.mitre.org/techniques/T1556/",
+                        "subtechnique": [
+                            {
+                                "id": "T1556.009",
+                                "name": "Conditional Access Policies",
+                                "reference": "https://attack.mitre.org/techniques/T1556/009/"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0006",
+                    "name": "Credential Access",
+                    "reference": "https://attack.mitre.org/tactics/TA0006/"
+                },
+                "technique": [
+                    {
+                        "id": "T1556",
+                        "name": "Modify Authentication Process",
+                        "reference": "https://attack.mitre.org/techniques/T1556/",
+                        "subtechnique": [
+                            {
+                                "id": "T1556.009",
+                                "name": "Conditional Access Policies",
+                                "reference": "https://attack.mitre.org/techniques/T1556/009/"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
         "tags": [
             "Druva",
             "Data Source: Druva",
             "Druva Security",
-            "Druva Detection Pack 6 – Security Configuration & Integrations",
+            "Druva Detection Pack 6 \u2013 Security Configuration & Integrations",
             "Druva Phase 1",
             "Druva Category: Security Monitoring"
         ],

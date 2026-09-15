@@ -18,12 +18,28 @@
             "Recovery personnel removing quarantine after confirming the resource is safe.",
             "Security testing or incident-response exercises."
         ],
-        "threat": [],
+        "threat": [
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0112",
+                    "name": "Defense Impairment",
+                    "reference": "https://attack.mitre.org/tactics/TA0112/"
+                },
+                "technique": [
+                    {
+                        "id": "T1685",
+                        "name": "Disable or Modify Tools",
+                        "reference": "https://attack.mitre.org/techniques/T1685/"
+                    }
+                ]
+            }
+        ],
         "tags": [
             "Druva",
             "Data Source: Druva",
             "Druva Security",
-            "Druva Detection Pack 4 – Ransomware & Unusual Data Activity",
+            "Druva Detection Pack 4 \u2013 Ransomware & Unusual Data Activity",
             "Druva Phase 1",
             "Druva Category: Security Monitoring"
         ],

@@ -28,9 +28,16 @@
                 },
                 "technique": [
                     {
-                        "id": "T1110.001",
-                        "name": "Password Guessing",
-                        "reference": "https://attack.mitre.org/techniques/T1110/001/"
+                        "id": "T1110",
+                        "name": "Brute Force",
+                        "reference": "https://attack.mitre.org/techniques/T1110/",
+                        "subtechnique": [
+                            {
+                                "id": "T1110.001",
+                                "name": "Password Guessing",
+                                "reference": "https://attack.mitre.org/techniques/T1110/001/"
+                            }
+                        ]
                     }
                 ]
             }
@@ -39,7 +46,7 @@
             "Druva",
             "Data Source: Druva",
             "Druva Security",
-            "Druva Detection Pack 1 – Administrator & Identity",
+            "Druva Detection Pack 1 \u2013 Administrator & Identity",
             "Druva Phase 1",
             "Druva Category: Identity",
             "Druva Category: Authentication",

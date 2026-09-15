@@ -18,12 +18,28 @@
             "Temporary reduction of scanning during troubleshooting or performance investigation.",
             "Policy migration where scanning settings are intentionally changed and compensating controls exist."
         ],
-        "threat": [],
+        "threat": [
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0112",
+                    "name": "Defense Impairment",
+                    "reference": "https://attack.mitre.org/tactics/TA0112/"
+                },
+                "technique": [
+                    {
+                        "id": "T1685",
+                        "name": "Disable or Modify Tools",
+                        "reference": "https://attack.mitre.org/techniques/T1685/"
+                    }
+                ]
+            }
+        ],
         "tags": [
             "Druva",
             "Data Source: Druva",
             "Druva Security",
-            "Druva Detection Pack 6 – Security Configuration & Integrations",
+            "Druva Detection Pack 6 \u2013 Security Configuration & Integrations",
             "Druva Phase 1",
             "Druva Category: Security Monitoring"
         ],

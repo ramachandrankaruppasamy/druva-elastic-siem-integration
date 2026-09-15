@@ -28,9 +28,16 @@
                 },
                 "technique": [
                     {
-                        "id": "T1136.003",
-                        "name": "Cloud Account",
-                        "reference": "https://attack.mitre.org/techniques/T1136/003/"
+                        "id": "T1136",
+                        "name": "Create Account",
+                        "reference": "https://attack.mitre.org/techniques/T1136/",
+                        "subtechnique": [
+                            {
+                                "id": "T1136.003",
+                                "name": "Cloud Account",
+                                "reference": "https://attack.mitre.org/techniques/T1136/003/"
+                            }
+                        ]
                     }
                 ]
             }
@@ -39,7 +46,7 @@
             "Druva",
             "Data Source: Druva",
             "Druva Security",
-            "Druva Detection Pack 0 – Core Cyber Resilience",
+            "Druva Detection Pack 0 \u2013 Core Cyber Resilience",
             "Druva Phase 1",
             "Druva Category: Identity",
             "Druva Category: Privileged Access",
