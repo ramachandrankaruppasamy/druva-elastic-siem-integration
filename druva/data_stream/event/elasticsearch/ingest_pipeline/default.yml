@@ -3,6 +3,76 @@ description: Normalize Druva events into Elastic Common Schema and Druva integra
 
 processors:
   - script:
+      tag: normalize_insync_siem_envelope
+      description: Normalize the documented inSync SIEM envelope into the internal Druva event structure.
+      if: ctx.json == null && ctx.eventCategory == 'EVENT' && ctx.eventType != null && ctx.schemaVersion != null
+      lang: painless
+      source: >-
+        def raw = new HashMap();
+        raw.category = ctx.remove('eventCategory');
+
+        if (ctx.eventType != null) {
+          raw.type = ctx.remove('eventType');
+        }
+
+        if (ctx.tenantID != null) {
+          raw.globalID = ctx.remove('tenantID');
+        }
+
+        if (ctx.severity != null) {
+          raw.syslogSeverity = ctx.remove('severity');
+        }
+
+        def details = new HashMap();
+
+        if (raw.type != null) {
+          details.eventType = raw.type;
+        }
+
+        if (ctx.eventDetails != null) {
+          details.eventDetails = ctx.remove('eventDetails');
+        }
+
+        /*
+         * Preserve the SIEM identity separately from the older initiator fields.
+         * identityID is the persona/service identifier supplied by Druva.
+         */
+        if (ctx.identityID != null) {
+          details.siemIdentityID = ctx.remove('identityID');
+        }
+
+        if (ctx.identityType != null) {
+          details.siemIdentityType = ctx.remove('identityType');
+        }
+
+        if (ctx.publisherID != null) {
+          details.siemPublisherID = ctx.remove('publisherID');
+        }
+
+        if (ctx.topicName != null) {
+          details.siemTopicName = ctx.remove('topicName');
+        }
+
+        if (ctx.schemaVersion != null) {
+          details.siemSchemaVersion = ctx.remove('schemaVersion');
+        }
+
+        if (ctx.uniqueID != null) {
+          details.siemEventID = ctx.remove('uniqueID');
+        }
+
+        /*
+         * The SIEM timestamp is already RFC3339/ISO-8601. Preserve it separately
+         * so it can be parsed without passing through the epoch-seconds logic.
+         */
+        if (ctx.timeStamp != null) {
+          details.siemTimestamp = ctx.remove('timeStamp');
+        }
+
+        raw.details = details;
+        ctx.json = raw;
+
+  - script:
       tag: normalize_native_druva_webhook
       description: Wrap native Druva webhook payloads under json so the existing normalization pipeline can process them.
       if: ctx.json == null && ctx.category == 'EVENT' && ctx.feature != null && ctx.type != null
@@ -42,6 +112,60 @@ processors:
       tag: remove_temporary_timestamp
       field: _temp_druva_timestamp
       ignore_missing: true
+
+  - date:
+      tag: set_insync_siem_event_timestamp
+      description: Set @timestamp from the ISO-8601 timestamp supplied by the inSync SIEM envelope.
+      if: ctx.json?.details?.siemTimestamp != null
+      field: json.details.siemTimestamp
+      target_field: '@timestamp'
+      formats:
+        - ISO8601
+
+  - set:
+      tag: set_event_id_from_insync_siem_unique_id
+      description: Set ECS event.id from the Druva SIEM event UUID.
+      if: ctx.event?.id == null && ctx.json?.details?.siemEventID != null && ctx.json.details.siemEventID.toString().length() > 0
+      field: event.id
+      copy_from: json.details.siemEventID
+
+  - set:
+      tag: set_druva_identity_type
+      if: ctx.json?.details?.siemIdentityType != null && ctx.json.details.siemIdentityType.toString().length() > 0
+      field: druva.identity.type
+      copy_from: json.details.siemIdentityType
+
+  - set:
+      tag: set_user_id_from_insync_siem_identity
+      description: Preserve the Druva SIEM persona or service identifier as ECS user.id.
+      if: ctx.user?.id == null && ctx.json?.details?.siemIdentityID != null && ctx.json.details.siemIdentityID.toString().length() > 0
+      field: user.id
+      copy_from: json.details.siemIdentityID
+
+  - set:
+      tag: set_user_email_from_insync_siem_identity
+      description: Populate ECS user.email only when the Druva SIEM identity identifier is an email address.
+      if: ctx.user?.email == null && ctx.json?.details?.siemIdentityID != null && ctx.json.details.siemIdentityID.toString().contains('@')
+      field: user.email
+      copy_from: json.details.siemIdentityID
+
+  - set:
+      tag: set_druva_publisher_id
+      if: ctx.json?.details?.siemPublisherID != null && ctx.json.details.siemPublisherID.toString().length() > 0
+      field: druva.publisher.id
+      copy_from: json.details.siemPublisherID
+
+  - set:
+      tag: set_druva_topic_name
+      if: ctx.json?.details?.siemTopicName != null && ctx.json.details.siemTopicName.toString().length() > 0
+      field: druva.topic.name
+      copy_from: json.details.siemTopicName
+
+  - set:
+      tag: set_druva_schema_version
+      if: ctx.json?.details?.siemSchemaVersion != null && ctx.json.details.siemSchemaVersion.toString().length() > 0
+      field: druva.schema.version
+      copy_from: json.details.siemSchemaVersion
 
   - set:
       tag: set_event_kind

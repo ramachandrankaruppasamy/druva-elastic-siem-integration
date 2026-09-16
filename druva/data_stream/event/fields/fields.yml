@@ -96,3 +96,15 @@
 - name: druva.activity
   type: keyword
   description: Structured Druva administrative or operational activity.
+- name: druva.identity.type
+  type: keyword
+  description: Type of Druva identity that generated the SIEM event, such as SERVICE, ADMIN, API, or USER.
+- name: druva.publisher.id
+  type: keyword
+  description: Druva SIEM event publisher identifier.
+- name: druva.topic.name
+  type: keyword
+  description: Druva SIEM event topic name containing cloud, service, and feature context.
+- name: druva.schema.version
+  type: keyword
+  description: Druva SIEM event schema version.

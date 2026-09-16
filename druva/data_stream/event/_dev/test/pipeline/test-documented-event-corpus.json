@@ -1,0 +1,1606 @@
+{
+    "events": [
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "Password Verified",
+            "syslogSeverity": 6,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789578060,
+            "details": {
+                "email": "security-admin@example.test",
+                "status": "Success",
+                "sourceIP": "198.51.100.24"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "MFA Verified",
+            "syslogSeverity": 6,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789578120,
+            "details": {
+                "email": "security-admin@example.test",
+                "status": "Success",
+                "sourceIP": "198.51.100.24",
+                "mfaMode": "TOTP"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "Login With SSO",
+            "syslogSeverity": 6,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789578180,
+            "details": {
+                "email": "security-admin@example.test",
+                "status": "Success",
+                "sourceIP": "198.51.100.24"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "Forgot Password Initiated",
+            "syslogSeverity": 6,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789578240,
+            "details": {
+                "email": "security-admin@example.test",
+                "status": "Success",
+                "sourceIP": "198.51.100.24"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "Reset Password Initiated",
+            "syslogSeverity": 6,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789578300,
+            "details": {
+                "email": "target-admin@example.test",
+                "status": "Success",
+                "sourceIP": "198.51.100.24",
+                "initiatorID": "security-admin@example.test"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "Password Changed",
+            "syslogSeverity": 6,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789578360,
+            "details": {
+                "email": "security-admin@example.test",
+                "status": "Success",
+                "sourceIP": "198.51.100.24",
+                "initiator": "Admin",
+                "initiatorID": "security-admin@example.test"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "Password Reset",
+            "syslogSeverity": 6,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789578420,
+            "details": {
+                "email": "target-admin@example.test",
+                "status": "Success",
+                "sourceIP": "198.51.100.24",
+                "initiatedBy": "Admin"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "MFA Mode Updated",
+            "syslogSeverity": 5,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789578480,
+            "details": {
+                "oldState": {
+                    "mfaMode": "SMS based Multifactor Authentication"
+                },
+                "newState": {
+                    "mfaMode": "Authenticator App based Multifactor Authentication"
+                },
+                "status": "Success",
+                "sourceIP": "198.51.100.24",
+                "initiatorID": "security-admin@example.test"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "Idle Session Timeout Updated",
+            "syslogSeverity": 5,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789578540,
+            "details": {
+                "oldState": {
+                    "idleSessionTimeout": 3600
+                },
+                "newState": {
+                    "idleSessionTimeout": 1800
+                },
+                "status": "Success",
+                "sourceIP": "198.51.100.24",
+                "initiatorID": "security-admin@example.test"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "Password Policy Updated",
+            "syslogSeverity": 5,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789578600,
+            "details": {
+                "oldState": {
+                    "passwordExpiry": 90
+                },
+                "newState": {
+                    "passwordExpiry": 60
+                },
+                "status": "Success",
+                "sourceIP": "198.51.100.24",
+                "initiatorID": "security-admin@example.test"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "SSO Configuration Updated",
+            "syslogSeverity": 6,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789578660,
+            "details": {
+                "oldState": {
+                    "authRequestSigned": false,
+                    "encryptAssertions": false,
+                    "idProviderLoginURL": "https://idp-old.example.test",
+                    "singleSignOnForAdministrators": false
+                },
+                "newState": {
+                    "authRequestSigned": true,
+                    "encryptAssertions": true,
+                    "idProviderLoginURL": "https://idp.example.test",
+                    "singleSignOnForAdministrators": true
+                },
+                "status": "Success",
+                "sourceIP": "198.51.100.24",
+                "initiatorID": "security-admin@example.test"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "Geofencing Configuration Updated",
+            "syslogSeverity": 5,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789578720,
+            "details": {
+                "oldState": {
+                    "publicGatewayIPs": "198.51.100.0/24",
+                    "enableGeofencingForAdministrators": false
+                },
+                "newState": {
+                    "publicGatewayIPs": "198.51.100.0/24",
+                    "enableGeofencingForAdministrators": true
+                },
+                "status": "Success",
+                "sourceIP": "198.51.100.24",
+                "initiatorID": "security-admin@example.test"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "Failsafe Setting Updated",
+            "syslogSeverity": 6,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789578780,
+            "details": {
+                "isFailsafeForAdministratorsEnabled": true,
+                "status": "Success",
+                "sourceIP": "198.51.100.24",
+                "initiatorID": "security-admin@example.test"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "Administrator Created",
+            "syslogSeverity": 2,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789578840,
+            "details": {
+                "adminName": "Alex Morgan",
+                "adminEmail": "target-admin@example.test",
+                "adminRole": "Druva Cloud",
+                "timezone": "America/Los_Angeles",
+                "status": "Success",
+                "sourceIP": "198.51.100.24",
+                "initiator": "Admin",
+                "initiatorID": "security-admin@example.test"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "Administrator Updated",
+            "syslogSeverity": 5,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789578900,
+            "details": {
+                "oldState": {
+                    "adminName": "Alex Morgan",
+                    "adminEmail": "target-admin@example.test",
+                    "adminRole": "Product"
+                },
+                "newState": {
+                    "adminName": "Alex Morgan",
+                    "adminEmail": "target-admin@example.test",
+                    "adminRole": "Druva Cloud"
+                },
+                "status": "Success",
+                "sourceIP": "198.51.100.24",
+                "initiator": "Admin",
+                "initiatorID": "security-admin@example.test"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "Administrator Activated",
+            "syslogSeverity": 2,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789578960,
+            "details": {
+                "adminName": "Alex Morgan",
+                "adminEmail": "target-admin@example.test",
+                "adminRole": "Druva Cloud",
+                "status": "Success",
+                "sourceIP": "198.51.100.24",
+                "initiator": "Admin",
+                "initiatorID": "security-admin@example.test"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "Administrator Disabled",
+            "syslogSeverity": 2,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789579020,
+            "details": {
+                "adminName": "Alex Morgan",
+                "adminEmail": "target-admin@example.test",
+                "adminRole": "Druva Cloud",
+                "status": "Success",
+                "sourceIP": "198.51.100.24",
+                "initiator": "Admin",
+                "initiatorID": "security-admin@example.test"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "Administrator Deleted",
+            "syslogSeverity": 2,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789579080,
+            "details": {
+                "adminName": "Alex Morgan",
+                "adminEmail": "target-admin@example.test",
+                "adminRole": "Druva Cloud",
+                "status": "Success",
+                "sourceIP": "198.51.100.24",
+                "initiator": "Admin",
+                "initiatorID": "security-admin@example.test"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "API",
+            "type": "API Credentials Created",
+            "syslogSeverity": 5,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789579140,
+            "details": {
+                "name": "soc-exporter",
+                "description": "SIEM event export",
+                "networkRestriction": "198.51.100.0/24",
+                "role": "Druva Cloud",
+                "status": "Success",
+                "sourceIP": "198.51.100.24",
+                "initiatorID": "security-admin@example.test"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "API",
+            "type": "API Credentials Key Regenerated",
+            "syslogSeverity": 5,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789579200,
+            "details": {
+                "name": "soc-exporter",
+                "description": "SIEM event export",
+                "networkRestriction": "198.51.100.0/24",
+                "role": "Druva Cloud",
+                "status": "Success",
+                "sourceIP": "198.51.100.24",
+                "initiatorID": "security-admin@example.test"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "API",
+            "type": "API Credentials Updated",
+            "syslogSeverity": 5,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789579260,
+            "details": {
+                "oldState": {
+                    "name": "soc-exporter",
+                    "description": "SIEM export",
+                    "networkRestriction": "198.51.100.0/24",
+                    "role": "Product"
+                },
+                "newState": {
+                    "name": "soc-exporter",
+                    "description": "SIEM event export",
+                    "networkRestriction": "198.51.100.0/24",
+                    "role": "Druva Cloud"
+                },
+                "status": "Success",
+                "sourceIP": "198.51.100.24",
+                "initiatorID": "security-admin@example.test"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "API",
+            "type": "API Credentials Deleted",
+            "syslogSeverity": 5,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789579320,
+            "details": {
+                "name": "soc-exporter",
+                "description": "SIEM event export",
+                "networkRestriction": "198.51.100.0/24",
+                "role": "Druva Cloud",
+                "status": "Success",
+                "sourceIP": "198.51.100.24",
+                "initiatorID": "security-admin@example.test"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "Report Subscription Created",
+            "syslogSeverity": 6,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789579380,
+            "details": {
+                "reportName": "Security Activity",
+                "category": "Endpoints",
+                "attachmentFormat": "CSV",
+                "recurrence": "Daily",
+                "repeat": "Every day",
+                "timezone": "America/Los_Angeles",
+                "time": "08:00",
+                "recipients": [
+                    "soc@example.test"
+                ],
+                "status": "Success",
+                "sourceIP": "198.51.100.24",
+                "initiatorID": "security-admin@example.test"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "Report Subscription Deleted",
+            "syslogSeverity": 6,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789579440,
+            "details": {
+                "reportName": "Security Activity",
+                "category": "Endpoints",
+                "attachmentFormat": "CSV",
+                "recurrence": "Daily",
+                "repeat": "Every day",
+                "timezone": "America/Los_Angeles",
+                "time": "08:00",
+                "recipients": [
+                    "soc@example.test"
+                ],
+                "status": "Success",
+                "sourceIP": "198.51.100.24",
+                "initiatorID": "security-admin@example.test"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "Report Subscription Updated",
+            "syslogSeverity": 6,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789579500,
+            "details": {
+                "oldState": {
+                    "reportName": "Security Activity",
+                    "category": "Endpoints",
+                    "attachmentFormat": "CSV",
+                    "recurrence": "Weekly",
+                    "repeat": "Every day",
+                    "timezone": "America/Los_Angeles",
+                    "time": "08:00",
+                    "recipients": [
+                        "soc@example.test"
+                    ],
+                    "status": "Success",
+                    "sourceIP": "198.51.100.24",
+                    "initiatorID": "security-admin@example.test"
+                },
+                "newState": {
+                    "reportName": "Security Activity",
+                    "category": "Endpoints",
+                    "attachmentFormat": "CSV",
+                    "recurrence": "Daily",
+                    "repeat": "Every day",
+                    "timezone": "America/Los_Angeles",
+                    "time": "08:00",
+                    "recipients": [
+                        "soc@example.test"
+                    ],
+                    "status": "Success",
+                    "sourceIP": "198.51.100.24",
+                    "initiatorID": "security-admin@example.test"
+                },
+                "status": "Success",
+                "sourceIP": "198.51.100.24",
+                "initiatorID": "security-admin@example.test"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "Rollback Window Updated",
+            "syslogSeverity": 6,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789579560,
+            "details": {
+                "oldState": {
+                    "rollbackWindow": 7
+                },
+                "newState": {
+                    "rollbackWindow": 14
+                },
+                "status": "Success",
+                "sourceIP": "198.51.100.24",
+                "initiatorID": "security-admin@example.test"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "Rollback Initiated",
+            "syslogSeverity": 6,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789579620,
+            "details": {
+                "batchID": "batch-test-001",
+                "workloadTypeID": "vmware",
+                "status": "Success",
+                "sourceIP": "198.51.100.24",
+                "initiatorID": "security-admin@example.test"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "Webhook Configuration Created",
+            "syslogSeverity": 5,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789579680,
+            "details": {
+                "initiator": "security-admin@example.test",
+                "sourceIP": "198.51.100.24",
+                "providerName": "Generic",
+                "webhookName": "SOC Webhook",
+                "endpointURL": "https://siem.example.test/druva",
+                "authType": "APIKey"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "Webhook Configuration Updated",
+            "syslogSeverity": 5,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789579740,
+            "details": {
+                "initiator": "security-admin@example.test",
+                "sourceIP": "198.51.100.24",
+                "oldState": {
+                    "providerName": "Generic",
+                    "webhookName": "SOC Webhook",
+                    "endpointURL": "https://siem-old.example.test/druva",
+                    "authType": "APIKey"
+                },
+                "newState": {
+                    "providerName": "Generic",
+                    "webhookName": "SOC Webhook",
+                    "endpointURL": "https://siem.example.test/druva",
+                    "authType": "OAuth2"
+                }
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "Webhook Configuration Deleted",
+            "syslogSeverity": 5,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789579800,
+            "details": {
+                "initiator": "security-admin@example.test",
+                "sourceIP": "198.51.100.24",
+                "providerName": "Generic",
+                "webhookName": "SOC Webhook",
+                "endpointURL": "https://siem.example.test/druva",
+                "authType": "APIKey"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "Webhook Subscription Created",
+            "syslogSeverity": 5,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789579860,
+            "details": {
+                "initiator": "security-admin@example.test",
+                "sourceIP": "198.51.100.24",
+                "provider": "Generic",
+                "webhookName": "SOC Webhook",
+                "status": "Success",
+                "filters": [
+                    "Admin Event",
+                    "Unusual Data Activity"
+                ]
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "Webhook Subscription Updated",
+            "syslogSeverity": 5,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789579920,
+            "details": {
+                "initiator": "security-admin@example.test",
+                "sourceIP": "198.51.100.24",
+                "oldState": {
+                    "filters": [
+                        "Admin Event"
+                    ]
+                },
+                "newState": {
+                    "filters": [
+                        "Admin Event",
+                        "Unusual Data Activity"
+                    ]
+                }
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "Webhook Subscription Deleted",
+            "syslogSeverity": 5,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789579980,
+            "details": {
+                "initiator": "security-admin@example.test",
+                "sourceIP": "198.51.100.24",
+                "provider": "Generic",
+                "webhookName": "SOC Webhook",
+                "status": "Success",
+                "filters": [
+                    "Admin Event",
+                    "Unusual Data Activity"
+                ]
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "Subscription Created",
+            "syslogSeverity": 6,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789580040,
+            "details": {
+                "sourceIP": "198.51.100.24",
+                "status": "Success",
+                "initiatorID": "security-admin@example.test"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "Subscription Updated",
+            "syslogSeverity": 6,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789580100,
+            "details": {
+                "sourceIP": "198.51.100.24",
+                "status": "Success",
+                "initiatorID": "security-admin@example.test"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "Subscription Deleted",
+            "syslogSeverity": 6,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789580160,
+            "details": {
+                "sourceIP": "198.51.100.24",
+                "status": "Success",
+                "initiatorID": "security-admin@example.test"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Unusual Data Activity",
+            "type": "System Event",
+            "syslogSeverity": 4,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789580220,
+            "details": {
+                "alertTime": "2026-09-16T16:00:00Z",
+                "error_reason": "Scan processing warning",
+                "resourceID": "res-10001",
+                "resourceName": "fs-prod-01",
+                "resourceType": "File Server",
+                "affectedSnapshot": "2026-09-16T15:45:00Z",
+                "resourceParentID": "parent-5001",
+                "resourceParentName": "prod-files"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Alerts And Notifications",
+            "type": "Alert",
+            "syslogSeverity": 4,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789580280,
+            "details": {
+                "alertName": "Unusual Data Activity",
+                "udaType": [
+                    "Creation"
+                ],
+                "alertTime": "2026-09-16T16:00:00Z",
+                "resourceID": "res-10001",
+                "resourceName": "fs-prod-01",
+                "resourceType": "File Server",
+                "affectedSnapshot": "2026-09-16T15:45:00Z",
+                "resourceParentID": "parent-5001",
+                "resourceParentName": "prod-files",
+                "fileInfo": {
+                    "newFiles": 12,
+                    "updatedFiles": 184,
+                    "deletedFiles": 4,
+                    "encryptedFiles": 173
+                }
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Alerts And Notifications",
+            "type": "Alert",
+            "syslogSeverity": 4,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789580340,
+            "details": {
+                "alertName": "Unusual Data Activity",
+                "udaType": [
+                    "Deletion"
+                ],
+                "alertTime": "2026-09-16T16:00:00Z",
+                "resourceID": "res-10001",
+                "resourceName": "fs-prod-01",
+                "resourceType": "File Server",
+                "affectedSnapshot": "2026-09-16T15:45:00Z",
+                "resourceParentID": "parent-5001",
+                "resourceParentName": "prod-files",
+                "fileInfo": {
+                    "newFiles": 12,
+                    "updatedFiles": 184,
+                    "deletedFiles": 4,
+                    "encryptedFiles": 173
+                }
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Alerts And Notifications",
+            "type": "Alert",
+            "syslogSeverity": 4,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789580400,
+            "details": {
+                "alertName": "Unusual Data Activity",
+                "udaType": [
+                    "Modification"
+                ],
+                "alertTime": "2026-09-16T16:00:00Z",
+                "resourceID": "res-10001",
+                "resourceName": "fs-prod-01",
+                "resourceType": "File Server",
+                "affectedSnapshot": "2026-09-16T15:45:00Z",
+                "resourceParentID": "parent-5001",
+                "resourceParentName": "prod-files",
+                "fileInfo": {
+                    "newFiles": 12,
+                    "updatedFiles": 184,
+                    "deletedFiles": 4,
+                    "encryptedFiles": 173
+                }
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Alerts And Notifications",
+            "type": "Alert",
+            "syslogSeverity": 4,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789580460,
+            "details": {
+                "alertName": "Unusual Data Activity",
+                "udaType": [
+                    "Encryption"
+                ],
+                "alertTime": "2026-09-16T16:00:00Z",
+                "resourceID": "res-10001",
+                "resourceName": "fs-prod-01",
+                "resourceType": "File Server",
+                "affectedSnapshot": "2026-09-16T15:45:00Z",
+                "resourceParentID": "parent-5001",
+                "resourceParentName": "prod-files",
+                "fileInfo": {
+                    "newFiles": 12,
+                    "updatedFiles": 184,
+                    "deletedFiles": 4,
+                    "encryptedFiles": 173
+                }
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Alerts And Notifications",
+            "type": "Alert",
+            "syslogSeverity": 3,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789580520,
+            "details": {
+                "alertName": "Admin Login Event - New Location",
+                "location": "San Jose, US",
+                "adminName": "Alex Morgan",
+                "adminLoginTime": "2026-09-16T16:01:00Z",
+                "adminEmail": "security-admin@example.test",
+                "loginResult": "Success",
+                "adminIPAddress": "198.51.100.24"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Alerts And Notifications",
+            "type": "Alert",
+            "syslogSeverity": 4,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789580580,
+            "details": {
+                "alertName": "Data Access Alert - New Location",
+                "dataAccessType": "Admin Restore",
+                "files": 42,
+                "size": 104857600,
+                "status": "Successful",
+                "startTime": "2026-09-16T16:02:00Z",
+                "endTime": "2026-09-16T16:03:00Z",
+                "resourceID": "res-10001",
+                "resourceName": "fs-prod-01",
+                "targetIP": "203.0.113.44",
+                "targetLocation": "Seattle, US",
+                "initiatorName": "Alex Morgan"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Data Access",
+            "type": "User Restore",
+            "syslogSeverity": 4,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789580640,
+            "details": {
+                "files": 42,
+                "size": 104857600,
+                "status": "Successful",
+                "startTime": "2026-09-16T16:02:00Z",
+                "endTime": "2026-09-16T16:03:00Z",
+                "resourceID": "res-10001",
+                "resourceName": "fs-prod-01",
+                "targetIP": "203.0.113.44",
+                "targetLocation": "Seattle, US",
+                "initiatorName": "Alex Morgan"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Data Access",
+            "type": "Admin Download",
+            "syslogSeverity": 4,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789580700,
+            "details": {
+                "files": 42,
+                "size": 104857600,
+                "status": "Successful",
+                "startTime": "2026-09-16T16:02:00Z",
+                "endTime": "2026-09-16T16:03:00Z",
+                "resourceID": "res-10001",
+                "resourceName": "fs-prod-01",
+                "targetIP": "203.0.113.44",
+                "targetLocation": "Seattle, US",
+                "initiatorName": "Alex Morgan"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Data Access",
+            "type": "Admin Restore",
+            "syslogSeverity": 4,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789580760,
+            "details": {
+                "files": 42,
+                "size": 104857600,
+                "status": "Successful",
+                "startTime": "2026-09-16T16:02:00Z",
+                "endTime": "2026-09-16T16:03:00Z",
+                "resourceID": "res-10001",
+                "resourceName": "fs-prod-01",
+                "targetIP": "203.0.113.44",
+                "targetLocation": "Seattle, US",
+                "initiatorName": "Alex Morgan"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Data Access",
+            "type": "User Download",
+            "syslogSeverity": 4,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789580820,
+            "details": {
+                "files": 42,
+                "size": 104857600,
+                "status": "Successful",
+                "startTime": "2026-09-16T16:02:00Z",
+                "endTime": "2026-09-16T16:03:00Z",
+                "resourceID": "res-10001",
+                "resourceName": "fs-prod-01",
+                "targetIP": "203.0.113.44",
+                "targetLocation": "Seattle, US",
+                "initiatorName": "Alex Morgan"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Data Access",
+            "type": "API Restore",
+            "syslogSeverity": 4,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789580880,
+            "details": {
+                "files": 42,
+                "size": 104857600,
+                "status": "Successful",
+                "startTime": "2026-09-16T16:02:00Z",
+                "endTime": "2026-09-16T16:03:00Z",
+                "resourceID": "res-10001",
+                "resourceName": "fs-prod-01",
+                "targetIP": "203.0.113.44",
+                "targetLocation": "Seattle, US",
+                "initiatorName": "Alex Morgan"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "Malicious File Scan",
+            "syslogSeverity": 1,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789580940,
+            "details": {
+                "ScanJobID": "scan-test-001",
+                "JobType": "Malware Scan",
+                "Activity": "Job Created",
+                "StartTime": "2026-09-16T16:05:00Z",
+                "EndTime": "2026-09-16T16:10:00Z",
+                "JobCreatedBy": "security-admin@example.test",
+                "ProductJobID": 70001,
+                "ResourceName": "fs-prod-01",
+                "ResourceType": "File Server"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "Malicious File Scan",
+            "syslogSeverity": 1,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789581000,
+            "details": {
+                "ScanJobID": "scan-test-001",
+                "JobType": "Malware Scan",
+                "Activity": "Job Completed",
+                "StartTime": "2026-09-16T16:05:00Z",
+                "EndTime": "2026-09-16T16:10:00Z",
+                "JobCreatedBy": "security-admin@example.test",
+                "ProductJobID": 70001,
+                "ResourceName": "fs-prod-01",
+                "ResourceType": "File Server"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "Curated Snapshot",
+            "syslogSeverity": 1,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789581060,
+            "details": {
+                "SSJobID": 80001,
+                "ScanJobID": "scan-test-001",
+                "SnapshotID": "snapshot-test-001",
+                "Activity": "Curated snapshot created",
+                "JobType": "Curated Snapshot",
+                "CreatedBy": "security-admin@example.test"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "Curated Snapshot",
+            "syslogSeverity": 1,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789581120,
+            "details": {
+                "SSJobID": 80001,
+                "ScanJobID": "scan-test-001",
+                "SnapshotID": "snapshot-test-001",
+                "Activity": "Curated snapshot deleted",
+                "JobType": "Curated Snapshot",
+                "CreatedBy": "security-admin@example.test"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Unusual Data Activity",
+            "type": "Admin Audit Trail",
+            "syslogSeverity": 6,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789581180,
+            "details": {
+                "resourceID": "res-10001",
+                "resourceName": "fs-prod-01",
+                "resourceType": "File Server",
+                "resourceParentID": "parent-5001",
+                "resourceParentName": "prod-files",
+                "adminActivity": "Unusual Data Activity - Download logs",
+                "affectedSnapshot": "2026-09-16T15:45:00Z",
+                "fileInfo": {
+                    "newFiles": 12,
+                    "updatedFiles": 184,
+                    "deletedFiles": 4,
+                    "encryptedFiles": 173
+                }
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Unusual Data Activity",
+            "type": "Admin Audit Trail",
+            "syslogSeverity": 6,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789581240,
+            "details": {
+                "resourceID": "res-10001",
+                "resourceName": "fs-prod-01",
+                "resourceType": "File Server",
+                "resourceParentID": "parent-5001",
+                "resourceParentName": "prod-files",
+                "adminActivity": "Unusual Data Activity - Ignore Alert",
+                "affectedSnapshot": "2026-09-16T15:45:00Z",
+                "fileInfo": {
+                    "newFiles": 12,
+                    "updatedFiles": 184,
+                    "deletedFiles": 4,
+                    "encryptedFiles": 173
+                }
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "Admin Login",
+            "syslogSeverity": 6,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789581300,
+            "details": {
+                "adminName": "Alex Morgan",
+                "adminEmail": "security-admin@example.test",
+                "loginResult": "Success",
+                "adminIPAddress": "198.51.100.24",
+                "location": "San Jose, US"
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Admin Event",
+            "type": "Scan Settings Updated",
+            "syslogSeverity": 6,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789581360,
+            "details": {
+                "Successful": true,
+                "AVScanEnabled": true,
+                "FileHashScanEnabled": true,
+                "UseDruvaCuratedIOCs": true,
+                "SkipScanForDeviceReplace": false,
+                "AllowAdminToSkipScanServers": false,
+                "AllowUserToSkipScanEndpoints": false,
+                "AllowAdminToSkipScanEndpoints": false
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Ransomware Recovery",
+            "type": "Quarantine Ranges Created",
+            "syslogSeverity": 0,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789581420,
+            "details": {
+                "mode": "Admin Portal",
+                "note": "Incident containment test",
+                "orgID": 1001,
+                "state": "Success",
+                "action": "Create Range",
+                "ipAddress": "198.51.100.24",
+                "initiatorID": "security-admin@example.test",
+                "resourceID": 10001,
+                "resourceName": "fs-prod-01",
+                "resourceType": "File Server",
+                "resourceParent": "prod-files",
+                "resourcePlatform": "Windows",
+                "effectiveDateRanges": {
+                    "startTime": "2026-09-16T15:00:00Z",
+                    "endTime": "2026-09-16T18:00:00Z"
+                }
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Ransomware Recovery",
+            "type": "Quarantine Ranges Updated",
+            "syslogSeverity": 0,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789581480,
+            "details": {
+                "mode": "Admin Portal",
+                "note": "Incident containment test",
+                "orgID": 1001,
+                "state": "Success",
+                "action": "Create Range",
+                "ipAddress": "198.51.100.24",
+                "initiatorID": "security-admin@example.test",
+                "resourceID": 10001,
+                "resourceName": "fs-prod-01",
+                "resourceType": "File Server",
+                "resourceParent": "prod-files",
+                "resourcePlatform": "Windows",
+                "effectiveDateRanges": {
+                    "startTime": "2026-09-16T15:00:00Z",
+                    "endTime": "2026-09-16T18:00:00Z"
+                }
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Ransomware Recovery",
+            "type": "Quarantine Ranges Deleted",
+            "syslogSeverity": 0,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789581540,
+            "details": {
+                "mode": "Admin Portal",
+                "note": "Incident containment test",
+                "orgID": 1001,
+                "state": "Success",
+                "action": "Create Range",
+                "ipAddress": "198.51.100.24",
+                "initiatorID": "security-admin@example.test",
+                "resourceID": 10001,
+                "resourceName": "fs-prod-01",
+                "resourceType": "File Server",
+                "resourceParent": "prod-files",
+                "resourcePlatform": "Windows",
+                "effectiveDateRanges": {
+                    "startTime": "2026-09-16T15:00:00Z",
+                    "endTime": "2026-09-16T18:00:00Z"
+                }
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Ransomware Recovery",
+            "type": "Added To Quarantine Bay",
+            "syslogSeverity": 0,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789581600,
+            "details": {
+                "mode": "Admin Portal",
+                "note": "Incident containment test",
+                "orgID": 1001,
+                "state": "Success",
+                "action": "Create Range",
+                "ipAddress": "198.51.100.24",
+                "initiatorID": "security-admin@example.test",
+                "resourceID": 10001,
+                "resourceName": "fs-prod-01",
+                "resourceType": "File Server",
+                "resourceParent": "prod-files",
+                "resourcePlatform": "Windows",
+                "effectiveDateRanges": {
+                    "startTime": "2026-09-16T15:00:00Z",
+                    "endTime": "2026-09-16T18:00:00Z"
+                }
+            }
+        },
+        {
+            "category": "EVENT",
+            "feature": "Ransomware Recovery",
+            "type": "Removed From Quarantine Bay",
+            "syslogSeverity": 0,
+            "syslogFacility": 23,
+            "globalID": "test-customer-001",
+            "timeStamp": 1789581660,
+            "details": {
+                "mode": "Admin Portal",
+                "note": "Incident containment test",
+                "orgID": 1001,
+                "state": "Success",
+                "action": "Create Range",
+                "ipAddress": "198.51.100.24",
+                "initiatorID": "security-admin@example.test",
+                "resourceID": 10001,
+                "resourceName": "fs-prod-01",
+                "resourceType": "File Server",
+                "resourceParent": "prod-files",
+                "resourcePlatform": "Windows",
+                "effectiveDateRanges": {
+                    "startTime": "2026-09-16T15:00:00Z",
+                    "endTime": "2026-09-16T18:00:00Z"
+                }
+            }
+        },
+        {
+            "eventCategory": "EVENT",
+            "uniqueID": "434a70f0-1bfe-40d3-966f-816457885ed4",
+            "publisherID": "testcloud-8193",
+            "topicName": "testcloud-inSyncPlatform-Admin Event",
+            "timeStamp": "2026-09-16T18:02:00Z",
+            "eventType": "Admin Audit Trail",
+            "tenantID": "test-customer-001",
+            "severity": 6,
+            "identityType": "ADMIN",
+            "identityID": "security-admin@example.test",
+            "eventDetails": "Representative Admin Audit Trail event based on Druva documented SIEM event mapping.",
+            "schemaVersion": "1.0"
+        },
+        {
+            "eventCategory": "EVENT",
+            "uniqueID": "7dcdab8a-5a58-4e8e-bcd6-fc5998b92de3",
+            "publisherID": "testcloud-8193",
+            "topicName": "testcloud-inSyncPlatform-Admin Event",
+            "timeStamp": "2026-09-16T18:03:00Z",
+            "eventType": "Admin Login",
+            "tenantID": "test-customer-001",
+            "severity": 6,
+            "identityType": "ADMIN",
+            "identityID": "security-admin@example.test",
+            "eventDetails": "Representative Admin Login event based on Druva documented SIEM event mapping.",
+            "schemaVersion": "1.0"
+        },
+        {
+            "eventCategory": "EVENT",
+            "uniqueID": "479d18b5-da14-45b9-a74f-f2dd71267155",
+            "publisherID": "testcloud-8193",
+            "topicName": "testcloud-inSyncPlatform-User And Device",
+            "timeStamp": "2026-09-16T18:04:00Z",
+            "eventType": "User Event",
+            "tenantID": "test-customer-001",
+            "severity": 6,
+            "identityType": "USER",
+            "identityID": "security-admin@example.test",
+            "eventDetails": "Representative User Event event based on Druva documented SIEM event mapping.",
+            "schemaVersion": "1.0"
+        },
+        {
+            "eventCategory": "EVENT",
+            "uniqueID": "8f2c4db7-6bf0-4f7a-868a-fba98bb175c0",
+            "publisherID": "testcloud-8193",
+            "topicName": "testcloud-inSyncPlatform-User And Device",
+            "timeStamp": "2026-09-16T18:05:00Z",
+            "eventType": "User Audit Trail",
+            "tenantID": "test-customer-001",
+            "severity": 6,
+            "identityType": "USER",
+            "identityID": "security-admin@example.test",
+            "eventDetails": "Representative User Audit Trail event based on Druva documented SIEM event mapping.",
+            "schemaVersion": "1.0"
+        },
+        {
+            "eventCategory": "EVENT",
+            "uniqueID": "e0dfe0f8-768f-4cdd-9dbf-52a2cc80cee3",
+            "publisherID": "testcloud-8193",
+            "topicName": "testcloud-inSyncPlatform-API",
+            "timeStamp": "2026-09-16T18:06:00Z",
+            "eventType": "API Login",
+            "tenantID": "test-customer-001",
+            "severity": 6,
+            "identityType": "ADMIN",
+            "identityID": "security-admin@example.test",
+            "eventDetails": "Representative API Login event based on Druva documented SIEM event mapping.",
+            "schemaVersion": "1.0"
+        },
+        {
+            "eventCategory": "EVENT",
+            "uniqueID": "966a641a-4fc4-473c-8307-af4ce026d256",
+            "publisherID": "testcloud-8193",
+            "topicName": "testcloud-inSyncPlatform-WebDAV",
+            "timeStamp": "2026-09-16T18:07:00Z",
+            "eventType": "WebDAV Login",
+            "tenantID": "test-customer-001",
+            "severity": 6,
+            "identityType": "API",
+            "identityID": "security-admin@example.test",
+            "eventDetails": "Representative WebDAV Login event based on Druva documented SIEM event mapping.",
+            "schemaVersion": "1.0"
+        },
+        {
+            "eventCategory": "EVENT",
+            "uniqueID": "aa1e5dc1-1b87-4350-8075-711433263887",
+            "publisherID": "testcloud-8193",
+            "topicName": "testcloud-inSyncPlatform-Bulk Export WebDAV",
+            "timeStamp": "2026-09-16T18:08:00Z",
+            "eventType": "Bulk Export WebDAV Login",
+            "tenantID": "test-customer-001",
+            "severity": 6,
+            "identityType": "API",
+            "identityID": "security-admin@example.test",
+            "eventDetails": "Representative Bulk Export WebDAV Login event based on Druva documented SIEM event mapping.",
+            "schemaVersion": "1.0"
+        },
+        {
+            "eventCategory": "EVENT",
+            "uniqueID": "97e07496-378d-4eff-b51c-bc20e3d7300b",
+            "publisherID": "testcloud-8193",
+            "topicName": "testcloud-inSyncPlatform-WebDAV",
+            "timeStamp": "2026-09-16T18:09:00Z",
+            "eventType": "PST Converter WebDAV Login",
+            "tenantID": "test-customer-001",
+            "severity": 6,
+            "identityType": "ADMIN",
+            "identityID": "security-admin@example.test",
+            "eventDetails": "Representative PST Converter WebDAV Login event based on Druva documented SIEM event mapping.",
+            "schemaVersion": "1.0"
+        },
+        {
+            "eventCategory": "EVENT",
+            "uniqueID": "ebf20720-cc05-4a4a-8ec0-48101eee587f",
+            "publisherID": "testcloud-8193",
+            "topicName": "testcloud-inSyncPlatform-Backup And Restore",
+            "timeStamp": "2026-09-16T18:10:00Z",
+            "eventType": "Backup",
+            "tenantID": "test-customer-001",
+            "severity": 6,
+            "identityType": "SERVICE",
+            "identityID": "System",
+            "eventDetails": "Representative Backup event based on Druva documented SIEM event mapping.",
+            "schemaVersion": "1.0"
+        },
+        {
+            "eventCategory": "EVENT",
+            "uniqueID": "b7b81e87-692a-47c8-b963-c58d5f09d52b",
+            "publisherID": "testcloud-8193",
+            "topicName": "testcloud-inSyncPlatform-Backup And Restore",
+            "timeStamp": "2026-09-16T18:11:00Z",
+            "eventType": "Restore",
+            "tenantID": "test-customer-001",
+            "severity": 6,
+            "identityType": "SERVICE",
+            "identityID": "System",
+            "eventDetails": "Representative Restore event based on Druva documented SIEM event mapping.",
+            "schemaVersion": "1.0"
+        },
+        {
+            "eventCategory": "EVENT",
+            "uniqueID": "3b2657da-6466-4185-8364-345e38044a1b",
+            "publisherID": "testcloud-8193",
+            "topicName": "testcloud-inSyncPlatform-Backup And Restore",
+            "timeStamp": "2026-09-16T18:12:00Z",
+            "eventType": "Download",
+            "tenantID": "test-customer-001",
+            "severity": 6,
+            "identityType": "SERVICE",
+            "identityID": "System",
+            "eventDetails": "Representative Download event based on Druva documented SIEM event mapping.",
+            "schemaVersion": "1.0"
+        },
+        {
+            "eventCategory": "EVENT",
+            "uniqueID": "8eb74665-7da6-4ec4-8077-fdefe8216e2c",
+            "publisherID": "testcloud-8193",
+            "topicName": "testcloud-inSyncPlatform-System Event",
+            "timeStamp": "2026-09-16T18:13:00Z",
+            "eventType": "AD Sync",
+            "tenantID": "test-customer-001",
+            "severity": 6,
+            "identityType": "SERVICE",
+            "identityID": "System",
+            "eventDetails": "Representative AD Sync event based on Druva documented SIEM event mapping.",
+            "schemaVersion": "1.0"
+        },
+        {
+            "eventCategory": "EVENT",
+            "uniqueID": "fdd114d2-971d-46c4-aa8b-6eb9f18831da",
+            "publisherID": "testcloud-8193",
+            "topicName": "testcloud-inSyncPlatform-Alerts And Notifications",
+            "timeStamp": "2026-09-16T18:14:00Z",
+            "eventType": "Alert",
+            "tenantID": "test-customer-001",
+            "severity": 2,
+            "identityType": "SERVICE",
+            "identityID": "System",
+            "eventDetails": "Representative Alert event based on Druva documented SIEM event mapping.",
+            "schemaVersion": "1.0"
+        },
+        {
+            "eventCategory": "EVENT",
+            "uniqueID": "1e667b7e-705f-43b1-8bf0-4a5be75a189c",
+            "publisherID": "testcloud-8193",
+            "topicName": "testcloud-inSyncPlatform-Alerts And Notifications",
+            "timeStamp": "2026-09-16T18:15:00Z",
+            "eventType": "Alert Resolution",
+            "tenantID": "test-customer-001",
+            "severity": 6,
+            "identityType": "SERVICE",
+            "identityID": "System",
+            "eventDetails": "Representative Alert Resolution event based on Druva documented SIEM event mapping.",
+            "schemaVersion": "1.0"
+        },
+        {
+            "eventCategory": "EVENT",
+            "uniqueID": "fb5b55f7-61c3-495a-84bd-afedc5c5eb84",
+            "publisherID": "testcloud-8193",
+            "topicName": "testcloud-inSyncPlatform-Alerts And Notifications",
+            "timeStamp": "2026-09-16T18:16:00Z",
+            "eventType": "Notification",
+            "tenantID": "test-customer-001",
+            "severity": 6,
+            "identityType": "SERVICE",
+            "identityID": "System",
+            "eventDetails": "Representative Notification event based on Druva documented SIEM event mapping.",
+            "schemaVersion": "1.0"
+        },
+        {
+            "eventCategory": "EVENT",
+            "uniqueID": "23b2603b-e368-4de1-97b0-458af1050994",
+            "publisherID": "testcloud-8193",
+            "topicName": "testcloud-inSyncPlatform-System Event",
+            "timeStamp": "2026-09-16T18:17:00Z",
+            "eventType": "Data Source",
+            "tenantID": "test-customer-001",
+            "severity": 6,
+            "identityType": "SERVICE",
+            "identityID": "System",
+            "eventDetails": "Representative Data Source event based on Druva documented SIEM event mapping.",
+            "schemaVersion": "1.0"
+        },
+        {
+            "eventCategory": "EVENT",
+            "uniqueID": "72623f37-7d2b-4b2d-b767-c50b8e46e067",
+            "publisherID": "testcloud-8193",
+            "topicName": "testcloud-inSyncPlatform-Admin Event",
+            "timeStamp": "2026-09-16T18:18:00Z",
+            "eventType": "Client Upgrade",
+            "tenantID": "test-customer-001",
+            "severity": 6,
+            "identityType": "ADMIN",
+            "identityID": "security-admin@example.test",
+            "eventDetails": "Representative Client Upgrade event based on Druva documented SIEM event mapping.",
+            "schemaVersion": "1.0"
+        },
+        {
+            "eventCategory": "EVENT",
+            "uniqueID": "91ce516d-a210-41ae-bdb7-ec1ae62d5bfa",
+            "publisherID": "testcloud-8193",
+            "topicName": "testcloud-inSyncPlatform-User And Device",
+            "timeStamp": "2026-09-16T18:19:00Z",
+            "eventType": "Additional Data Collection",
+            "tenantID": "test-customer-001",
+            "severity": 6,
+            "identityType": "SERVICE",
+            "identityID": "System",
+            "eventDetails": "Representative Additional Data Collection event based on Druva documented SIEM event mapping.",
+            "schemaVersion": "1.0"
+        },
+        {
+            "eventCategory": "EVENT",
+            "uniqueID": "9d646ec8-c097-4edd-b5bf-27bbaa6d84ca",
+            "publisherID": "testcloud-8193",
+            "topicName": "testcloud-inSyncPlatform-User And Device",
+            "timeStamp": "2026-09-16T18:20:00Z",
+            "eventType": "Device Replace",
+            "tenantID": "test-customer-001",
+            "severity": 6,
+            "identityType": "SERVICE",
+            "identityID": "System",
+            "eventDetails": "Representative Device Replace event based on Druva documented SIEM event mapping.",
+            "schemaVersion": "1.0"
+        },
+        {
+            "eventCategory": "EVENT",
+            "uniqueID": "c0206257-4583-4a1f-8d10-5fe6d2b63d02",
+            "publisherID": "testcloud-8193",
+            "topicName": "testcloud-inSyncPlatform-Backup And Restore",
+            "timeStamp": "2026-09-16T18:21:00Z",
+            "eventType": "Backup",
+            "tenantID": "test-customer-001",
+            "severity": 3,
+            "identityType": "SERVICE",
+            "identityID": "System",
+            "eventDetails": "Representative Backup event in state: Failed.",
+            "schemaVersion": "1.0"
+        },
+        {
+            "eventCategory": "EVENT",
+            "uniqueID": "7faf5de6-ef71-4acf-8ad1-b12c3e42b44d",
+            "publisherID": "testcloud-8193",
+            "topicName": "testcloud-inSyncPlatform-Backup And Restore",
+            "timeStamp": "2026-09-16T18:22:00Z",
+            "eventType": "Backup",
+            "tenantID": "test-customer-001",
+            "severity": 6,
+            "identityType": "SERVICE",
+            "identityID": "System",
+            "eventDetails": "Representative Backup event in state: Canceled.",
+            "schemaVersion": "1.0"
+        },
+        {
+            "eventCategory": "EVENT",
+            "uniqueID": "ca3c22d2-248b-466c-877b-b8d36cb34543",
+            "publisherID": "testcloud-8193",
+            "topicName": "testcloud-inSyncPlatform-Backup And Restore",
+            "timeStamp": "2026-09-16T18:23:00Z",
+            "eventType": "Backup",
+            "tenantID": "test-customer-001",
+            "severity": 6,
+            "identityType": "SERVICE",
+            "identityID": "System",
+            "eventDetails": "Representative Backup event in state: Backed up with errors.",
+            "schemaVersion": "1.0"
+        },
+        {
+            "eventCategory": "EVENT",
+            "uniqueID": "1279c4fb-dfb6-426f-a33d-449c9039a48a",
+            "publisherID": "testcloud-8193",
+            "topicName": "testcloud-inSyncPlatform-Backup And Restore",
+            "timeStamp": "2026-09-16T18:24:00Z",
+            "eventType": "Backup",
+            "tenantID": "test-customer-001",
+            "severity": 6,
+            "identityType": "SERVICE",
+            "identityID": "System",
+            "eventDetails": "Representative Backup event in state: Backup Paused.",
+            "schemaVersion": "1.0"
+        },
+        {
+            "eventCategory": "EVENT",
+            "uniqueID": "e760a445-860b-498e-bdf3-4c31b0402b70",
+            "publisherID": "testcloud-8193",
+            "topicName": "testcloud-inSyncPlatform-Backup And Restore",
+            "timeStamp": "2026-09-16T18:25:00Z",
+            "eventType": "Backup",
+            "tenantID": "test-customer-001",
+            "severity": 6,
+            "identityType": "SERVICE",
+            "identityID": "System",
+            "eventDetails": "Representative Backup event in state: Backup Resumed.",
+            "schemaVersion": "1.0"
+        }
+    ]
+}

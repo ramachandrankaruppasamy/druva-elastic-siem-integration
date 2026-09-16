@@ -644,6 +644,9 @@
                 "feature": "Ransomware Recovery",
                 "resource": {
                     "id": "0"
+                },
+                "operation": {
+                    "action": "Create Ranges"
                 }
             },
             "event": {
@@ -681,6 +684,9 @@
                         "name": "vani_pps"
                     },
                     "type": "Endpoint"
+                },
+                "operation": {
+                    "action": "Delete Ranges"
                 }
             },
             "event": {
@@ -1080,7 +1086,8 @@
                 "security": {
                     "control": "malware_scan",
                     "current_enabled": true,
-                    "current_state": "av_scan=enabled, file_hash_scan=enabled, curated_iocs=disabled, light_scan=enabled, admin_skip_endpoints=enabled, admin_skip_servers=enabled, user_skip_endpoints=enabled, skip_device_replace=disabled"
+                    "current_state": "av_scan=enabled, file_hash_scan=enabled, curated_iocs=disabled, light_scan=enabled, admin_skip_endpoints=enabled, admin_skip_servers=enabled, user_skip_endpoints=enabled, skip_device_replace=disabled",
+                    "impact": "reduced"
                 }
             },
             "event": {
