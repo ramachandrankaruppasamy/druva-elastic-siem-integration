@@ -1,15 +1,17 @@
-- version: "0.3.0"
-  changes:
-    - description: Added Druva security detection rule assets for Elastic Security.
-      type: enhancement
-      link: https://github.com/ramachandrankaruppasamy/druva-elastic-siem-integration/issues/1
-- version: "0.0.2"
-  changes:
-    - description: Add Druva Elastic Security detection rule assets.
-      type: enhancement
-      link: https://github.com/ramachandrankaruppasamy/druva-elastic-siem-integration/issues/1
 - version: "0.0.1"
   changes:
     - description: Initial Druva integration package for Elastic Security.
+      type: enhancement
+      link: https://github.com/ramachandrankaruppasamy/druva-elastic-siem-integration/issues/1
+    - description: Added Elastic Security detection rules and Kibana dashboards for Druva security, data-protection, recovery, and cyber-resilience telemetry.
+      type: enhancement
+      link: https://github.com/ramachandrankaruppasamy/druva-elastic-siem-integration/issues/1
+    - description: Added ECS and Druva-specific normalization for identity, administrative, security-control, backup, recovery, data-access, and Unusual Data Activity events.
+      type: enhancement
+      link: https://github.com/ramachandrankaruppasamy/druva-elastic-siem-integration/issues/1
+    - description: Added normalization support for the documented inSync SIEM event envelope.
+      type: enhancement
+      link: https://github.com/ramachandrankaruppasamy/druva-elastic-siem-integration/issues/1
+    - description: Added pipeline test coverage for supported Druva event families.
       type: enhancement
       link: https://github.com/ramachandrankaruppasamy/druva-elastic-siem-integration/issues/1
