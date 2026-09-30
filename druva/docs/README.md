@@ -8,7 +8,7 @@ The Druva integration for Elastic ingests and analyzes security, administrative,
 
 The integration normalizes supported Druva event data into Elastic Common Schema (ECS) and Druva-specific fields, enabling security teams to investigate Druva activity alongside endpoint, identity, network, cloud, and other security telemetry in Elastic.
 
-The package also includes nine prebuilt Kibana dashboards and 31 Elastic Security detection rules to help analysts investigate threats to protected data, monitor security and administrative activity, identify changes that could affect data protection or recoverability, and understand Druva activity during a security incident.
+The package includes nine prebuilt Kibana dashboards and 31 Elastic Security detection rules to help analysts investigate threats to protected data, monitor security and administrative activity, identify changes that could affect data protection or recoverability, and understand Druva activity during a security incident.
 
 ## What data does this integration collect?
 
@@ -137,49 +137,11 @@ The package includes 31 Elastic Security detection rules for Druva telemetry.
 
 The rules cover security-relevant Druva activity across identity, administration, data protection, recovery, unusual data activity, security controls, and cyber resilience.
 
-Included detection rules are:
-
-- Druva - Recovery Verification Failed
-- Druva - Protected Workload Removed
-- Druva - Unusual Data Activity Followed by Quarantine
-- Druva - Administrator Impossible Travel
-- Druva - Webhook Authentication Changed
-- Druva - Backup Repository Deleted
-- Druva - Security Setting Disabled
-- Druva - Recovery Target Changed
-- Druva - Mass Backup Failures
-- Druva - Ransomware Alert Observed
-- Druva - Recovery Started After Backup Protection Disabled
-- Druva - Backup Data Deletion Attempt
-- Druva - Backup Storage Target Changed
-- Druva - API Token Deleted
-- Druva - Malicious File Scan Configuration Activity
-- Druva - Administrative Data Download
-- Druva - Privileged Role Assignment
-- Druva - Repeated Failed Administrator Logins
-- Druva - Resource Removed From Quarantine
-- Druva - Recovery Started Immediately After UDA Alert
-- Druva - Successful Administrator Login After Multiple Failures
-- Druva - Short-Lived Administrator Account
-- Druva - Backup Repository Permissions Changed
-- Druva - Backup Protection Disabled or Paused
-- Druva - UDA Correlated With Backup Disablement
-- Druva - Backup Retention Reduced or Removed
-- Druva - API Credential Modified
-- Druva - UDA Correlated With Backup Failure
-- Druva - Administrator Self Privilege Escalation
-- Druva - Unusual Data Activity Alert
-- Druva - Backup Encryption Disabled
-
-Detection rules should be reviewed and enabled based on the customer's environment, available Druva event families, expected administrative behavior, and SOC operating model.
-
-Not every rule is expected to apply to every Druva deployment. Some detections also depend on specific activity patterns, correlations, thresholds, or event sequences rather than the presence of a single event.
+Detection rules should be reviewed and enabled based on the customer's environment, available Druva event families, expected administrative behavior, and SOC operating model. Not every rule is expected to apply to every Druva deployment. Some detections depend on specific activity patterns, correlations, thresholds, or event sequences rather than the presence of a single event.
 
 ## Dashboards
 
-The package includes nine prebuilt Kibana dashboards for Druva security, data-protection, recovery, and cyber-resilience investigation workflows.
-
-Included dashboards are:
+The package includes nine prebuilt Kibana dashboards for Druva security, data-protection, recovery, and cyber-resilience investigation workflows:
 
 1. **Druva - Security Operations Overview**
 2. **Druva - Detection Coverage & SOC Health**
@@ -191,90 +153,19 @@ Included dashboards are:
 8. **Druva - Cyber Incident & Recoverability**
 9. **Druva - Compliance & Audit**
 
-The dashboards help analysts investigate Druva activity from multiple security and operational perspectives, including:
-
-- Overall security activity
-- Detection coverage and SOC visibility
-- Authentication, identity, and administrative activity
-- Insider and privileged activity
-- Data-protection and recovery operations
-- Threat-investigation timelines
-- Security-control and configuration changes
-- Cyber-incident and recoverability activity
-- Compliance and audit activity
-
 Dashboard results depend on the Druva event families available in the environment, activity that has occurred, and the selected Kibana time range.
 
-## Querying Druva data
+## Event delivery
 
-Druva events can be queried using the `logs-druva.event-*` index pattern.
+This integration provides parsing, normalization, dashboards, and Elastic Security detection content for Druva events. It does not configure the transport of events from Druva to Elastic and does not define an Elastic Agent input stream.
 
-### Review recent Druva activity
+Configure Druva event delivery to the target Elastic environment separately. After the events reach Elastic, the Druva ingest pipeline normalizes supported events into the `druva.event` dataset for use with the included dashboards and detection rules.
 
-```esql
-FROM logs-druva.event-*
-| KEEP @timestamp, event.action, event.category, event.outcome,
-       user.name, druva.feature, druva.event_type,
-       druva.resource.name
-| SORT @timestamp DESC
-| LIMIT 100
-```
+The processing boundary is:
 
-### Investigate Unusual Data Activity
-
-```esql
-FROM logs-druva.event-*
-| WHERE druva.uda.type IS NOT NULL
-| KEEP @timestamp, druva.alert.name, druva.uda.type,
-       druva.resource.name, druva.resource.type,
-       druva.file.created_count, druva.file.updated_count,
-       druva.file.deleted_count, druva.file.encrypted_count
-| SORT @timestamp DESC
-```
-
-### Review authentication activity
-
-```esql
-FROM logs-druva.event-*
-| WHERE event.category == "authentication"
-| KEEP @timestamp, event.action, event.outcome,
-       user.id, user.name, user.email, source.ip,
-       druva.event_type
-| SORT @timestamp DESC
-```
-
-### Review security-control changes
-
-```esql
-FROM logs-druva.event-*
-| WHERE druva.security.control IS NOT NULL
-| KEEP @timestamp, event.action, user.name,
-       druva.security.control, druva.security.previous_state,
-       druva.security.current_state,
-       druva.security.previous_enabled,
-       druva.security.current_enabled,
-       druva.security.impact
-| SORT @timestamp DESC
-```
-
-### Review recovery and operational activity
-
-```esql
-FROM logs-druva.event-*
-| WHERE druva.operation.type IS NOT NULL
-| KEEP @timestamp, event.action, user.name,
-       druva.operation.type, druva.operation.action,
-       druva.resource.name, druva.resource.type,
-       druva.operation.file_count,
-       druva.operation.bytes_transferred
-| SORT @timestamp DESC
-```
+`Druva Data Security Cloud -> configured event delivery -> Elastic -> Druva ingest pipeline -> logs-druva.event-* -> dashboards and detection rules`
 
 ## Getting started
-
-This package provides the Druva ingest pipeline, field mappings, dashboards, and Elastic Security detection content.
-
-The package does not define an Elastic Agent input stream. Druva event delivery to Elastic must therefore be configured separately from the package.
 
 After Druva event delivery to Elastic is configured:
 
@@ -306,66 +197,31 @@ Because Druva event families contain different source attributes, not every norm
 
 ### Events are not appearing
 
-Confirm that Druva events are being delivered to Elastic and processed through the Druva event ingest pipeline.
-
-Verify that resulting events are written to the `druva.event` dataset and that the event timestamps fall within the time range selected in Kibana.
+Confirm that Druva events are being delivered to Elastic and processed through the Druva event ingest pipeline. Verify that resulting events are written to the `druva.event` dataset and that the event timestamps fall within the time range selected in Kibana.
 
 ### Dashboards show no data
 
-First verify that events exist in:
-
-`logs-druva.event-*`
-
-Then:
-
-1. Expand the Kibana time range.
-2. Verify that the event families required by the visualization are present.
-3. Confirm that the normalized fields used by the visualization are populated.
+Verify that events exist in `logs-druva.event-*`, expand the Kibana time range, verify that the event families required by the visualization are present, and confirm that the normalized fields used by the visualization are populated.
 
 Some dashboard visualizations require specific Druva event families and can legitimately contain no data when the corresponding activity has not occurred.
 
 ### Detection rules are not generating alerts
 
-Confirm that:
-
-- The detection rule is enabled.
-- The required Druva event family is being ingested.
-- The normalized fields referenced by the rule are populated.
-- The rule lookback window covers the relevant events.
-- Any threshold, cardinality, correlation, or sequence conditions have been satisfied.
-
-Some detections require specific activity patterns rather than a single Druva event.
+Confirm that the detection rule is enabled, the required Druva event family is being ingested, the normalized fields referenced by the rule are populated, the rule lookback window covers the relevant events, and any threshold, cardinality, correlation, or sequence conditions have been satisfied.
 
 ### A normalized field is missing
 
-Field availability depends on the source event.
-
-Verify whether the corresponding attribute was supplied in the original Druva event and whether that event family is expected to populate the normalized field.
+Field availability depends on the source event. Verify whether the corresponding attribute was supplied in the original Druva event and whether that event family is expected to populate the normalized field.
 
 The ingest pipeline uses the source event during normalization and removes its temporary internal `json` structure after processing. The source payload is not retained as a `json.*` field hierarchy in the final normalized document.
 
 ### Historical events are not visible
 
-Expand the Kibana time range and verify the event's `@timestamp`.
-
-The normalized `@timestamp` represents the Druva event time and can differ from the time at which Elastic ingested the document.
+Expand the Kibana time range and verify the event's `@timestamp`. The normalized `@timestamp` represents the Druva event time and can differ from the time at which Elastic ingested the document.
 
 ## Security and data handling
 
-The integration processes Druva event telemetry for use in Elastic.
-
-Depending on the event type, telemetry can contain:
-
-- User names and email addresses
-- User, administrator, service, or API identity identifiers
-- Source IP addresses
-- Protected resource and workload names
-- Customer or tenant identifiers
-- Administrative activity
-- Security configuration information
-- Backup and recovery activity
-- Data-access activity
-- Alert and Unusual Data Activity information
+Depending on the event type, telemetry can contain user names and email addresses, user/administrator/service/API identity identifiers, source IP addresses, protected resource and workload names, customer or tenant identifiers, administrative activity, security configuration information, backup and recovery activity, data-access activity, alerts, and Unusual Data Activity information.
 
 Organizations should apply appropriate Elastic access controls, data-retention policies, and security practices based on their environment and data-governance requirements.
 
@@ -373,12 +229,10 @@ Organizations should apply appropriate Elastic access controls, data-retention p
 
 The integration supports the Druva event structures handled by the included ingest pipeline, including the documented inSync SIEM event envelope.
 
-Normalized field availability varies by event family because different Druva events provide different attributes.
-
-When validating a deployment, use representative events from the Druva services, workloads, and event families enabled in the environment.
+Normalized field availability varies by event family because different Druva events provide different attributes. When validating a deployment, use representative events from the Druva services, workloads, and event families enabled in the environment.
 
 ## Support
 
 For issues related to Druva event generation or Druva product behavior, contact Druva Support.
 
-For issues related to Elastic package installation, Elastic ingestion, Kibana, or Elastic Security, use the applicable Elastic support resources.
+For issues related to Elastic package installation, ingestion, Kibana, or Elastic Security, use the applicable Elastic support resources.
