@@ -1,4 +1,4 @@
-# Druva Elastic Detection Validation — v0.3.0
+# Druva Elastic Detection Validation — v0.0.1
 
 ## Summary
 
